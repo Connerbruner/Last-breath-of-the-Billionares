@@ -3,10 +3,6 @@ import java.util.Scanner;
 //Main class
 class Game extends Tools {
 
-
-    int pin = 0;
-    Object[] Save = null;
-    String savePath = null;
     int HP2069;
     int attackNum = 0;
     int C = 0;
@@ -29,20 +25,19 @@ class Game extends Tools {
     int maxHit = 5;
     boolean is2051joined = false;
     boolean is2048joined = false;
-    boolean cupsUnlock = false;
+    
     //misc
     int num = 0;
     //obj
-    ///dungeons
-    Dungeon subway = new Dungeon("Underground subway", 20);
+   
+    Scanner scanner = new Scanner(System.in);
     Dungeon local6_11 = new Dungeon("Rubble filled 6-11", 10);
     Dungeon factory = new Dungeon("Run down Factory", 30);
     Dungeon city = new Dungeon("Rubble filled City", 35);
     Dungeon highway = new Dungeon("Highway 101", 30);
-
+    Dungeon subway = new Dungeon("Underground subway", 20);
     //bosses
     //attacks and attack[]
-
     //bill gates
     Attack[] attackGates = {new Attack("Bill Gates", "TRIPLE SLASH", 10, 12, 15), new Attack("Bill Gates", "ULTRA SLASH", 7, 15, 20), new Attack("Bill Gates", "LASER BLAST", 5, 20, 30)};
     //Elon musk
@@ -51,8 +46,6 @@ class Game extends Tools {
     Attack[] attacksJeff = {new Attack("Jeff bezos", "ROOMBA INVASION", 7, 15, 25), new Attack("Jeff bezos", "MECH CANNON", 5, 20, 30), new Attack("Jeff bezos", "DUAL LASER", 12, 20, 15)};
     //Mark Zuckerberg
     Attack[] attacksMark = {new Attack("Mark Zuckerberg", "FINAL SLASH", 1, 100, 30), new Attack("Mark Zuckerberg", "DUAL SLASH", 25, 50, 15), new Attack("Mark Zuckerberg", "ZERO SLASH", 5, 10, 1)};
-    Phase mark = new Phase(attacksMark, 1000, "Mark Zuckerberg");
-    Boss Zuckerberg = new Boss(mark);
     //Phases and Phase[]
     Phase Elon = new Phase(attacksElon, 250, "Elon Musk");
     //boss
@@ -73,6 +66,10 @@ class Game extends Tools {
     Phase[] arrTri2 = {ElonP, GatesP, JeffP};
     Boss Tri2 = new Boss(arrTri2);
     Boss jeffP = new Boss(JeffP);
+   
+    Phase mark = new Phase(attacksMark, 1000, "Mark Zuckerberg");
+    Boss Zuckerberg = new Boss(mark);
+    Boss[] fuel = {Tri2,Zuckerberg};
     //2069 attacks
     Attack aqua = new Attack("Aqua", 7, 12, 6, 0);
     Attack lasershot = new Attack("Lasershot", 3, 10, 6, 8);
@@ -80,8 +77,6 @@ class Game extends Tools {
 
     //other obj
     Text text = new Text();
-    Scanner scanner = new Scanner(System.in);
-
     //Starts up 2069
     public void game() {
 
@@ -209,9 +204,6 @@ class Game extends Tools {
             if ((choice == 0) && (missionNum > 1)) {
                 pull();
             }
-            if (choice == 11 && cupsUnlock) {
-                //to be implemented
-            }
             if (choice == 12) {
                 sPrint("ScreenShot for " + C + "C");
                 run.exit(69420);
@@ -226,7 +218,7 @@ class Game extends Tools {
 
     public void save() {
         String time = System.currentTimeMillis() / 3600000 + "";
-        Object[] arrList = new Object[]{missionNum, HPmax, level2069, levelR1, exp1, aqua.attackTier, lasershot.attackTier, cureTier, ember.attackTier, maxHit, is2048joined, is2051joined, cupsUnlock, time};
+        Object[] arrList = new Object[]{missionNum, HPmax, level2069, levelR1, exp1, aqua.attackTier, lasershot.attackTier, cureTier, ember.attackTier, maxHit, is2048joined, is2051joined, time};
         if (savePath.equals("Save1.txt")) {
             Edit("Save1.txt", encrypt(arrList, "Save1.txt", pin));
         } else {
@@ -250,16 +242,13 @@ class Game extends Tools {
         sPrintln("MISSION " + mission + " COMPLETE");
         if (mission == missionNum) {
             num = random(mission * 10, mission * 25);
-            if (mission < 10) {
-                missionNum++;
-                sPrintln("MISSION " + missionNum + " UNLOCKED");
+            missionNum++;
+            sPrintln("MISSION " + missionNum + " UNLOCKED");
 
-            } else {
-                cupsUnlock = true;
-                sPrintln("ARENA OF SUFFERING UNLOCKED");
+            
             }
 
-        } else {
+         else {
             if (!Tri.differntPhases.isEmpty()) {
                 Tri.differntPhases.get(0).loseHP(50);
                 Tri.checkArray();
@@ -446,7 +435,8 @@ class Game extends Tools {
      */
     public int attackSupport() {
         int total = 0;
-
+        int hit = maxHit;
+        if(hit>10) {hit=10;}
         sPrintln("2077's turn");
 //starts quicktime event
         long startTime = System.currentTimeMillis();
@@ -472,8 +462,8 @@ class Game extends Tools {
             }
 
         }
-        total += i * (maxHit / 2);
-        sPrintln("2077 Deals " + (i * (maxHit / 2)) + " Damage");
+        total += i * (hit / 2);
+        sPrintln("2077 Deals " + (i * (hit / 2)) + " Damage");
 
         if (is2048joined) {
             sPrintln("2048's turn");
@@ -492,7 +482,7 @@ class Game extends Tools {
         }
         if (is2051joined) {
             if (choice("2051: need some healing? ")) {
-                num = random(-10, 20);
+                num = random(-10, 20+hit);
                 sPrintln("2069 heals " + num + " damage");
                 HP2069 += num;
             }
@@ -565,14 +555,14 @@ class Game extends Tools {
                 if (attackNum != 3) {
                     emmi.emmi_HP -= attackSupport();
                 }
+            
+            if(emmi.emmi_HP>0 && (attackTime > emmi.emmi_attack.speed || attackStun < emmi.emmi_num+5 ))
+            {
+                HP2069 -= emmi.emmi_attack.attack(1);
             }
-            if (emmi.emmi_HP > 1 && (attackTime > emmi.emmi_attack.speed || attackStun < (emmi.emmi_num + 5))) {
-                if ((attackStun - (emmi.emmi_num + 5)) > 0) {
-                    block -= (attackStun - (emmi.emmi_num + 5)) / 10;
-                }
-                HP2069 -= emmi.emmi_attack.attack(block);
+                
 
-            } else if (is2051joined && (emmi.emmi_HPM / 3) < emmi.emmi_HP) {
+            } if (is2051joined && (emmi.emmi_HPM / 3) < emmi.emmi_HP && attackStun < emmi.emmi_num+2) {
                 emmi.emmi_HP -= chainAttack(emmi.emmi_HP);
             }
             restart();
@@ -602,10 +592,7 @@ class Game extends Tools {
 
             }
             if (emmi.emmi_HP > 1 && (attackTime > emmi.emmi_attack.speed || attackStun < (emmi.emmi_num + 5))) {
-                if ((attackStun - (emmi.emmi_num + 5)) > 0) {
-                    block -= (attackStun - (emmi.emmi_num + 5)) / 20;
-                }
-                HP2069 -= emmi.emmi_attack.attack(block);
+                HP2069 -= emmi.emmi_attack.attack(1);
             } else if (is2051joined && (emmi.emmi_HPM / 3) < emmi.emmi_HP) {
                 emmi.emmi_HP -= chainAttack(emmi.emmi_HP);
             }
@@ -634,7 +621,7 @@ class Game extends Tools {
             num -= exp1;
 
             while (pull_num > 0) {
-                int[] odds = new int[]{1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5, 6, 7};
+                int[] odds = new int[]{1,1,1,1,1,1, 1, 1, 1, 1, 1,2,2,2,2,2, 2, 2, 2, 3, 3, 3,3,3,3,3,3,3 ,4,4, 4, 5, 6, 7};
                 int tier = odds[random(0, odds.length - 1)];
                 sPrintln("Tier " + tier + " pull");
                 if (tier == 1) {
@@ -642,7 +629,6 @@ class Game extends Tools {
                     sPrintln("2069's max Hp increased by 2");
                     sendToBot(user+"'s Max HP increased by 2");
                 } else if (tier < 6) {
-                    sPrint("One of your moves is leveling up");
                     num = random(1, 4);
                     //Ember level up
                     if (num == 4) {
@@ -790,16 +776,20 @@ class Game extends Tools {
                 Edit("tempsave.txt", decrypt(Read("tempsave.txt"), "tempsave.txt", pin));
                 //checksum
                 Object[] checksum = Read("tempsave.txt");
-                if (strIsInt(checksum[13].toString())) {
+                if ((checksum[11].toString()).equals("true") || (checksum[11].toString()).equals("false")) {
                     Save = Read("tempsave.txt");
                     savePath = "Save1.txt";
                     Edit("tempsave.txt", Read("SaveTemplate.txt"));
+                    sendToBot("???: turns out "+user+" is a dev that is testing whoooooooooo");
                     for (int i = 0; i < checksum.length; i++) {
                         checksum[i] = 0;
                     }
                     sPrintln("???: That is the correct pin. Hello Floof or C1nner");
+                    
+                
                 } else { //exits on bad pin
                     sPrintln("???: You're not a dev! GET OUT! Don't try to access this file again !");
+                    sendToBot("???: Hey "+user+" GET OUT OF THE DEV SAVE");
                     System.exit(46);
                 }
                 isSaveSelected = true;
@@ -853,9 +843,6 @@ class Game extends Tools {
                 }
                 if (s == 11) {
                     is2051joined = Boolean.parseBoolean(Save[s].toString());
-                }
-                if (s == 12) {
-                    cupsUnlock = Boolean.parseBoolean(Save[s].toString());
                 }
                 if (s == 13) {
                     login = val;

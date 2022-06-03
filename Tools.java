@@ -1,10 +1,8 @@
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 class Tools {
-    //the Colors of gay
-    public static final String GO_BACK = "\"\\u001B[A\"";
+            //the Colors of gay
     public static final String SCREEN_CLEAR = "\033[H\033[2J";
     public static final String RESET = "\u001B[0m";
     public static final String BLACK = "\u001B[30m";
@@ -21,13 +19,15 @@ class Tools {
     public boolean isDiscord = false;
     public boolean isRoomba = false;
     Runtime run = Runtime.getRuntime();
-    LocalDateTime localDate = LocalDateTime.now();
     //end of cheat codes
     int tSpeed;
     String user = "UNKNOWN";
     String[] colors = new String[]{RED, GREEN, BLUE, PURPLE, CYAN};
-    Scanner scanner = new Scanner(System.in);
 
+    int pin = 0;
+    Object[] Save = null;
+    String savePath = null;
+    Scanner scanner = new Scanner(System.in);
     public static void Edit(String filePath, Object[] arr) {
         File fileToBeModified = new File(filePath);
         FileWriter writer = null;
@@ -61,7 +61,7 @@ class Tools {
             FileReader fileRead = new FileReader(txt);
             BufferedReader reader = new BufferedReader(fileRead);
             int i = 0;
-            Object[] arr = new Object[14];
+            Object[] arr = new Object[13];
 
             for (int r = 0; r < arr.length; r++) {
                 Object var = reader.readLine();
@@ -170,7 +170,7 @@ class Tools {
     public void wait(int time) {
 
         long startTime = System.currentTimeMillis();
-        while (startTime + time > System.currentTimeMillis()) ;
+        while (startTime + time > System.currentTimeMillis());
     }
 
     /**
@@ -280,4 +280,5 @@ class Tools {
         return encryptedData;
 
     }
+   
 }
