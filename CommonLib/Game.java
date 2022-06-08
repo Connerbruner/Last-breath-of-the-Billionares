@@ -2,8 +2,7 @@ import java.util.Scanner;
 
 //Main class
 class Game extends Tools {
-    
-    String user;
+
     int HP2069;
     int attackNum = 0;
     int C = 0;
@@ -75,11 +74,9 @@ class Game extends Tools {
     Attack aqua = new Attack("Aqua", 7, 12, 6, 0);
     Attack lasershot = new Attack("Lasershot", 3, 10, 6, 8);
     Attack ember = new Attack("Ember", 17, 30, 15, 10);
-    public Game(String name)
-    {
-        user=name;
-    }
 
+    //other obj
+    Text text = new Text();
     //Starts up 2069
     public void game() {
 

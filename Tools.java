@@ -21,7 +21,6 @@ class Tools {
     Runtime run = Runtime.getRuntime();
     //end of cheat codes
     int tSpeed;
-    String user = "UNKNOWN";
     String[] colors = new String[]{RED, GREEN, BLUE, PURPLE, CYAN};
 
     int pin = 0;
