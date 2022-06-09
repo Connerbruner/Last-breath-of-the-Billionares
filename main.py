@@ -26,10 +26,8 @@ async def on_ready():
 
 # 2069 channel 912762550679142442
 # bot testing 972268992876150887
-@tasks.loop(seconds=1)
+@tasks.loop(seconds=5)
 async def txt():
-    global ticks
-    ticks += 1
     channel = client.get_channel(home)
     f = open("bot.txt", "r")
     msg = f.read()
