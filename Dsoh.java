@@ -65,10 +65,6 @@ class Dsoh extends Tools {
     Hallway[] neighborSenior = {parkingLotBack, parkingLotBus, hallway100, commons};
     Hallway[] neighborBus = {hallway500, track, parkingLotSenior};
     Hallway[] neighborTrack = {parkingLotBack, parkingLotBus};
-    public Dsoh(String name)
-    {
-        user=name;
-    }
     //Gordy
     int gordyHP=100;
     int gordyLevel=3;
@@ -89,6 +85,11 @@ class Dsoh extends Tools {
     int HP = 50;
     int HPM = 50;
     int story = 0;
+    
+    public Dsoh(String name)
+    {
+        user=name;
+    }
     
     public void game() {
         commons.setNeighbors(neighborCommon);

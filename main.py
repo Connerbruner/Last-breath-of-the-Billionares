@@ -43,5 +43,5 @@ async def txt():
 
 #starts Processes java and bot
 r = open("token.txt", "r")
-token = r.read()
+token = r.read()[1:len(r.read())-1]
 client.run(token)
