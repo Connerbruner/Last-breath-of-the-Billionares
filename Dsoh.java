@@ -198,7 +198,8 @@ class Dsoh extends Tools {
             
     }
     sendToBot(user+" has fallen");
-    sPrintln("GAME OVER");
+    sPrintln("GAME OVER");                           run.exit(69420);
+
     }
     public void lootBackpack(int size,Hallway lootTable)
     {

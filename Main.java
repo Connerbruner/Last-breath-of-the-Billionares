@@ -35,8 +35,6 @@ class Main extends Tools{
             run.exit(69420);
         }
         //cheat code end
-
-        isDiscord = choice("Are you a part of the discord server? ");
         sPrintln("???: Quick warnings");
         sPrintln( RED + "This game does not condone any violence. This is a work of fiction, and any resemblance to characters, real or fictional, is a coincidence." );
         sPrintln(RED+"Your gameplay is being reported to a disord server");

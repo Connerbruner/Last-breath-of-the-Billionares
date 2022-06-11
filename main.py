@@ -5,7 +5,6 @@ import multiprocessing
 
 ticks = 0
 home = 981204380428673045
-
 client = discord.Client()
 
 
@@ -22,22 +21,25 @@ async def on_ready():
         #starts Processes java and bot
         p1 = multiprocessing.Process(target=java)
         p1.start()
+        while p1.is_alive():
+            ticks=0
+        os.system("Kill 1")
+        print("killed")
 
 
 # 2069 channel 912762550679142442
 # bot testing 972268992876150887
-@tasks.loop(seconds=5)
+@tasks.loop(seconds=1.0)
 async def txt():
-    channel = client.get_channel(home)
     f = open("bot.txt", "r")
     msg = f.read()
     f.close()
     if msg == "":
         return
     else:
+        channel = client.get_channel(home)
         await channel.send(msg)
         open("bot.txt", "w").close()
-        open("botcmd.txt", "w").close()
 
 #starts Processes java and bot
 r = open("token.txt", "r")

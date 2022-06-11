@@ -90,12 +90,10 @@ class Game extends Tools {
             sPrint("Type 1 -> " + missionNum + " to try that Mission");
             //Tells you how to roll the gotcha
             if (missionNum > 1) {
-                sPrint("Type 0 to trade exp for new moves");
-                if (isDiscord) {
-                    sPrint("Type 12 to leave and claim C");
-
-                }
+                sPrint("Type 0 to trade exp for new moves");           
             }
+            sPrint("Type 12 to leave (DONT STOP REPL.IT)");
+
 
             int choice = scanner.nextInt();
             if (choice < missionNum && choice > 0) {
@@ -208,7 +206,6 @@ class Game extends Tools {
                 pull();
             }
             if (choice == 12) {
-                sPrint("ScreenShot for " + C + "C");
                 run.exit(69420);
             }
 
