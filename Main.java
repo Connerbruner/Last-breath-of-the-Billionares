@@ -18,22 +18,7 @@ class Main extends Tools{
         sPrint( "what should the text speed be?" );
         setTSpeed( scanner.nextInt( ) );
         System.out.println( );
-        //main starts here
-        sPrintln("???: Next enter a cheat code");
-        sPrint( "ENTER CHEAT CODE (or not)" );
-        //cheat code start
-        String cheatCode;
-        scanner.nextLine();
-        cheatCode = scanner.nextLine( );
-        if ( cheatCode.equals( "gay" ) ) {
-            isGay = true;
-        } else if (cheatCode.equals("backwards")) {
-            isBackwards = true;
-        } else if (cheatCode.equals("Roomba")) {
-            isRoomba = true;
-        } else if (cheatCode.equals("or not")) {
-            run.exit(69420);
-        }
+
         //cheat code end
         sPrintln("???: Quick warnings");
         sPrintln( RED + "This game does not condone any violence. This is a work of fiction, and any resemblance to characters, real or fictional, is a coincidence." );
