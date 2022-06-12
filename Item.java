@@ -6,7 +6,7 @@ class Item extends Tools {
     public Item(String name,int power, int dura)
     {
         itemName = name;
-        damage = power; 
+        damage = power;
         dur = dura;
     }
     public Item(String name,int power)
@@ -26,22 +26,22 @@ class Item extends Tools {
     {
         if(isHeal)
         {
-              return itemName+" Healing: "+damage;
+            return itemName+" Healing: "+damage;
         }
         if(isShield)
         {
             return  itemName+" Amount blockable: "+dur;
         }
-        return itemName+" Power: "+damage+" durability: "+dur;   
-        
+        return itemName+" Power: "+damage+" durability: "+dur;
+
     }
     public int useItem()
     {
         if(isHeal && dur>0)
         {
-                sPrintln("You heal "+damage+" damage");
-                dur--;
-                return damage;
+            sPrintln("You heal "+damage+" damage");
+            dur--;
+            return damage;
 
         }
         else if (dur>0)
@@ -54,7 +54,7 @@ class Item extends Tools {
         }
         else
         {
-           sPrintln("Cant use this Item no durability");
+            sPrintln("Cant use this Item no durability");
             return 0;
         }
     }

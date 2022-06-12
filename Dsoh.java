@@ -39,7 +39,7 @@ class Dsoh extends Tools {
     Hallway hallway500 = new Hallway("500", gym);
     Hallway commons = new Hallway("Commons", main);
     Hallway courtYard = new Hallway("courtYard", court);
-    
+
     Hallway robotics = new Hallway("Robotics Room", metal, false);
     Hallway swim = new Hallway("swim hallway", gym, false);
     Hallway field = new Hallway("Football field", outSide, false);
@@ -70,7 +70,7 @@ class Dsoh extends Tools {
     int gordyLevel=3;
     Gordy gordy = new Gordy(field, gordyHP, gordyLevel);
     int score=0;
-    
+
     //Goal[]
     Goal[] allGoals = {
             new Goal("Get the robotics key", hallway200),
@@ -85,12 +85,12 @@ class Dsoh extends Tools {
     int HP = 50;
     int HPM = 50;
     int story = 0;
-    
+
     public Dsoh(String name)
     {
         user=name;
     }
-    
+
     public void game() {
         commons.setNeighbors(neighborCommon);
         hallwayD200.setNeighbors(neighborD200);
@@ -107,7 +107,7 @@ class Dsoh extends Tools {
         parkingLotSenior.setNeighbors(neighborSenior);
         parkingLotBus.setNeighbors(neighborBus);
         track.setNeighbors(neighborTrack);
-        
+
         for (int turn = 1; HP > 0; turn++) {
             System.out.print(SCREEN_CLEAR);
             sPrintln("Turn " + turn);
@@ -127,7 +127,7 @@ class Dsoh extends Tools {
             scanner.nextLine();
             System.out.println();
 
-            
+
             if (action1 == 1 || action2 == 1) {
                 find();
             }
@@ -141,7 +141,7 @@ class Dsoh extends Tools {
                 }
                 sPrintln("You are in the "+current.hallwayName);
             }
-            
+
             if(gordy.HP<0 ) {
                 sPrintln("Gordy fades away");
                 sPrintln("Gordy is back at the footBall feild");
@@ -153,18 +153,18 @@ class Dsoh extends Tools {
                 sendToBot("???: FOOL GORDY NEVER FALLS");
             }
             if (gordy.hallway.hallwayName.equals(current.hallwayName)) {
-                    HP -= gordy.Attack();
-            }  
+                HP -= gordy.Attack();
+            }
             else if(!gordy.charge)
             {
                 for(int i=(turn/2); i>0 && !gordy.hallway.hallwayName.equals(current.hallwayName); i--)
                 {
-                    gordy.move();   
+                    gordy.move();
                 }
                 sPrintln("Gordy is in the "+gordy.hallway.hallwayName);
                 if (gordy.hallway.hallwayName.equals(current.hallwayName)) {
                     HP -= gordy.Attack();
-            }  
+                }
             }
 
             if(story==0 && allGoals[0].check(current))
@@ -192,13 +192,13 @@ class Dsoh extends Tools {
                 score+=1000;
                 lootBackpack(3,hallway200);
                 story++;
-                
+
             }
             score++;
-            
-    }
-    sendToBot(user+" has fallen");
-    sPrintln("GAME OVER");                           run.exit(69420);
+
+        }
+        sendToBot(user+" has fallen");
+        sPrintln("GAME OVER");                           run.exit(69420);
 
     }
     public void lootBackpack(int size,Hallway lootTable)
@@ -214,7 +214,7 @@ class Dsoh extends Tools {
                 scanner.nextLine();
             }
             score+=10;
-            
+
         }
     }
     public void find() {
