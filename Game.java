@@ -537,12 +537,7 @@ class Game extends Tools {
         if (num > 8) {
             num = 8;
         }
-        Emmi emmi;
-        if (isRoomba) {
-            emmi = new Emmi(1, level2069 + stars);
-        } else {
-            emmi = new Emmi(random(1, num), level2069 + stars);
-        }
+        Emmi emmi = new Emmi(random(1, num), level2069 + stars);
         sendToBot(user+" just found a "+emmi.emmi_type);
         while (emmi.emmi_HP > 0) {
             sPrint("2069 health " + HP2069);

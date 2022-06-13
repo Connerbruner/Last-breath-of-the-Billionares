@@ -24,7 +24,76 @@ class Lbor extends Game
     {
         for(int i=0; i<allRaces.length; i++)
         {
-            sPrint();
+            sPrint(i+" "+allRaces[i]+" Current record: "+readTime(i));
+        }
+        Race race = allRaces[scanner.nextInt()];
+        scanner.nextLine();
+        HP2069 = HPmax;
+        long startTime = System.currentTimeMillis();
+        if(race.isEmmi)
+        {
+            Emmi emmi = race.vsEmmi;
+            
+            while (emmi.emmi_HP > 0) {
+            sPrint("2069 health " + HP2069);
+            sPrint(emmi.emmi_type + " health " + emmi.emmi_HP);
+            System.out.println();
+            emmi.emmi_prep();
+            attack();
+            if (attackTime < emmi.emmi_attack.speed) {
+                emmi.emmi_HP -= choseAttack(1);
+                if (attackNum != 3) {
+                    emmi.emmi_HP -= attackSupport();
+                }
+            }
+            if (emmi.emmi_HP > 1 && (attackTime > emmi.emmi_attack.speed || attackStun < (emmi.emmi_num + 5))) {
+                HP2069 -= emmi.emmi_attack.attack(1);
+            } else if ((emmi.emmi_HPM / 3) < emmi.emmi_HP) {
+                emmi.emmi_HP -= chainAttack(emmi.emmi_HP);
+            }
+            if(HP<=0)
+            {
+                Sprintln("You have fallen");
+                Sprintln("Returning to menu");
+                menu();
+            }
+        }
+            
+        }
+        if(race.isBoss)
+        {
+            Boss boss = race.vsBoss;
+            if (!boss.differntPhases.isEmpty()) {
+            while (!boss.differntPhases.isEmpty()) {
+                Phase current = boss.differntPhases.get(0);
+                sPrint(current.name + "'s Health " + current.getHP());
+                sPrintln("2069's Health " + HP2069);
+
+                current.pickAttack();
+                Attack bossAttack = current.attacks[current.curAttack];
+                attack();
+                if (attackTime <= bossAttack.speed) {
+                    current.loseHP(choseAttack(1));
+                    current.loseHP(attackSupport());
+                }
+                if (current.HP > 1 && (attackTime > bossAttack.speed || attackStun < 10)) {
+                    if ((attackStun - 10) > 0) {
+                        block -= (attackStun - 10) / 10;
+                    }
+                    HP2069 -= bossAttack.attack(block);
+
+                }
+                boss.checkArray();
+            }
+        }
+        else{
+            Sprintln("Boss not availabe");
+            menu();
+        }
+        }
+        if(isDungeon)
+        {
+            
         }
     }
     public void writeScores(int line) {
@@ -96,5 +165,6 @@ class Lbor extends Game
             return "";
         }
     }
+    public void 
 
 }
