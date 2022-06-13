@@ -26,7 +26,8 @@ class Lbor extends Game
         {
             sPrint(i+" "+allRaces[i]+" Current record: "+readTime(i));
         }
-        Race race = allRaces[scanner.nextInt()];
+        int index=scanner.nextInt();
+        Race race = allRaces[index];
         scanner.nextLine();
         HP2069 = HPmax;
         long startTime = System.currentTimeMillis();
@@ -51,10 +52,10 @@ class Lbor extends Game
             } else if ((emmi.emmi_HPM / 3) < emmi.emmi_HP) {
                 emmi.emmi_HP -= chainAttack(emmi.emmi_HP);
             }
-            if(HP<=0)
+            if(HP2069<=0)
             {
-                Sprintln("You have fallen");
-                Sprintln("Returning to menu");
+                sPrintln("You have fallen");
+                sPrintln("Returning to menu");
                 menu();
             }
         }
@@ -87,14 +88,34 @@ class Lbor extends Game
             }
         }
         else{
-            Sprintln("Boss not availabe");
+            sPrintln("Boss not available");
             menu();
         }
         }
-        if(isDungeon)
+        if(race.isDungeon)
         {
-            
+            Dungeon dungeon = race.vsDungeon;
+            dungeon.start();
+            while (dungeon.dungeonLength > dungeon.amountMoved) {
+                dungeon.move();
+                if (dungeon.dungeonLength > dungeon.amountMoved) {
+                    sPrintln((dungeon.dungeonLength - dungeon.amountMoved) + " left to go");
+                    battle();
+                }
+
+            }
         }
+        long time = System.currentTimeMillis()-startTime;
+        if(time>readTime(index)) {
+            writeScores(index);
+            sPrintln("NEW RECORD");
+            sendToBot("NEW RECORD");
+        }
+        else {
+            sPrintln("RUN COMPLETE");
+        }
+
+
     }
     public void writeScores(int line) {
         try {
@@ -165,6 +186,35 @@ class Lbor extends Game
             return "";
         }
     }
-    public void 
+    public void battle()
+    {
+        Emmi emmi = new Emmi(random(1,8),5);
+        while (emmi.emmi_HP > 0) {
+            sPrint("2069 health " + HP2069);
+            sPrint(emmi.emmi_type + " health " + emmi.emmi_HP);
+            System.out.println();
+            emmi.emmi_prep();
+            attack();
+            if (attackTime < emmi.emmi_attack.speed) {
+                emmi.emmi_HP -= choseAttack(1);
+                if (attackNum != 3) {
+                    emmi.emmi_HP -= attackSupport();
+                }
+
+            }
+            if (emmi.emmi_HP > 1 && (attackTime > emmi.emmi_attack.speed || attackStun < (emmi.emmi_num + 5))) {
+                HP2069 -= emmi.emmi_attack.attack(1);
+            } else if (is2051joined && (emmi.emmi_HPM / 3) < emmi.emmi_HP) {
+                emmi.emmi_HP -= chainAttack(emmi.emmi_HP);
+            }
+            if(HP2069<=0)
+            {
+                sPrintln("You have fallen");
+                sPrintln("Returning to menu");
+                menu();
+            }
+        }
+
+    }
 
 }
