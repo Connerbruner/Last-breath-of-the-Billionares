@@ -22,7 +22,10 @@ class Lbor extends Game
     }
     public void menu()
     {
-
+        for(int i=0; i<allRaces.length; i++)
+        {
+            sPrint();
+        }
     }
     public void writeScores(int line) {
         try {
