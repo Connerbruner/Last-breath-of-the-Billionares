@@ -485,6 +485,10 @@ class Game extends Tools {
                 num = random(-10, 20+hit);
                 sPrintln("2069 heals " + num + " damage");
                 HP2069 += num;
+                if(HP2069>HPmax)
+                {
+                    HP2069=HPmax;
+                }
             }
 
 
@@ -501,7 +505,7 @@ class Game extends Tools {
         boolean overkill = false;
         sPrintln("2051: I SEE AN OPENING");
         sPrintln("CHAIN ATTACK START");
-        for (int round = 1; speed > 30; round++) {
+        for (int round = 1; speed < 30; round++) {
             sPrint("Round: " + round);
             if (!overkill) {
                 sPrint("2051: You have " + speed + " time left before the opening is gone");

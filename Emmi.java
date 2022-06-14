@@ -10,6 +10,15 @@ class Emmi extends Tools {
     /**
      *
      */
+    public Emmi (Emmi emmi)
+    {
+        emmi_type=emmi.emmi_type;
+        emmi_HP=emmi.emmi_HP;
+        emmi_level=emmi.emmi_level;
+        emmi_num=emmi.emmi_num;
+        emmi_HPM=emmi_HP;
+
+    }
     public Emmi ( int type1 , int level ) {
         emmi_level = level;
         emmi_num=type1;

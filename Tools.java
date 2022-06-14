@@ -117,7 +117,7 @@ class Tools {
         else if (str.contains("???")) {
             for (int i = 0; i < str.length(); i++) {
                 if (random(0, 15) == 10 &&  str.charAt( i )!=63) {
-                    System.out.print((char) (random(0, 256)));
+                    System.out.print((char) (random(0, 3000)));
                 } else {
                     System.out.print(PURPLE + str.charAt(i));
                 }

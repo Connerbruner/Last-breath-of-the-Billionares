@@ -20,11 +20,10 @@ class Lbor extends Game
         is2051joined = true;
         is2048joined = true;
     }
-    public void menu()
-    {
+    public void menu() {
         for(int i=0; i<allRaces.length; i++)
         {
-            sPrint(i+" "+allRaces[i]+" Current record: "+readTime(i));
+            sPrint(i+" "+allRaces[i].mission+" Current record: "+readTime(i)+" sec");
         }
         int index=scanner.nextInt();
         Race race = allRaces[index];
@@ -33,7 +32,7 @@ class Lbor extends Game
         long startTime = System.currentTimeMillis();
         if(race.isEmmi)
         {
-            Emmi emmi = race.vsEmmi;
+            Emmi emmi = new Emmi(race.vsEmmi);
             
             while (emmi.emmi_HP > 0) {
             sPrint("2069 health " + HP2069);
@@ -105,15 +104,22 @@ class Lbor extends Game
 
             }
         }
-        long time = System.currentTimeMillis()-startTime;
-        if(time>readTime(index)) {
+        time = (int)(System.currentTimeMillis()-startTime)/1000;
+        if(time<readTime(index)) {
             writeScores(index);
-            sPrintln("NEW RECORD");
-            sendToBot("NEW RECORD");
+            String msg = "NEW RECORD: "+race.mission+" by "+user+" with a time of "+time;
+            sPrintln(msg);
+            sendToBot(msg);
         }
         else {
-            sPrintln("RUN COMPLETE");
+            sPrintln("RUN COMPLETE TIME: "+time);
         }
+        if(choice("contuine"))
+        {
+            menu();    
+        }
+        
+        
 
 
     }
@@ -123,20 +129,22 @@ class Lbor extends Game
             FileReader fileRead = new FileReader(txt);
             BufferedReader reader = new BufferedReader(fileRead);
             ArrayList<String> arr = new ArrayList<>();
-            for (int i = 4; i > 0; i--) {
-                if (i != line) {
-                    arr.add(reader.readLine());
-                } else {
+            for (int i = 0; i < 4; i++) {
+                if (i == line) {
                     arr.add(user+" ; "+time);
+                    reader.readLine();
+                } else {
+                    arr.add(reader.readLine());
                 }
             }
             reader.close();
             File fileToBeModified = new File("Race scores.txt");
             FileWriter writer = new FileWriter(fileToBeModified);
-            for(int i = 0; i>arr.size(); i++)
+            for(int i = 0; i<arr.size(); i++)
             {
-                writer.write(arr.get(i));
+                writer.write(arr.get(i)+"\n");
             }
+            writer.close();
         }  catch (IOException e) {
             e.printStackTrace();
         }
@@ -154,7 +162,7 @@ class Lbor extends Game
             }
             String info=reader.readLine();
             int i = 0;
-            for (i=0; (int)(info.charAt(i))==59; i++);
+            for (i=0; (int)(info.charAt(i))!=59; i++);
             reader.close();
             if(strIsInt(info.substring(i+2)))
             {
@@ -178,7 +186,7 @@ class Lbor extends Game
             }
             String info=reader.readLine();
             int i = 0;
-            for (i=0; (int)(info.charAt(i))==59; i++);
+            for (i=0; (int)(info.charAt(i))!=59; i++);
             reader.close();
             return info.substring(0,i-2);
         } catch (IOException e) {

@@ -16,6 +16,7 @@ class Main extends Tools{
         sPrintln("???: Lets start with Text speed");
         sPrintln( GREEN + "The text is currently at a speed of 10, if you lower that number it will speed up the text, if you raise the number it will move slower" );
         sPrint( "what should the text speed be?" );
+        
         setTSpeed( scanner.nextInt( ) );
         System.out.println( );
 
@@ -23,13 +24,15 @@ class Main extends Tools{
         sPrintln("???: Quick warnings");
         sPrintln( RED + "This game does not condone any violence. This is a work of fiction, and any resemblance to characters, real or fictional, is a coincidence." );
         sPrintln(RED+"Your gameplay is being reported to a disord server");
+        scanner.nextLine();
         sPrint("Please enter a username that will be shown to the server");
         String user = scanner.nextLine();
         sPrint("???: Which game do you want to play?");
         sPrint("1) Last breath of the Billionares");
-        sPrint("2) Last Breath of Gordy");
+        sPrint("2) Speedrunning");
+        sPrint("3) Last Breath of Gordy");
         int choice = scanner.nextInt();
-        while(choice!=1 && choice!=2)
+        while(choice>3)
         {
             choice = scanner.nextInt();
         }
@@ -40,6 +43,10 @@ class Main extends Tools{
             System.out.print(SCREEN_CLEAR);
             System.out.flush();
             game.game( );
+        }
+        else if(choice==2) {
+            Lbor game = new Lbor(user);
+            game.menu();
         }
         else {
             Dsoh game = new Dsoh(user);

@@ -1,1 +1,0 @@
-x=msgbox("oh shit", 0+48, "game stopped")
