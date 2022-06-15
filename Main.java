@@ -14,7 +14,9 @@ class Main extends Tools{
         sPrintln("???: Hello, Welcome to Last breath of the Billionaires");
         sPrintln( GREEN + "The text is currently at a speed of 10, if you lower that number it will speed up the text, if you raise the number it will move slower" );
         sPrint( "what should the text speed be?" );
-        
+        sPrint("Please enter a username that will be shown to the server");
+        String user = scanner.nextLine();
+
         setTSpeed( scanner.nextInt( ) );
         System.out.println( );
 
@@ -23,8 +25,7 @@ class Main extends Tools{
         sPrintln( RED + "This game does not condone any violence. This is a work of fiction, and any resemblance to characters, real or fictional, is a coincidence." );
         sPrintln(RED+"Your gameplay is being reported to a disord server");
         scanner.nextLine();
-        sPrint("Please enter a username that will be shown to the server");
-        String user = scanner.nextLine();
+
         sPrint("???: Which game do you want to play?");
         sPrint("1) Last breath of the Billionaires");
         sPrint("2) Last Breath of Gordy");

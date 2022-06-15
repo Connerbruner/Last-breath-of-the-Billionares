@@ -1,7 +1,6 @@
 import java.util.ArrayList;
-
 class Game extends Tools {
-    Public static final int MAX_EMMI=8;
+    public static final int MAX_EMMI=8;
     String savePath;
     String user;
     int HP2069;
@@ -12,6 +11,7 @@ class Game extends Tools {
     int stars = 0;
     int speed = 0;
     int stun = 0;
+    int Timeline;
     // Array vars (placed in Lbob.txt)
     int missionNum = 10;
     int HPmax = 50;
@@ -30,9 +30,11 @@ class Game extends Tools {
     int num = 0;
 
     //Setup
-    public Game(String name, int speed) {
+    public Game(String file,String name, int speed,int placement) {
+        savePath=file;
         user = name;
         setTSpeed(speed);
+        Timeline=placement;
     }
     //fights giga mech
     public void fightMech() {
@@ -102,7 +104,13 @@ class Game extends Tools {
             dungeon.move();
             if (dungeon.dungeonLength > dungeon.amountMoved) {
                 sPrintln((dungeon.dungeonLength - dungeon.amountMoved) + " left to go");
-                battle();
+                if(random(0,12-missionNum)==12-missionNum)
+                {
+                    battle();
+                }
+                else {
+                    battleGroup();
+                }
             }
         }
         save();
@@ -370,32 +378,37 @@ class Game extends Tools {
             sendToBot(user + " just found a " + group.get(i).emmi_type);
         }
         
-        while (group.isEmpty() > 0) {
+        while (!group.isEmpty()) {
+            Emmi cur=group.get(0);
             sPrint("2069 health " + HP2069);
-            sPrint(emmi.emmi_type + " health " + emmi.emmi_HP);
+            sPrint(cur.emmi_type + " health " + cur.emmi_HP);
             System.out.println();
-            emmi.emmi_prep();
+            cur.emmi_prep();
             attack();
-            if (attackTime < emmi.emmi_attack.speed) {
-                emmi.emmi_HP -= choseAttack(1);
+            if (attackTime < cur.emmi_attack.speed) {
+                cur.emmi_HP -= choseAttack(1);
                 if (attackNum != 3) {
-                    emmi.emmi_HP -= attackSupport();
+                    cur.emmi_HP -= attackSupport();
                 }
             } else {
                 sPrintln("Too slow. Pick a faster attack");
             }
-            if (emmi.emmi_HP > 0 && (attackTime > emmi.emmi_attack.speed || attackStun < emmi.emmi_num + 5)) {
-                HP2069 -= emmi.emmi_attack.attack();
+            if(cur.emmi_HP<1)
+            {
+                group.remove(0);
             }
-            if (is2051joined && (emmi.emmi_HPM / 3) < emmi.emmi_HP && attackStun < emmi.emmi_num + 2) {
-                emmi.emmi_HP -= chainAttack(emmi.emmi_HP);
+            for(int i=group.size(); i>0; i--)
+            {
+                HP2069-=group.get(i).attack_emmi();
+            }
+            if (is2051joined && (cur.emmi_HPM / 3) < cur.emmi_HP && attackStun < cur.emmi_num + 2) {
+                cur.emmi_HP -= chainAttack(cur.emmi_HP);
             }
             restart();
         }
-        exp1 += (emmi.emmi_level * emmi.emmi_num) * 2;
-        sPrintln("You gain " + (emmi.emmi_level * emmi.emmi_num) * 2 + " exp");
-        sendToBot(user + " gains " + (emmi.emmi_level * emmi.emmi_num) * 2 + " exp");
-        emmi = null;
+        exp1 += 200;
+        sPrintln("You gain 200 exp");
+        sendToBot(user + " gains 200 exp");
         levelUp();
         save();
     }
@@ -546,13 +559,6 @@ class Game extends Tools {
                 if (s == 9) {
                     maxHit = val;
                 }
-                if (s == 10) {
-                    is2048joined = Boolean.parseBoolean(Save[s].toString());
-                }
-                if (s == 11) {
-                    is2051joined = Boolean.parseBoolean(Save[s].toString());
-                }
-
             }
         }
         System.out.print(SCREEN_CLEAR);

@@ -5,7 +5,7 @@ class Lbob extends Game {
 
 
     //obj
-
+    Main main = new Main();
     Scanner scanner = new Scanner(System.in);
     Dungeon local6_11 = new Dungeon("Rubble filled 6-11", 10);
     Dungeon factory = new Dungeon("Run down Factory", 30);
@@ -178,7 +178,7 @@ class Lbob extends Game {
                 pull();
             }
             if (choice == 12) {
-                run.exit(69420);
+                main.play();
             }
 
             save();
@@ -187,15 +187,5 @@ class Lbob extends Game {
         }
 
     }
-
-
-
-
-
-
-
-
-
-
 //don't pass this comment
 }
