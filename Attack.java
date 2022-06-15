@@ -92,16 +92,8 @@ class Attack extends Tools {
     }
 
     public int attack ( ) {
-
         sPrint( attackName );
         num = random( low , high );
-        sPrintln( attackUser + " deals " + num + " damage" );
-        return num;
-    }
-    public int attack ( double power ) {
-
-        sPrint( attackName );
-        num = (int)(random( low , high )*power);
         sPrintln( attackUser + " deals " + num + " damage" );
         return num;
     }

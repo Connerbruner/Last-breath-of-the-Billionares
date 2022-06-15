@@ -28,8 +28,8 @@ class Main extends Tools{
         sPrint("Please enter a username that will be shown to the server");
         String user = scanner.nextLine();
         sPrint("???: Which game do you want to play?");
-        sPrint("1) Last breath of the Billionares");
-        sPrint("2) Speedrunning");
+        sPrint("1) Last breath of the Billionaires");
+        sPrint("2) Speed-running");
         sPrint("3) Last Breath of Gordy");
         int choice = scanner.nextInt();
         while(choice>3)
@@ -39,9 +39,8 @@ class Main extends Tools{
         if(choice==1)
         {
             Lbob game = new Lbob(user,tSpeed);
+            game.savePath="Lbob.txt";
             game.grabSave( );
-            System.out.print(SCREEN_CLEAR);
-            System.out.flush();
             game.game( );
         }
         else if(choice==2) {

@@ -224,42 +224,5 @@ class Tools {
         }
     }
 
-
-    public Object[] encrypt(Object[] data, String textName, int mod) {
-        Object[] encryptedData = new Object[data.length];
-        String temp = "";
-        String built = "";
-        for (int i = 0; i < data.length; i++) {
-            temp = data[i].toString();
-            for (int j = 0; j < temp.length(); j++) {
-                Character charTemp = (char) ((int) temp.charAt(j) + mod);
-                built += charTemp.toString();
-            }
-            encryptedData[i] = built;
-            temp = "";
-            built = "";
-        }
-        return encryptedData;
-
-    }
-
-    public Object[] decrypt(Object[] data, String textName, int mod) {
-        mod = -mod;
-        Object[] encryptedData = new Object[data.length];
-        String temp = "";
-        String built = "";
-        for (int i = 0; i < data.length; i++) {
-            temp = data[i].toString();
-            for (int j = 0; j < temp.length(); j++) {
-                Character charTemp = (char) ((int) temp.charAt(j) + mod);
-                built += charTemp.toString();
-            }
-            encryptedData[i] = built;
-            temp = "";
-            built = "";
-        }
-        return encryptedData;
-
-    }
    
 }
