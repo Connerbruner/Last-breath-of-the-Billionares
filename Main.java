@@ -12,8 +12,6 @@ class Main extends Tools{
         Scanner scanner = new Scanner( System.in );
         setTSpeed( 10 );
         sPrintln("???: Hello, Welcome to Last breath of the Billionaires");
-        sPrintln("???: Let me get you ready for this world");
-        sPrintln("???: Lets start with Text speed");
         sPrintln( GREEN + "The text is currently at a speed of 10, if you lower that number it will speed up the text, if you raise the number it will move slower" );
         sPrint( "what should the text speed be?" );
         
@@ -29,8 +27,8 @@ class Main extends Tools{
         String user = scanner.nextLine();
         sPrint("???: Which game do you want to play?");
         sPrint("1) Last breath of the Billionaires");
-        sPrint("2) Speed-running");
-        sPrint("3) Last Breath of Gordy");
+        sPrint("2) Last Breath of Gordy");
+        sPrint("3) Speedrunning");
         int choice = scanner.nextInt();
         while(choice>3)
         {
@@ -43,13 +41,13 @@ class Main extends Tools{
             game.grabSave( );
             game.game( );
         }
-        else if(choice==2) {
-            Speedrun game = new Speedrun(user,tSpeed);;
-            game.menu();
-        }
-        else {
+        else if(choice==3) {
             Lbog game = new Lbog(user,tSpeed);;
             game.game();
+        }
+        else {
+            Speedrun game = new Speedrun(user,tSpeed);;
+            game.menu();
         }
         
         

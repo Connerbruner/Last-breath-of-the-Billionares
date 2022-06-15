@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+
 class Game extends Tools {
+    Public static final int MAX_EMMI=8;
     String savePath;
     String user;
     int HP2069;
@@ -26,18 +29,18 @@ class Game extends Tools {
     //misc
     int num = 0;
 
-    //fights giga mech
+    //Setup
     public Game(String name, int speed) {
         user = name;
         setTSpeed(speed);
     }
-
+    //fights giga mech
     public void fightMech() {
         Emmi giga = new Emmi(level2069 + 5);
         battle(giga);
         giga = null;
     }
-
+    //placeHolder for other games
     public void game() {
         sPrintln("NOTHING");
     }
@@ -79,7 +82,6 @@ class Game extends Tools {
                     current.loseHP(attackSupport());
                 }
                 if (current.HP > 1 && (attackTime > bossAttack.speed || attackStun < 10)) {
-
                     HP2069 -= bossAttack.attack();
 
                 }
@@ -93,7 +95,7 @@ class Game extends Tools {
         }
 
     }
-
+    //using dungeons
     public void dungeon(Dungeon dungeon) {
         dungeon.start();
         while (dungeon.dungeonLength > dungeon.amountMoved) {
@@ -135,7 +137,7 @@ class Game extends Tools {
         //loop that determines the type without making you want to break a glass jar
         while (!typeDetermined) {
 
-            sPrint("Out Power or Out Speed");
+            sPrint("Chose Out (Power) or Out (Speed)");
             scanner.nextLine();
             tackType = scanner.nextLine();
 
@@ -177,9 +179,7 @@ class Game extends Tools {
         save();
     }
 
-    /**
-     * @return how much damage you did
-     */
+    //how much damage you did
     public int choseAttack(double power) {
         num = 0;
         if (attackNum == 1) {
@@ -199,9 +199,6 @@ class Game extends Tools {
         return num;
     }
 
-    /**
-     * @param power
-     */
     //cure method
     public void cure(double power) {
         if (attackType) {
@@ -219,9 +216,7 @@ class Game extends Tools {
     }
 
 
-    /**
-     * @return surports damage dealt
-     */
+    //return surports damage dealt
     public int attackSupport() {
         int total = 0;
         int hit = maxHit;
@@ -287,7 +282,7 @@ class Game extends Tools {
         return total;
     }
 
-
+    //chainAttack
     public int chainAttack(int HP) {
         int health = HP;
         int damage = 0;
@@ -326,11 +321,10 @@ class Game extends Tools {
     }
 
     //fight enemies
-
     public void battle() {
         num = level2069;
-        if (num > 8) {
-            num = 8;
+        if (num > MAX_EMMI) {
+            num = MAX_EMMI;
         }
         Emmi emmi = new Emmi(random(1, num), level2069 + stars);
         sendToBot(user + " just found a " + emmi.emmi_type);
@@ -363,8 +357,50 @@ class Game extends Tools {
         levelUp();
         save();
     }
+    
+    public void battleGroup() {
+        num = level2069;
+        if (num > 5) {
+            num = 5;
+        }
+        ArrayList<Emmi> group = new ArrayList<Emmi>();
+        for(int i=0; i>num; i+=random(0,2))
+        {
+            group.add(new Emmi(random(1,num),1));
+            sendToBot(user + " just found a " + group.get(i).emmi_type);
+        }
+        
+        while (group.isEmpty() > 0) {
+            sPrint("2069 health " + HP2069);
+            sPrint(emmi.emmi_type + " health " + emmi.emmi_HP);
+            System.out.println();
+            emmi.emmi_prep();
+            attack();
+            if (attackTime < emmi.emmi_attack.speed) {
+                emmi.emmi_HP -= choseAttack(1);
+                if (attackNum != 3) {
+                    emmi.emmi_HP -= attackSupport();
+                }
+            } else {
+                sPrintln("Too slow. Pick a faster attack");
+            }
+            if (emmi.emmi_HP > 0 && (attackTime > emmi.emmi_attack.speed || attackStun < emmi.emmi_num + 5)) {
+                HP2069 -= emmi.emmi_attack.attack();
+            }
+            if (is2051joined && (emmi.emmi_HPM / 3) < emmi.emmi_HP && attackStun < emmi.emmi_num + 2) {
+                emmi.emmi_HP -= chainAttack(emmi.emmi_HP);
+            }
+            restart();
+        }
+        exp1 += (emmi.emmi_level * emmi.emmi_num) * 2;
+        sPrintln("You gain " + (emmi.emmi_level * emmi.emmi_num) * 2 + " exp");
+        sendToBot(user + " gains " + (emmi.emmi_level * emmi.emmi_num) * 2 + " exp");
+        emmi = null;
+        levelUp();
+        save();
+    }
 
-    //
+    //Fights emmi
     public void battle(Emmi emmi) {
         sendToBot(user + " gains " + (emmi.emmi_level * emmi.emmi_num) * 2 + " exp");
         while (emmi.emmi_HP > 0) {
@@ -451,13 +487,13 @@ class Game extends Tools {
         }
 
     }
-
+    //Saves
     public void save() {
         Object[] arrList = new Object[]{missionNum, HPmax, level2069, levelR1, exp1, aqua.attackTier, lasershot.attackTier, cureTier, ember.attackTier, maxHit, is2048joined, is2051joined};
         Edit(savePath, arrList);
         System.gc();
     }
-
+    //Grabs Data
     public void grabSave() {
 
         if (choice("Would you like to overwrite a save file? (Returns the file to the start of the game)")) {
@@ -480,7 +516,6 @@ class Game extends Tools {
                 if (strIsInt(Save[s].toString())) {
                     val = Integer.parseInt(Save[s].toString());
                 }
-
                 if (s == 0) {
                     missionNum = val;
                 }
@@ -523,7 +558,7 @@ class Game extends Tools {
         System.out.print(SCREEN_CLEAR);
         System.out.flush();
     }
-
+    //
     public void pull() {
 
         if (exp1 >= 25) {
