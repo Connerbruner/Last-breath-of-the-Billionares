@@ -47,7 +47,7 @@ class Speedrun extends Lbob
                 }
             }
             if (emmi.emmi_HP > 1 && (attackTime > emmi.emmi_attack.speed || attackStun < (emmi.emmi_num + 5))) {
-                HP2069 -= emmi.emmi_attack.attack(1);
+                HP2069 -= emmi.emmi_attack.attack();
             } else if ((emmi.emmi_HPM / 3) < emmi.emmi_HP) {
                 emmi.emmi_HP -= chainAttack(emmi.emmi_HP);
             }
@@ -77,10 +77,7 @@ class Speedrun extends Lbob
                     current.loseHP(attackSupport());
                 }
                 if (current.HP > 1 && (attackTime > bossAttack.speed || attackStun < 10)) {
-                    if ((attackStun - 10) > 0) {
-                        block -= (attackStun - 10) / 10;
-                    }
-                    HP2069 -= bossAttack.attack(block);
+                    HP2069 -= bossAttack.attack();
 
                 }
                 boss.checkArray();
@@ -211,7 +208,7 @@ class Speedrun extends Lbob
 
             }
             if (emmi.emmi_HP > 1 && (attackTime > emmi.emmi_attack.speed || attackStun < (emmi.emmi_num + 5))) {
-                HP2069 -= emmi.emmi_attack.attack(1);
+                HP2069 -= emmi.emmi_attack.attack();
             } else if (is2051joined && (emmi.emmi_HPM / 3) < emmi.emmi_HP) {
                 emmi.emmi_HP -= chainAttack(emmi.emmi_HP);
             }
