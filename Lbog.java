@@ -86,8 +86,8 @@ class Lbog extends Game {
     int HPM = 50;
     int story = 0;
 
-    public Lbog(String name,int speed) {
-        super(name,speed);
+    public Lbog(String file,String name, int speed,int placement) {
+        super(file,name,speed,placement);
     }
 
     public void game() {
@@ -203,7 +203,7 @@ class Lbog extends Game {
     public void lootBackpack(int size,Hallway lootTable)
     {
         sPrintln("You find a Backpack Size: "+size);
-        for(size=size; size>0; size--) {
+        for(; size>0; size--) {
             Item temp = lootTable.loot();
             sPrint(packToString());
             sPrint(temp.toString());
@@ -225,7 +225,7 @@ class Lbog extends Game {
             backpack[scanner.nextInt()] = temp;
             scanner.nextLine();
             score++;
-            sendToBot(user+" Just found "+temp.toString());
+            sendToBot(user+" Just found "+ temp);
         }
     }
 

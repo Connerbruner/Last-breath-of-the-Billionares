@@ -36,11 +36,12 @@ class Game extends Tools {
         setTSpeed(speed);
         Timeline=placement;
     }
+
+
     //fights giga mech
     public void fightMech() {
         Emmi giga = new Emmi(level2069 + 5);
         battle(giga);
-        giga = null;
     }
     //placeHolder for other games
     public void game() {
@@ -139,7 +140,7 @@ class Game extends Tools {
 
         System.out.println();
 
-        String tackType = "";
+        String tackType;
 
         boolean typeDetermined = false;
         //loop that determines the type without making you want to break a glass jar
@@ -160,8 +161,6 @@ class Game extends Tools {
             System.out.println();
 
         }
-        typeDetermined = false;
-        tackType = "";
 
         long end_Time = System.currentTimeMillis();
         attackTime = (int) ((end_Time - start_Time) / 1000);
@@ -292,14 +291,13 @@ class Game extends Tools {
 
     //chainAttack
     public int chainAttack(int HP) {
-        int health = HP;
         int damage = 0;
         int speed = 15;
         int mul = 1;
         boolean overkill = false;
         sPrintln("2051: I SEE AN OPENING");
         sPrintln("CHAIN ATTACK START");
-        for (int round = 1; speed < 30; round++) {
+        for (int round = 1; speed < attackTime; round++) {
             sPrint("Round: " + round);
             if (!overkill) {
                 sPrint("2051: You have " + speed + " time left before the opening is gone");
@@ -309,7 +307,7 @@ class Game extends Tools {
                 damage += choseAttack(mul);
                 mul += attackStun / 10;
                 damage += attackSupport();
-
+                speed+=5;
             }
             sPrintln("DAMAGE: " + damage);
             if (HP - damage <= 0 && !overkill) {
@@ -318,6 +316,7 @@ class Game extends Tools {
                 overkill = true;
                 mul *= 2;
             }
+
         }
         sPrintln("CHAIN ATTACK FINISH");
         if (overkill) {
@@ -361,7 +360,6 @@ class Game extends Tools {
         exp1 += (emmi.emmi_level * emmi.emmi_num) * 2;
         sPrintln("You gain " + (emmi.emmi_level * emmi.emmi_num) * 2 + " exp");
         sendToBot(user + " gains " + (emmi.emmi_level * emmi.emmi_num) * 2 + " exp");
-        emmi = null;
         levelUp();
         save();
     }
@@ -371,7 +369,7 @@ class Game extends Tools {
         if (num > 5) {
             num = 5;
         }
-        ArrayList<Emmi> group = new ArrayList<Emmi>();
+        ArrayList<Emmi> group = new ArrayList<>();
         for(int i=0; i>num; i+=random(0,2))
         {
             group.add(new Emmi(random(1,num),1));
@@ -397,7 +395,7 @@ class Game extends Tools {
             {
                 group.remove(0);
             }
-            for(int i=group.size(); i>0; i--)
+            for(int i=group.size()-1; i>0; i--)
             {
                 HP2069-=group.get(i).attack_emmi();
             }
@@ -471,7 +469,7 @@ class Game extends Tools {
                 sPrintln("2069: 2048!");
                 sPrintln("*2048 has joined the team*");
                 is2048joined = true;
-                writeTeam(is2051joined,is2048joined,Timeline);
+                writeTeam(is2051joined, true,Timeline);
                 sendToBot("2048 just joined " + user + "'s party");
             } else if (!is2051joined && random(missionNum * 2, 30) == 30) {
                 HP2069 = HPmax;
@@ -479,7 +477,7 @@ class Game extends Tools {
                 sPrintln("2069: 2051!");
                 sPrintln("*2051 has joined the team*");
                 is2051joined = true;
-                writeTeam(is2051joined,is2048joined,Timeline);
+                writeTeam(true,is2048joined,Timeline);
                 sendToBot("2051 just joined " + user + "'s party");
             } else {
                 sPrintln("The world around you begins to fade to black");
@@ -562,8 +560,8 @@ class Game extends Tools {
                     maxHit = val;
                 }
                 int[] team = readTeam();
-                is2051unlocked = team[0]<=Timeline;
-                is2048unlocked = team[1]<=Timeline;
+                is2051joined = team[0]<=Timeline;
+                is2048joined = team[1]<=Timeline;
             }
             
         }
@@ -636,7 +634,7 @@ class Game extends Tools {
                     maxHit += 1;
                     sPrintln("The power of supporting members increased by 1");
                     sendToBot(user + "'s power of supporting members increased by 1");
-                } else if (tier == 7) {
+                } else {
                     maxHit += 2;
                     sPrintln("The power of supporting members increased by 2");
                     sendToBot(user + "'s power of supporting members increased by 2");

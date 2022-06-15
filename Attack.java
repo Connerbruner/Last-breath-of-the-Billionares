@@ -35,10 +35,6 @@ class Attack extends Tools {
         stun=2;
     }
 
-    public String getAttackName ( ) {
-        return attackName;
-    }
-
     /**
      * @param style
      *
@@ -52,10 +48,6 @@ class Attack extends Tools {
         }
     }
 
-    public int getAttackTier ( ) {
-        return attackTier;
-    }
-    
 
     /**
      * @param attackTier

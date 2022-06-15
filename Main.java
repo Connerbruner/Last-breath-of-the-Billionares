@@ -37,17 +37,17 @@ class Main extends Tools{
         }
         if(choice==1)
         {
-            Lbob game = new Lbob(user,tSpeed);
+            Lbob game = new Lbob("Lbob.txt",user,tSpeed,9);
             game.savePath="Lbob.txt";
             game.grabSave( );
             game.game( );
         }
         else if(choice==3) {
-            Lbog game = new Lbog(user,tSpeed);;
+            Lbog game = new Lbog("",user,tSpeed,-3);
             game.game();
         }
         else {
-            Speedrun game = new Speedrun(user,tSpeed);;
+            Speedrun game = new Speedrun("",user,tSpeed,9);
             game.menu();
         }
         

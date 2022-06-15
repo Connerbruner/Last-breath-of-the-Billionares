@@ -13,8 +13,8 @@ class Speedrun extends Lbob
 
 
 
-    public Speedrun(String name,int speed) {
-        super(name,speed);
+    public Speedrun(String file,String name, int speed,int placement) {
+        super(file,name,speed,placement);
         HPmax = 60;
         maxHit = 7;
         is2051joined = true;
@@ -137,9 +137,8 @@ class Speedrun extends Lbob
             reader.close();
             File fileToBeModified = new File("Race scores.txt");
             FileWriter writer = new FileWriter(fileToBeModified);
-            for(int i = 0; i<arr.size(); i++)
-            {
-                writer.write(arr.get(i)+"\n");
+            for (String s : arr) {
+                writer.write(s + "\n");
             }
             writer.close();
         }  catch (IOException e) {
@@ -158,7 +157,7 @@ class Speedrun extends Lbob
                 reader.readLine();
             }
             String info=reader.readLine();
-            int i = 0;
+            int i;
             for (i=0; (int)(info.charAt(i))!=59; i++);
             reader.close();
             if(strIsInt(info.substring(i+2)))
@@ -171,26 +170,7 @@ class Speedrun extends Lbob
             return 0;
         }
     }
-    public String readName(int line)
-    {
-        try {
-            File txt = new File("Race scores.txt");
-            FileReader fileRead = new FileReader(txt);
-            BufferedReader reader = new BufferedReader(fileRead);
 
-            for (int r = 0; r < line; r++) {
-                reader.readLine();
-            }
-            String info=reader.readLine();
-            int i = 0;
-            for (i=0; (int)(info.charAt(i))!=59; i++);
-            reader.close();
-            return info.substring(0,i-2);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
     public void battle()
     {
         Emmi emmi = new Emmi(random(1,8),5);

@@ -1,7 +1,6 @@
 class ItemClass extends Tools {
     int damageLow, damageHigh, durLow, durHigh;
     String itemName;
-    double block;
     boolean isHeal=false;
     boolean isShield=false;
 
@@ -18,13 +17,6 @@ class ItemClass extends Tools {
         damageLow = damageL;
         damageHigh = damageH;
         isHeal = true;
-    }
-    public ItemClass(String name , int power)
-    {
-        itemName = name;
-        damageHigh = power;
-
-        isShield=true;
     }
 
     public Item createRandomItem() {

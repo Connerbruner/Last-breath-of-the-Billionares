@@ -45,10 +45,9 @@ class Lbob extends Game {
 
     Phase mark = new Phase(attacksMark, 1000, "Mark Zuckerberg");
     Boss Zuckerberg = new Boss(mark);
-    Boss[] fuel = {Tri2,Zuckerberg};
 
-    public Lbob(String name,int speed) {
-        super(name,speed);
+    public Lbob(String file,String name, int speed,int placement) {
+        super(file,name,speed,placement);
     }
 
 

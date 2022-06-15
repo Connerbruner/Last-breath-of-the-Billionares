@@ -2,7 +2,6 @@ public class Race extends Tools{
     Emmi vsEmmi;
     Boss vsBoss;
     Dungeon vsDungeon;
-    Gordy vsGordy;
     String mission;
     boolean isEmmi=false;
     boolean isBoss=false;

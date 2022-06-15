@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Scanner;
 
+@SuppressWarnings("unused")
 class Tools {
             //the Colors of gay
     public static final String SCREEN_CLEAR = "\033[H\033[2J";
@@ -13,23 +14,18 @@ class Tools {
     public static final String PURPLE = "\u001B[35m";
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
-    //start of cheat codes
-    Runtime run = Runtime.getRuntime();
-    //end of cheat codes
-    int tSpeed;
-    String[] colors = new String[]{RED, GREEN, BLUE, PURPLE, CYAN};
 
-    int pin = 0;
-    Object[] Save = null;
-    String savePath = null;
+    Runtime run = Runtime.getRuntime();
+    int tSpeed;
     Scanner scanner = new Scanner(System.in);
+
     public static void Edit(String filePath, Object[] arr) {
         File fileToBeModified = new File(filePath);
         FileWriter writer = null;
         try {
             writer = new FileWriter(fileToBeModified);
-            for (int i = 0; i < arr.length; i++) {
-                String print = arr[i].toString() + "\n";
+            for (Object o : arr) {
+                String print = o.toString() + "\n";
                 writer.write(print);
             }
 
@@ -71,7 +67,6 @@ class Tools {
     }
 
     /**
-     * @param num
      */
     public void setTSpeed(int num) {
         tSpeed = num;
@@ -192,8 +187,7 @@ class Tools {
     public boolean choice(String str) {
         sPrint(str);
         String skip = scanner.nextLine();
-        boolean yesSkip = skip.equals("yes") || skip.equals("Yes") || skip.equals("Y") || skip.equals("y");
-        return yesSkip;
+        return skip.equals("yes") || skip.equals("Yes") || skip.equals("Y") || skip.equals("y");
     }
 
     public void loading() {
@@ -213,7 +207,7 @@ class Tools {
     public void sendToBot(String str)
     {
         File fileToBeModified = new File("bot.txt");
-        FileWriter wr = null;
+        FileWriter wr;
         try {
             wr = new FileWriter(fileToBeModified);
             wr.write(str);
@@ -226,10 +220,10 @@ class Tools {
     public int[] readTeam()
     {
         try {
-            File txt = new File(file);
+            File txt = new File("Team.txt");
             FileReader fileRead = new FileReader(txt);
             BufferedReader reader = new BufferedReader(fileRead);
-            return {Integer.parseInt(reader.readLine()),Integer.parseInt( reader.readLine())};
+            return new int[]{Integer.parseInt(reader.readLine()),Integer.parseInt( reader.readLine())};
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -238,26 +232,12 @@ class Tools {
     }
     public void writeTeam(boolean b2051,boolean b2048,int Timeline)
     {
-        int[] team = readTeam()
+        int[] team = readTeam();
         try {
             File fileToBeModified = new File("Team.txt");
             FileWriter writer = new FileWriter(fileToBeModified);
-            if(team[0]>Timeline)
-            {
-                writer.write(Timeline);
-            }
-            else
-            {
-                writer.write(team[0]);
-            }
-            if(team[1]>Timeline)
-            {
-                writer.write(Timeline);
-            }
-            else
-            {
-                writer.write(team[1]);
-            }
+            writer.write(Math.min(team[0], Timeline));
+            writer.write(Math.min(team[1], Timeline));
             
         } catch (IOException e) {
             e.printStackTrace();

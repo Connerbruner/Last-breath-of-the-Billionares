@@ -1,12 +1,7 @@
 class Dungeon extends Tools {
     String dungeonName;
-    int dungeonLevel;
     int dungeonLength;
     int amountMoved;
-
-    int star = 1;
-
-    boolean starsUnlocked;
 
     /**
      * @param name
