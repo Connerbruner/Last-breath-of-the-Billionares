@@ -37,6 +37,10 @@ async def txt():
         open("bot.txt", "w").close()
 
 #starts Processes java and bot
-r = open("token.txt", "r")
-token = r.read()[1:len(r.read())-1]
-client.run(token)
+try:
+ r = open("token.txt", "r")
+ token = r.read()[1:len(r.read())-1]
+ client.run(token)
+except:
+ print("load failed")
+ os.system("kill 1")

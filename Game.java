@@ -351,12 +351,12 @@ class Game extends Tools {
                 if (attackNum != 3) {
                     emmi.emmi_HP -= attackSupport();
                 }
-
-                if (emmi.emmi_HP > 0 && (attackTime > emmi.emmi_attack.speed || attackStun < emmi.emmi_num + 5)) {
+            }
+            else {
+                sPrintln("Too slow. Pick a faster attack");
+            }
+            if (emmi.emmi_HP > 0 && (attackTime > emmi.emmi_attack.speed || attackStun < emmi.emmi_num + 5)) {
                     HP2069 -= emmi.emmi_attack.attack(1);
-                }
-
-
             }
             if (is2051joined && (emmi.emmi_HPM / 3) < emmi.emmi_HP && attackStun < emmi.emmi_num + 2) {
                 emmi.emmi_HP -= chainAttack(emmi.emmi_HP);
@@ -369,9 +369,8 @@ class Game extends Tools {
         sendToBot(user + " gains " + (emmi.emmi_level * emmi.emmi_num) * 2 + " exp");
         emmi = null;
         levelUp();
-
     }
-
+    //
     public void battle(Emmi emmi) {
         sendToBot(user + " gains " + (emmi.emmi_level * emmi.emmi_num) * 2 + " exp");
         while (emmi.emmi_HP > 0) {
@@ -387,6 +386,9 @@ class Game extends Tools {
                 }
 
             }
+            else {
+                sPrintln("Too slow. Pick a faster attack");
+            }
             if (emmi.emmi_HP > 1 && (attackTime > emmi.emmi_attack.speed || attackStun < (emmi.emmi_num + 5))) {
                 HP2069 -= emmi.emmi_attack.attack(1);
             } else if (is2051joined && (emmi.emmi_HPM / 3) < emmi.emmi_HP) {
@@ -401,7 +403,7 @@ class Game extends Tools {
         levelUp();
 
     }
-
+    //level up
     public void levelUp() {
         while (exp1 >= levelR1) {
             sPrintln("LEVEL UP");
