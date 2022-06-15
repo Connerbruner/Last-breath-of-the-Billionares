@@ -9,7 +9,7 @@ class Lbog extends Game {
     ItemClass binder = new ItemClass("binder", 5, 20, 10, 20);
     ItemClass scissors = new ItemClass("scissors", 7, 20, 3, 10);
     ItemClass waterBottle = new ItemClass("Water Bottle (attack)", 1, 20, 2, 12);
-    ItemClass chromeBook = new ItemClass("chromeBook", 10, 20, 1, 2);
+    ItemClass chromeBook = new ItemClass("labTop", 10, 20, 1, 2);
     ItemClass metalPiece = new ItemClass("metalPiece", 1, 20, 1, 50);
     ItemClass basketBall = new ItemClass("basketBall",10,20,1,5);
     ItemClass footBall = new ItemClass("FootBall",5,10,3,7);
@@ -18,7 +18,7 @@ class Lbog extends Game {
     ItemClass soda = new ItemClass("Soda", 5, 10);
     ItemClass chip = new ItemClass("Chip bag", 7, 12);
     ItemClass water = new ItemClass("Water bottle (heal)", 6, 10);
-    ItemClass lunch = new ItemClass("School lunch", 1, 20);
+    ItemClass lunch = new ItemClass("lunch box", 1, 20);
 
 
     //Item-class array
@@ -232,8 +232,8 @@ class Lbog extends Game {
     public String packToString() {
         return "Current items\nSlot 0: " + backpack[0] + "\nSlot 1: " + backpack[1] + "\nSlot 2: (Storage): " + backpack[2] + "\n";
     }
-
-    public void useItem() {
+    @Override
+    public int useItem() {
         sPrint(packToString());
         sPrint("What slot 0-1");
         int i = 3;
@@ -273,7 +273,7 @@ class Lbog extends Game {
                 backpack[2] = null;
             }
         }
-
+        return 0;
     }
 
 }

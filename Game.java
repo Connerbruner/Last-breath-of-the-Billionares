@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+
 class Game extends Tools {
-    public static final int MAX_EMMI=8;
+    public static final int MAX_EMMI = 8;
+    Item backpack;
     String savePath;
     String user;
     int HP2069;
@@ -22,6 +24,8 @@ class Game extends Tools {
     int maxHit = 5;
     boolean is2051joined = false;
     boolean is2048joined = false;
+
+    ItemClass[] allItems = {new ItemClass("staplers", 5, 10, 50, 100), new ItemClass("Cleaner", 3, 5, 100, 200), new ItemClass("ruler", 8, 12, 4, 5), new ItemClass("binder", 5, 20, 10, 20), new ItemClass("scissors", 7, 20, 3, 10), new ItemClass("Water Bottle (attack)", 1, 20, 2, 12), new ItemClass("labTop", 10, 20, 1, 2), new ItemClass("metalPiece", 1, 20, 1, 50), new ItemClass("basketBall", 10, 20, 1, 5), new ItemClass("FootBall", 5, 10, 3, 7), new ItemClass("tennisBall", 1, 5, 8, 20), new ItemClass("Soda", 5, 10), new ItemClass("Chip bag", 7, 12), new ItemClass("Water bottle (heal)", 6, 10), new ItemClass("lunch box", 1, 20)};
     //2069 attacks
     Attack aqua = new Attack("Aqua", 7, 12, 6, 0);
     Attack lasershot = new Attack("Lasershot", 3, 10, 6, 8);
@@ -30,11 +34,11 @@ class Game extends Tools {
     int num = 0;
 
     //Setup
-    public Game(String file,String name, int speed,int placement) {
-        savePath=file;
+    public Game(String file, String name, int speed, int placement) {
+        savePath = file;
         user = name;
         setTSpeed(speed);
-        Timeline=placement;
+        Timeline = placement;
     }
 
 
@@ -43,6 +47,7 @@ class Game extends Tools {
         Emmi giga = new Emmi(level2069 + 5);
         battle(giga);
     }
+
     //placeHolder for other games
     public void game() {
         sPrintln("NOTHING");
@@ -98,6 +103,7 @@ class Game extends Tools {
         }
 
     }
+
     //using dungeons
     public void dungeon(Dungeon dungeon) {
         dungeon.start();
@@ -105,11 +111,16 @@ class Game extends Tools {
             dungeon.move();
             if (dungeon.dungeonLength > dungeon.amountMoved) {
                 sPrintln((dungeon.dungeonLength - dungeon.amountMoved) + " left to go");
-                if(random(0,12-missionNum)==12-missionNum)
+                if(random(1, 5)==5)
                 {
-                    battle();
+                    Item place=allItems[random(0,allItems.length-1)].createRandomItem();
+                    if(choice("Current Item: "+backpack.toString()+"\nNew Item:"+place.toString()+"\nDo you want this item ")) {
+                        backpack=place;
+                    }
                 }
-                else {
+                if (random(missionNum, 15) == 15) {
+                    battle();
+                } else {
                     battleGroup();
                 }
             }
@@ -131,11 +142,12 @@ class Game extends Tools {
         sPrint("3: Cure");
 
         sPrint("4: " + ember.attackName);
+        sPrintln("5: "+backpack.toString());
         System.out.println();
         //This while loop just
         long start_Time = System.currentTimeMillis();
 
-        sPrint("Which attack? (1-4)   ");
+        sPrint("Which attack? (1-5)   ");
         attackNum = scanner.nextInt();
 
         System.out.println();
@@ -168,17 +180,18 @@ class Game extends Tools {
             attackTime += aqua.getSpeed(attackType);
             attackStun = aqua.getStun(attackType);
         }
-        if (attackNum == 2) {
+        else if (attackNum == 2) {
             attackTime += lasershot.getSpeed(attackType);
             attackStun = lasershot.getStun(attackType);
         }
-        if (attackNum == 4) {
+        else if (attackNum == 4) {
             attackTime += ember.getSpeed(attackType);
             attackStun = ember.getStun(attackType);
         }
-        if (attackNum == 3) {
+        else {
             attackStun = 0;
         }
+
         attackStun += stun;
         attackTime -= speed;
         stun = 0;
@@ -192,15 +205,18 @@ class Game extends Tools {
         if (attackNum == 1) {
             num = aqua.attack(power, attackType);
         }
-        if (attackNum == 2) {
+        else if (attackNum == 2) {
             num = lasershot.attack(power, attackType);
         }
-        if (attackNum == 3) {
+        else if (attackNum == 3) {
             cure(power);
             num = 0;
         }
-        if (attackNum == 4) {
+        else if (attackNum == 4) {
             num = ember.attack(power, attackType);
+        }
+        else {
+            num=backpack.useItem();
         }
 
         return num;
@@ -307,7 +323,7 @@ class Game extends Tools {
                 damage += choseAttack(mul);
                 mul += attackStun / 10;
                 damage += attackSupport();
-                speed+=5;
+                speed += 5;
             }
             sPrintln("DAMAGE: " + damage);
             if (HP - damage <= 0 && !overkill) {
@@ -363,6 +379,7 @@ class Game extends Tools {
         levelUp();
         save();
     }
+
     //group battle
     public void battleGroup() {
         num = level2069;
@@ -370,14 +387,13 @@ class Game extends Tools {
             num = 5;
         }
         ArrayList<Emmi> group = new ArrayList<>();
-        for(int i=0; i>num; i+=random(0,2))
-        {
-            group.add(new Emmi(random(1,num),1));
+        for (int i = 0; i > num; i += random(0, 2)) {
+            group.add(new Emmi(random(1, num), 1));
             sendToBot(user + " just found a " + group.get(i).emmi_type);
         }
-        
+
         while (!group.isEmpty()) {
-            Emmi cur=group.get(0);
+            Emmi cur = group.get(0);
             sPrint("2069 health " + HP2069);
             sPrint(cur.emmi_type + " health " + cur.emmi_HP);
             System.out.println();
@@ -391,13 +407,11 @@ class Game extends Tools {
             } else {
                 sPrintln("Too slow. Pick a faster attack");
             }
-            if(cur.emmi_HP<1)
-            {
+            if (cur.emmi_HP < 1) {
                 group.remove(0);
             }
-            for(int i=group.size()-1; i>0; i--)
-            {
-                HP2069-=group.get(i).attack_emmi();
+            for (int i = group.size() - 1; i > 0; i--) {
+                HP2069 -= group.get(i).attack_emmi();
             }
             if (is2051joined && (cur.emmi_HPM / 3) < cur.emmi_HP && attackStun < cur.emmi_num + 2) {
                 cur.emmi_HP -= chainAttack(cur.emmi_HP);
@@ -469,7 +483,7 @@ class Game extends Tools {
                 sPrintln("2069: 2048!");
                 sPrintln("*2048 has joined the team*");
                 is2048joined = true;
-                writeTeam(is2051joined, true,Timeline);
+                writeTeam(is2051joined, true, Timeline);
                 sendToBot("2048 just joined " + user + "'s party");
             } else if (!is2051joined && random(missionNum * 2, 30) == 30) {
                 HP2069 = HPmax;
@@ -477,7 +491,7 @@ class Game extends Tools {
                 sPrintln("2069: 2051!");
                 sPrintln("*2051 has joined the team*");
                 is2051joined = true;
-                writeTeam(true,is2048joined,Timeline);
+                writeTeam(true, is2048joined, Timeline);
                 sendToBot("2051 just joined " + user + "'s party");
             } else {
                 sPrintln("The world around you begins to fade to black");
@@ -500,12 +514,14 @@ class Game extends Tools {
         }
 
     }
+
     //Saves
     public void save() {
         Object[] arrList = new Object[]{missionNum, HPmax, level2069, levelR1, exp1, aqua.attackTier, lasershot.attackTier, cureTier, ember.attackTier, maxHit};
         Edit(savePath, arrList);
         System.gc();
     }
+
     //Grabs Data
     public void grabSave() {
 
@@ -560,14 +576,15 @@ class Game extends Tools {
                     maxHit = val;
                 }
                 int[] team = readTeam();
-                is2051joined = team[0]<=Timeline;
-                is2048joined = team[1]<=Timeline;
+                is2051joined = team[0] <= Timeline;
+                is2048joined = team[1] <= Timeline;
             }
-            
+
         }
         System.out.print(SCREEN_CLEAR);
         System.out.flush();
     }
+
     //gotcha
     public void pull() {
 
@@ -647,5 +664,17 @@ class Game extends Tools {
         }
 
     }
-    
+
+    public int useItem() {
+        if (backpack.dur > 0) {
+            if (backpack.isHeal) {
+                HP2069 += useItem();
+                return 0;
+            } else {
+                return useItem();
+            }
+        }
+        return 0;
+    }
+
 }
