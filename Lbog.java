@@ -1,4 +1,4 @@
-class Dsoh extends Tools {
+class Lbog extends Game {
 
     String user;
     //items in loot tables
@@ -86,9 +86,8 @@ class Dsoh extends Tools {
     int HPM = 50;
     int story = 0;
 
-    public Dsoh(String name)
-    {
-        user=name;
+    public Lbog(String name,int speed) {
+        super(name,speed);
     }
 
     public void game() {

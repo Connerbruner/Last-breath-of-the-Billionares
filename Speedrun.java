@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 
-class Lbor extends Game
+class Speedrun extends Lbob
 {
     int time;
     Race[] allRaces = {
@@ -13,8 +13,8 @@ class Lbor extends Game
 
 
 
-    public Lbor(String name) {
-        super(name);
+    public Speedrun(String name,int speed) {
+        super(name,speed);
         HPmax = 60;
         maxHit = 7;
         is2051joined = true;

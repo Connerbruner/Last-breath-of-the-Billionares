@@ -38,18 +38,18 @@ class Main extends Tools{
         }
         if(choice==1)
         {
-            Game game = new Game(user);
+            Lbob game = new Lbob(user,tSpeed);
             game.grabSave( );
             System.out.print(SCREEN_CLEAR);
             System.out.flush();
             game.game( );
         }
         else if(choice==2) {
-            Lbor game = new Lbor(user);
+            Speedrun game = new Speedrun(user,tSpeed);;
             game.menu();
         }
         else {
-            Dsoh game = new Dsoh(user);
+            Lbog game = new Lbog(user,tSpeed);;
             game.game();
         }
         
