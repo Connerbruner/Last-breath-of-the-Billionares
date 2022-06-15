@@ -3,10 +3,7 @@ class Dungeon extends Tools {
     int dungeonLength;
     int amountMoved;
 
-    /**
-     * @param name
-     * @param length
-     */
+
     public Dungeon(String name, int length) {
 
         dungeonName = name;

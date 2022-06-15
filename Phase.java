@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 class Phase extends Tools {
     int HP;
     Attack[] attacks;

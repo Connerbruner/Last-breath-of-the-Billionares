@@ -27,7 +27,7 @@ class Goal extends Tools {
         {
         if(hallway.hallwayName.equals(ending.hallwayName) && !complete)
         {
-            sPrintln(toString()+" COMPLETE");
+            sPrintln(this +" COMPLETE");
             complete=true;
             return true;
         }

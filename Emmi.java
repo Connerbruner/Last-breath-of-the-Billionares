@@ -7,9 +7,7 @@ class Emmi extends Tools {
     Attack emmi_attack;
     int emmi_HPM;
 
-    /**
-     *
-     */
+
     public Emmi (Emmi emmi)
     {
         emmi_type=emmi.emmi_type;
