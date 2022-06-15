@@ -223,6 +223,47 @@ class Tools {
             e.printStackTrace();
         }
     }
+    public int[] readTeam()
+    {
+        try {
+            File txt = new File(file);
+            FileReader fileRead = new FileReader(txt);
+            BufferedReader reader = new BufferedReader(fileRead);
+            return {Integer.parseInt(reader.readLine()),Integer.parseInt( reader.readLine())};
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new int[0];
+        }
+    }
+    public void writeTeam(boolean b2051,boolean b2048,int Timeline)
+    {
+        int[] team = readTeam()
+        try {
+            File fileToBeModified = new File("Team.txt");
+            FileWriter writer = new FileWriter(fileToBeModified);
+            if(team[0]>Timeline)
+            {
+                writer.write(Timeline);
+            }
+            else
+            {
+                writer.write(team[0]);
+            }
+            if(team[1]>Timeline)
+            {
+                writer.write(Timeline);
+            }
+            else
+            {
+                writer.write(team[1]);
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 
    
 }

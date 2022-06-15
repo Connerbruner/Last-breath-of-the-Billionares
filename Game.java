@@ -365,7 +365,7 @@ class Game extends Tools {
         levelUp();
         save();
     }
-    
+    //group battle
     public void battleGroup() {
         num = level2069;
         if (num > 5) {
@@ -471,6 +471,7 @@ class Game extends Tools {
                 sPrintln("2069: 2048!");
                 sPrintln("*2048 has joined the team*");
                 is2048joined = true;
+                writeTeam(is2051joined,is2048joined,Timeline);
                 sendToBot("2048 just joined " + user + "'s party");
             } else if (!is2051joined && random(missionNum * 2, 30) == 30) {
                 HP2069 = HPmax;
@@ -478,6 +479,7 @@ class Game extends Tools {
                 sPrintln("2069: 2051!");
                 sPrintln("*2051 has joined the team*");
                 is2051joined = true;
+                writeTeam(is2051joined,is2048joined,Timeline);
                 sendToBot("2051 just joined " + user + "'s party");
             } else {
                 sPrintln("The world around you begins to fade to black");
@@ -502,7 +504,7 @@ class Game extends Tools {
     }
     //Saves
     public void save() {
-        Object[] arrList = new Object[]{missionNum, HPmax, level2069, levelR1, exp1, aqua.attackTier, lasershot.attackTier, cureTier, ember.attackTier, maxHit, is2048joined, is2051joined};
+        Object[] arrList = new Object[]{missionNum, HPmax, level2069, levelR1, exp1, aqua.attackTier, lasershot.attackTier, cureTier, ember.attackTier, maxHit};
         Edit(savePath, arrList);
         System.gc();
     }
@@ -559,12 +561,16 @@ class Game extends Tools {
                 if (s == 9) {
                     maxHit = val;
                 }
+                int[] team = readTeam();
+                is2051unlocked = team[0]<=Timeline;
+                is2048unlocked = team[1]<=Timeline;
             }
+            
         }
         System.out.print(SCREEN_CLEAR);
         System.out.flush();
     }
-    //
+    //gotcha
     public void pull() {
 
         if (exp1 >= 25) {
@@ -643,4 +649,5 @@ class Game extends Tools {
         }
 
     }
+    
 }
