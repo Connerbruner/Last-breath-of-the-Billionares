@@ -1,3 +1,4 @@
+import java.util.Locale;
 import java.util.Scanner;
 
 //Main class
@@ -77,9 +78,36 @@ class Lbob extends Game {
 //mission 1
             if (choice == 1) {
                 sPrintln("Mission 1: The Awakening of The Revolution");
-                if(missionNum==1) {
-                    
+                sPrintln("A Roomba appears ");
+
+                sPrint("2069's turn");
+                sPrint("1: " + aqua.attackName);
+                sPrint("2: " + lasershot.attackName);
+                sPrint("3: Cure");
+                sPrint("4: " + ember.attackName);
+                sPrint("5: " + backpack.toString());
+                System.out.println();
+
+                sPrint("Chose a number corresponding to the attack you want to use (be fast) (1-5)");
+                attackNum = scanner.nextInt();
+
+                sPrint("Chose Out (Power) or Out (Speed) (Speed is weaker and faster and Power is Powerful but slow");
+                String style = scanner.nextLine().toLowerCase();
+                while (style.equals("power") || style.equals("speed")) {
+                    style = scanner.nextLine();
                 }
+                System.out.println();
+                sPrint("Type Kick");
+                style = scanner.nextLine();
+                while (style.equals("Kick")) {
+                    style = scanner.nextLine();
+                }
+                sPrint("Type Punch");
+                style = scanner.nextLine();
+                while (style.equals("Punch")) {
+                    style = scanner.nextLine();
+                }
+                sPrintln("Roomba fades away");
                 dungeon(subway);
                 if (stars > 10) {
                     dungeon(city);
@@ -89,8 +117,8 @@ class Lbob extends Game {
                     fightMech();
                 }
                 missionComplete(1);
-
             }
+
 //Mission 2
             if ((choice == 2) && (missionNum >= 2)) {
                 sPrintln("Mission 2: First Encounters");

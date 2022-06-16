@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Locale;
 
 class Game extends Tools {
     public static final int MAX_EMMI = 8;
@@ -156,12 +157,12 @@ class Game extends Tools {
 
             sPrint("Chose Out (Power) or Out (Speed)");
             scanner.nextLine();
-            tackType = scanner.nextLine();
+            tackType = scanner.nextLine().toLowerCase();
 
-            if (tackType.equals("power") || tackType.equals("Power")) {
+            if (tackType.equals("power") ) {
                 attackType = false;
                 typeDetermined = true;
-            } else if (tackType.equals("speed") || tackType.equals("Speed")) {
+            } else if (tackType.equals("speed")) {
                 attackType = true;
                 typeDetermined = true;
             }
