@@ -30,7 +30,7 @@ class Attack extends Tools {
 
     public String toString()
     {
-        return attackName+" Speed: "+speed+" Max Damage:"+high;
+        return attackName+" Speed: "+speed+" Max Damage: "+high;
     }
 
     public int getSpeed (boolean style ) {

@@ -64,10 +64,9 @@ class Lbob extends Game {
             if (missionNum > 1) {
                 sPrint("Type 0 to trade exp for new moves");
             }
-            sPrint("Type 12 to leave (DONT STOP REPL.IT)");
-
-
+            sPrint("Type 12 to enter main menu");
             int choice = scanner.nextInt();
+            
             if (choice < missionNum && choice > 0) {
                 sPrint("How many stars would like to add (makes mission harder)");
                 stars = scanner.nextInt();
@@ -80,15 +79,16 @@ class Lbob extends Game {
                 sPrintln("Mission 1: The Awakening of The Revolution");
                 sPrintln("A Roomba appears ");
 
-                sPrint("2069's turn");
-                sPrint("1: " + aqua.attackName);
-                sPrint("2: " + freeze.attackName);
-                sPrint("3: Cure");
-                sPrint("4: " + ember.attackName);
-                sPrint("5: " + backpack.toString());
+                sPrintln("2069's turn");
+                sPrint("Fusion charm status: "+lastAttack);
+                for (int i=0; i<allAttacks.length; i++)
+                {
+                    sPrint(i+") "+allAttacks[i].toString());
+                }
+                sPrint(allAttacks.length+") Fusion charm with Item (Speed: 3)");
                 System.out.println();
 
-                sPrint("Chose a number corresponding to the attack you want to use (be fast) (1-5)");
+                sPrint("Chose a number corresponding to the attack you want to use (be fast) (1-"+allAttacks.length+")");
                 attackNum = scanner.nextInt();
                 scanner.nextLine();
                 sPrint("Chose Out (Power) or Out (Speed) (Speed is weaker and faster and Power is Powerful but slow");
@@ -108,10 +108,9 @@ class Lbob extends Game {
                     style = scanner.nextLine();
                 }
                 sPrintln("Roomba fades away");
+
+                
                 dungeon(subway);
-                if (stars > 10) {
-                    dungeon(city);
-                }
                 if (stars > 5) {
                     dungeon(local6_11);
                     fightMech();
@@ -125,6 +124,9 @@ class Lbob extends Game {
                 if (stars > 5) {
                     dungeon(city);
                 }
+                if (stars > 2) {
+                    dungeon(local6_11);
+                }
                 bossFight(gates);
                 missionComplete(2);
 
@@ -132,21 +134,24 @@ class Lbob extends Game {
 //Mission 3
             if ((missionNum >= 3) && (choice == 3)) {
                 sPrintln("MISSION 3: Rest In The Rubble");
-
                 dungeon(local6_11);
                 bossFight(elon);
                 dungeon(subway);
+                if (stars > 2) {
+                    dungeon(local6_11);
+                }
                 missionComplete(3);
 
             }
 //Mission 4
             if ((missionNum >= 4) && (choice == 4)) {
                 sPrintln("Mission 4: 101 battles");
-
-
                 dungeon(highway);
-                if (stars > 5) {
+                if (stars > 2) {
                     dungeon(local6_11);
+                }
+                if (stars > 5) {
+                    dungeon(subway);
                 }
                 bossFight(jeff);
                 missionComplete(4);
@@ -155,8 +160,6 @@ class Lbob extends Game {
 //Mission 5
             if ((missionNum >= 5) && (choice == 5)) {
                 sPrintln("Mission 5: Rematch Cubed");
-
-
                 bossFight(Tri);
                 missionComplete(5);
 
@@ -166,6 +169,9 @@ class Lbob extends Game {
                 sPrintln("Mission 6: Battle on the highway");
 
                 dungeon(highway);
+                if (stars > 2) {
+                    dungeon(local6_11);
+                }
                 bossFight(jeffP);
                 missionComplete(6);
 
@@ -175,6 +181,9 @@ class Lbob extends Game {
                 sPrintln("Mission 7: Face off in the factory");
 
                 dungeon(factory);
+                if (stars > 2) {
+                    dungeon(local6_11);
+                }
                 bossFight(elonP);
                 missionComplete(7);
 
@@ -183,6 +192,9 @@ class Lbob extends Game {
             if ((missionNum >= 8) && (choice == 8)) {
                 sPrintln("MISSION 8: Highway to the future");
                 dungeon(highway);
+                if (stars > 2) {
+                    dungeon(local6_11);
+                }
                 bossFight(gatesP);
                 missionComplete(8);
 
@@ -192,8 +204,6 @@ class Lbob extends Game {
                 sPrintln("Mission 9: Face-Off On The Grand Tower");
                 bossFight(Tri2);
                 missionComplete(9);
-
-
             }
 //Mission 10
             if ((missionNum >= 10) && (choice == 10)) {

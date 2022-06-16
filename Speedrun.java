@@ -41,7 +41,7 @@ class Speedrun extends Lbob
             emmi.emmi_prep();
             attack();
             if (attackTime < emmi.emmi_attack.speed) {
-                emmi.emmi_HP -= choseAttack(1);
+                emmi.emmi_HP -= choseAttack();
                 if (attackNum != 3) {
                     emmi.emmi_HP -= attackSupport();
                 }
@@ -73,7 +73,7 @@ class Speedrun extends Lbob
                 Attack bossAttack = current.attacks[current.curAttack];
                 attack();
                 if (attackTime <= bossAttack.speed) {
-                    current.loseHP(choseAttack(1));
+                    current.loseHP(choseAttack());
                     current.loseHP(attackSupport());
                 }
                 if (current.HP > 1 && (attackTime > bossAttack.speed || attackStun < 10)) {
@@ -181,7 +181,7 @@ class Speedrun extends Lbob
             emmi.emmi_prep();
             attack();
             if (attackTime < emmi.emmi_attack.speed) {
-                emmi.emmi_HP -= choseAttack(1);
+                emmi.emmi_HP -= choseAttack();
                 if (attackNum != 3) {
                     emmi.emmi_HP -= attackSupport();
                 }

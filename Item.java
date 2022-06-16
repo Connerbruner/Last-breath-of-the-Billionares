@@ -57,6 +57,30 @@ class Item extends Tools {
             sPrintln("Cant use this Item no durability");
             return 0;
         }
+        
+    }
+    public int useItem(int bonus)
+    {
+        if(isHeal && dur>0)
+        {
+            sPrintln("You heal "+(damage+bonus)+" damage");
+            dur--;
+            return damage+bonus;
+
+        }
+        else if (dur>0)
+        {
+            int hit=damage+bonus;
+            sPrintln("You deal "+hit+" damage");
+            dur--;
+            sPrintln(itemName+" just lost one durability\ndurability left: "+dur);
+            return hit;
+        }
+        else
+        {
+            sPrintln("Cant use this Item no durability");
+            return 0;
+        }   
     }
 
 }

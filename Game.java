@@ -5,8 +5,8 @@ class Game extends Tools {
     String savePath;
     String user;
     int HP2069;
-    int lastAttack=0;
-    int attackNum = 0;
+    int lastAttack=5;
+    int attackNum = 5;
     boolean attackType;
     int attackTime = 0;
     int attackStun = 0;
@@ -34,7 +34,6 @@ class Game extends Tools {
     Attack[] allAttacks = {aqua,freeze,ember};
     //misc
     int num = 0;
-
     //Setup
     public Game(String file, String name, int speed, int placement) {
         savePath = file;
@@ -148,18 +147,15 @@ class Game extends Tools {
         {
             sPrint(i+") "+allAttacks[i].toString());
         }
-        sPrint(allAttacks.length+") Fusion charm with Item (Speed: 5)");
+        sPrint(allAttacks.length+") Fusion charm with Item (Speed: 3)");
         System.out.println();
         //This while loop just
         long start_Time = System.currentTimeMillis();
-
-        sPrint("Which attack? (1-"+allAttacks.length+")");
+        
+        sPrint("Which attack? A number (1-"+allAttacks.length+")");
         attackNum = scanner.nextInt();
-
         System.out.println();
-
         String tackType;
-
         boolean typeDetermined = false;
         //loop that determines the type without making you want to break a .jar
         while (!typeDetermined) {
@@ -179,16 +175,21 @@ class Game extends Tools {
 
         long end_Time = System.currentTimeMillis();
         attackTime = (int) ((end_Time - start_Time) / 1000);
+        
         if(attackNum<allAttacks.length)
         {
-            attackStun += allAttacks[attackNum].stun;
-            attackTime += allAttacks[attackNum].speed;
+            attackStun += allAttacks[attackNum].getStun(attackType);
+            attackTime += allAttacks[attackNum].getSpeed(attackType);
+        }
+        else if(lastAttack<allAttacks.length){
+            attackTime +=  (allAttacks[lastAttack].getSpeed(attackType)/2)+3;
         }
         else {
-            attackTime += 7;
+            attackTime += 5;
         }
+        
         attackStun += stun;
-        attackTime -= speed;
+        attackTime -= speed+(tSpeed/10);
         stun = 0;
         speed = 0;
         save();
@@ -219,7 +220,7 @@ class Game extends Tools {
             num = (int) (random(10, 12) * ((cureTier / 4) + 0.75) + bonus);
         } else {
             sPrintln("Cure shield");
-            num = (int) (random(5, 20) * ((cureTier / 4) + 0.75) + bonus);
+            num = (int) (random(7, 20) * ((cureTier / 4) + 0.75) + bonus);
         }
         HP2069 += num;
         sPrintln("2069 heals " + num + " damage");
@@ -234,9 +235,39 @@ class Game extends Tools {
             bonus = random(cur.low, cur.high)/3;
             sPrint(cur.attackName+" is charged into this attack");
         } else {
-            bonus = -5;
+            bonus = -10;
         }
-
+        int stuff=2;
+        sPrint("1) Lasershot");
+        sPrint("2) Healing Pad");
+        if(backpack!=null)
+        {
+            sPrint("3) "+backpack.toString());
+            stuff++;
+        }
+        sPrint("Which item? (1-"+stuff+")");
+        int attack = scanner.nextInt();
+        if(attack==1)
+        {
+            return laserShot(bonus);
+        }
+        else if(attack==2)
+        {
+            cure(bonus);
+            return 0;
+        }
+        else if(backpack!=null)
+        {
+            return backpack.useItem(bonus);
+        }
+        return 0;
+    }
+    public int laserShot(int bonus)
+    {
+        sPrintln("LASERSHOT");
+        num = random(7,10)+(bonus*2);
+        sPrintln("Lasershot deals "+num+" damage");
+        return num;
     }
 
     //return supports damage dealt
@@ -251,14 +282,12 @@ class Game extends Tools {
         long startTime = System.currentTimeMillis();
         int i = 0;
         while (startTime + 10000 > System.currentTimeMillis()) {
-            sPrint("Type Kick");sPrint("Type Kick");
+            sPrint("Type Kick");
             while (startTime + 10000 > System.currentTimeMillis()) {
                 if (scanner.nextLine().equals("Kick")) {
                     i++;
                     break;
-
                 }
-
             }
             sPrint("Type Punch");
             while (startTime + 10000 > System.currentTimeMillis()) {
@@ -266,9 +295,7 @@ class Game extends Tools {
                     i++;
                     break;
                 }
-
             }
-
         }
         total += i * (hit / 2);
         sPrintln("2077 Deals " + (i * (hit / 2)) + " Damage");
