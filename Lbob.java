@@ -94,7 +94,7 @@ class Lbob extends Game {
                 scanner.nextLine();
                 sPrint("Chose Out (Power) or Out (Speed) (Speed is weaker and faster and Power is Powerful but slow");
                 String style = scanner.nextLine().toLowerCase();
-                while (!style.equals("power") || !style.equals("speed")) {
+                while (!style.equals("power") && !style.equals("speed")) {
                     style = scanner.nextLine();
                 }
                 System.out.println();

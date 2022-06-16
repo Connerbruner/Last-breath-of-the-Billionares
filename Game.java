@@ -6,6 +6,7 @@ class Game extends Tools {
     String savePath;
     String user;
     int HP2069;
+    int la
     int attackNum = 0;
     boolean attackType;
     int attackTime = 0;
@@ -112,10 +113,15 @@ class Game extends Tools {
             dungeon.move();
             if (dungeon.dungeonLength > dungeon.amountMoved) {
                 sPrintln((dungeon.dungeonLength - dungeon.amountMoved) + " left to go");
-                if(random(1, 5)==5)
+                if(random(1, 10)==10)
                 {
                     Item place=allItems[random(0,allItems.length-1)].createRandomItem();
-                    if(choice("Current Item: "+backpack.toString()+"\nNew Item: "+place.toString()+"\nDo you want this item ")) {
+                    if(backpack==null)
+                    {
+                        sPrintln("You just found a "+place.toString());
+                        backpack=place;
+                    }
+                    else if(choice("Current Item: "+backpack.toString()+"\nNew Item: "+place.toString()+"\nDo you want this item ")) {
                         backpack=place;
                     }
                 }
@@ -133,13 +139,11 @@ class Game extends Tools {
     //shows you what attacks you can use
     public void attack() {
 
+        LastAttack = attackNum;
         attackNum = 0;
+        
         sPrint("2069's turn");
-        sPrint("1: " + aqua.attackName);
-        sPrint("2: " + lasershot.attackName);
-        sPrint("3: Cure");
-        sPrint("4: " + ember.attackName);
-        sPrint("5: "+backpack.toString());
+        sPrint("")
         System.out.println();
         //This while loop just
         long start_Time = System.currentTimeMillis();
