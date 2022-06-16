@@ -28,20 +28,18 @@ class Attack extends Tools {
         stun=2;
     }
 
-    public int getSpeed ( boolean style ) {
+    public String toString()
+    {
+        return attackName+" Speed: "+speed+" Max Damage:"+high;
+    }
+
+    public int getSpeed (boolean style ) {
         if ( style ) {
             return speed;
         } else {
             return (int)(speed * 1.5);
         }
     }
-
-
-
-    public void setAttackTier ( int attackTier ) {
-        this.attackTier = attackTier;
-    }
-
 
     public int getStun ( boolean style ) {
         if ( style ) {

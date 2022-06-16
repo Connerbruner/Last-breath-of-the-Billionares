@@ -1,4 +1,3 @@
-import java.util.Locale;
 import java.util.Scanner;
 
 //Main class
@@ -83,7 +82,7 @@ class Lbob extends Game {
 
                 sPrint("2069's turn");
                 sPrint("1: " + aqua.attackName);
-                sPrint("2: " + lasershot.attackName);
+                sPrint("2: " + freeze.attackName);
                 sPrint("3: Cure");
                 sPrint("4: " + ember.attackName);
                 sPrint("5: " + backpack.toString());
