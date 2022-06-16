@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 class Game extends Tools {
     public static final int MAX_EMMI = 8;
-    Item backpack;
     String savePath;
     String user;
     int HP2069;
@@ -26,6 +25,7 @@ class Game extends Tools {
     boolean is2048joined = false;
 
     ItemClass[] allItems = {new ItemClass("staplers", 5, 10, 50, 100), new ItemClass("Cleaner", 3, 5, 100, 200), new ItemClass("ruler", 8, 12, 4, 5), new ItemClass("binder", 5, 20, 10, 20), new ItemClass("scissors", 7, 20, 3, 10), new ItemClass("Water Bottle (attack)", 1, 20, 2, 12), new ItemClass("labTop", 10, 20, 1, 2), new ItemClass("metalPiece", 1, 20, 1, 50), new ItemClass("basketBall", 10, 20, 1, 5), new ItemClass("FootBall", 5, 10, 3, 7), new ItemClass("tennisBall", 1, 5, 8, 20), new ItemClass("Soda", 5, 10), new ItemClass("Chip bag", 7, 12), new ItemClass("Water bottle (heal)", 6, 10), new ItemClass("lunch box", 1, 20)};
+    Item backpack=allItems[random(0,allItems.length-1)].createRandomItem();
     //2069 attacks
     Attack aqua = new Attack("Aqua", 7, 12, 6, 0);
     Attack lasershot = new Attack("Lasershot", 3, 10, 6, 8);
@@ -114,14 +114,14 @@ class Game extends Tools {
                 if(random(1, 5)==5)
                 {
                     Item place=allItems[random(0,allItems.length-1)].createRandomItem();
-                    if(choice("Current Item: "+backpack.toString()+"\nNew Item:"+place.toString()+"\nDo you want this item ")) {
+                    if(choice("Current Item: "+backpack.toString()+"\nNew Item: "+place.toString()+"\nDo you want this item ")) {
                         backpack=place;
                     }
                 }
                 if (random(missionNum, 15) == 15) {
-                    battle();
-                } else {
                     battleGroup();
+                } else {
+                    battle();
                 }
             }
         }
@@ -134,20 +134,16 @@ class Game extends Tools {
 
         attackNum = 0;
         sPrint("2069's turn");
-
         sPrint("1: " + aqua.attackName);
-
         sPrint("2: " + lasershot.attackName);
-
         sPrint("3: Cure");
-
         sPrint("4: " + ember.attackName);
-        sPrintln("5: "+backpack.toString());
+        sPrint("5: "+backpack.toString());
         System.out.println();
         //This while loop just
         long start_Time = System.currentTimeMillis();
 
-        sPrint("Which attack? (1-5)   ");
+        sPrint("Which attack? (1-5)");
         attackNum = scanner.nextInt();
 
         System.out.println();
@@ -265,7 +261,6 @@ class Game extends Tools {
                 if (scanner.nextLine().equals("Punch")) {
                     i++;
                     break;
-
                 }
 
             }
@@ -387,7 +382,7 @@ class Game extends Tools {
             num = 5;
         }
         ArrayList<Emmi> group = new ArrayList<>();
-        for (int i = 0; i > num; i += random(0, 2)) {
+        for (int i = 0; i < num; i += random(0, 2)) {
             group.add(new Emmi(random(1, num), 1));
             sendToBot(user + " just found a " + group.get(i).emmi_type);
         }

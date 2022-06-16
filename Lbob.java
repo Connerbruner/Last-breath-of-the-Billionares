@@ -77,7 +77,9 @@ class Lbob extends Game {
 //mission 1
             if (choice == 1) {
                 sPrintln("Mission 1: The Awakening of The Revolution");
-
+                if(missionNum==1) {
+                    
+                }
                 dungeon(subway);
                 if (stars > 10) {
                     dungeon(city);
