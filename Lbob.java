@@ -91,21 +91,21 @@ class Lbob extends Game {
 
                 sPrint("Chose a number corresponding to the attack you want to use (be fast) (1-5)");
                 attackNum = scanner.nextInt();
-
+                scanner.nextLine();
                 sPrint("Chose Out (Power) or Out (Speed) (Speed is weaker and faster and Power is Powerful but slow");
                 String style = scanner.nextLine().toLowerCase();
-                while (style.equals("power") || style.equals("speed")) {
+                while (!style.equals("power") || !style.equals("speed")) {
                     style = scanner.nextLine();
                 }
                 System.out.println();
                 sPrint("Type Kick");
                 style = scanner.nextLine();
-                while (style.equals("Kick")) {
+                while (!style.equals("Kick")) {
                     style = scanner.nextLine();
                 }
                 sPrint("Type Punch");
                 style = scanner.nextLine();
-                while (style.equals("Punch")) {
+                while (!style.equals("Punch")) {
                     style = scanner.nextLine();
                 }
                 sPrintln("Roomba fades away");
@@ -216,44 +216,5 @@ class Lbob extends Game {
 
     }
 
-    @Override
-    public void restart() {
-        if (HP2069 < 0) {
-            if (!is2048joined && random(missionNum * 2, 30) == 30) {
-                HP2069 = HPmax;
-                sPrintln("2048: can't handle things on your own");
-                sPrintln("2069: 2048!");
-                sPrintln("*2048 has joined the team*");
-                is2048joined = true;
-                writeTeam(is2051joined, true, Timeline);
-                sendToBot("2048 just joined " + user + "'s party");
-            } else if (!is2051joined && random(missionNum * 2, 30) == 30) {
-                HP2069 = HPmax;
-                sPrintln("2051: Playtime is over");
-                sPrintln("2069: 2051!");
-                sPrintln("*2051 has joined the team*");
-                is2051joined = true;
-                writeTeam(true, is2048joined, Timeline);
-                sendToBot("2051 just joined " + user + "'s party");
-            } else {
-                sPrintln("The world around you begins to fade to black");
-                sPrintln("???: Welcome back to this world of nothingness ");
-                sPrintln("2069: no...");
-                sPrintln("???: I will help you get out of this");
-                sPrintln("2077:I see nothing wrong with that");
-                sPrintln("2069: Please help us");
-                String choice = "How are you doing";
-                while (!choice.equals("START")) {
-                    sPrint("Type ¨START¨ to continue     ");
-                    choice = scanner.nextLine();
-                }
-                System.out.println();
-                sendToBot(user + " has fallen. Good thing ??? is here");
-                save();
-                game();
-            }
-
-        }
-    }
     //don't pass this comment
 }
