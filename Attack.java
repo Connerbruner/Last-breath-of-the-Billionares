@@ -27,7 +27,6 @@ class Attack extends Tools {
         attackTier = 1;
         stun=2;
     }
-
     public String toString()
     {
         return attackName+" Speed: "+speed+" Max Damage: "+high;

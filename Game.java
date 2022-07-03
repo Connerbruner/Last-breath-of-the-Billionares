@@ -5,7 +5,7 @@ class Game extends Tools {
     String savePath;
     String user;
     int HP2069;
-    int lastAttack=5;
+    int lastAttack = 5;
     int attackNum = 5;
     boolean attackType;
     int attackTime = 0;
@@ -24,22 +24,25 @@ class Game extends Tools {
     int maxHit = 5;
     boolean is2051joined = false;
     boolean is2048joined = false;
+    Object[] resetArr = {1, 50, 1, 20, 0, 1, 1, 1, 1, 5};
 
     ItemClass[] allItems = {new ItemClass("staplers", 5, 10, 50, 100), new ItemClass("Cleaner", 3, 5, 100, 200), new ItemClass("ruler", 8, 12, 4, 5), new ItemClass("binder", 5, 20, 10, 20), new ItemClass("scissors", 7, 20, 3, 10), new ItemClass("Water Bottle (attack)", 1, 20, 2, 12), new ItemClass("labTop", 10, 20, 1, 2), new ItemClass("metalPiece", 1, 20, 1, 50), new ItemClass("basketBall", 10, 20, 1, 5), new ItemClass("FootBall", 5, 10, 3, 7), new ItemClass("tennisBall", 1, 5, 8, 20), new ItemClass("Soda", 5, 10), new ItemClass("Chip bag", 7, 12), new ItemClass("Water bottle (heal)", 6, 10), new ItemClass("lunch box", 1, 20)};
-    Item backpack=allItems[random(0,allItems.length-1)].createRandomItem();
+    Item backpack = allItems[random(0, allItems.length - 1)].createRandomItem();
     //2069 attacks
     Attack aqua = new Attack("Aqua", 5, 10, 6, 5);
     Attack freeze = new Attack("freeze", 17, 30, 15, 10);
-    Attack ember = new Attack("Ember", 10,20,7,4 );
-    Attack[] allAttacks = {aqua,freeze,ember};
+    Attack ember = new Attack("Ember", 10, 20, 7, 4);
+    Attack[] allAttacks = {aqua, freeze, ember};
     //misc
     int num = 0;
+
     //Setup
     public Game(String file, String name, int speed, int placement) {
         savePath = file;
         user = name;
         setTSpeed(speed);
         Timeline = placement;
+        grabSave();
     }
 
 
@@ -112,16 +115,13 @@ class Game extends Tools {
             dungeon.move();
             if (dungeon.dungeonLength > dungeon.amountMoved) {
                 sPrintln((dungeon.dungeonLength - dungeon.amountMoved) + " left to go");
-                if(random(1, 10)==10)
-                {
-                    Item place=allItems[random(0,allItems.length-1)].createRandomItem();
-                    if(backpack==null)
-                    {
-                        sPrintln("You just found a "+place.toString());
-                        backpack=place;
-                    }
-                    else if(choice("Current Item: "+backpack.toString()+"\nNew Item: "+place.toString()+"\nDo you want this item ")) {
-                        backpack=place;
+                if (random(1, 10) == 10) {
+                    Item place = allItems[random(0, allItems.length - 1)].createRandomItem();
+                    if (backpack == null) {
+                        sPrintln("You just found a " + place.toString());
+                        backpack = place;
+                    } else if (choice("Current Item: " + backpack + "\nNew Item: " + place + "\nDo you want this item ")) {
+                        backpack = place;
                     }
                 }
                 if (random(missionNum, 15) == 15) {
@@ -142,17 +142,16 @@ class Game extends Tools {
         attackNum = 0;
 
         sPrintln("2069's turn");
-        sPrint("Fusion charm status: "+lastAttack);
-        for (int i=0; i<allAttacks.length; i++)
-        {
-            sPrint(i+") "+allAttacks[i].toString());
+        sPrint("Fusion charm status: " + lastAttack);
+        for (int i = 0; i < allAttacks.length; i++) {
+            sPrint(i + ") " + allAttacks[i].toString());
         }
-        sPrint(allAttacks.length+") Fusion charm with Item (Speed: 3)");
+        sPrint(allAttacks.length + ") Fusion charm with Item (Speed: 3)");
         System.out.println();
         //This while loop just
         long start_Time = System.currentTimeMillis();
-        
-        sPrint("Which attack? A number (1-"+allAttacks.length+")");
+
+        sPrint("Which attack? A number (1-" + allAttacks.length + ")");
         attackNum = scanner.nextInt();
         System.out.println();
         String tackType;
@@ -162,7 +161,7 @@ class Game extends Tools {
             sPrint("Chose (Power) or (Speed)");
             scanner.nextLine();
             tackType = scanner.nextLine().toLowerCase();
-            if (tackType.equals("power") ) {
+            if (tackType.equals("power")) {
                 attackType = false;
                 typeDetermined = true;
             } else if (tackType.equals("speed")) {
@@ -175,21 +174,18 @@ class Game extends Tools {
 
         long end_Time = System.currentTimeMillis();
         attackTime = (int) ((end_Time - start_Time) / 1000);
-        
-        if(attackNum<allAttacks.length)
-        {
+
+        if (attackNum < allAttacks.length) {
             attackStun += allAttacks[attackNum].getStun(attackType);
             attackTime += allAttacks[attackNum].getSpeed(attackType);
-        }
-        else if(lastAttack<allAttacks.length){
-            attackTime +=  (allAttacks[lastAttack].getSpeed(attackType)/2)+3;
-        }
-        else {
+        } else if (lastAttack < allAttacks.length) {
+            attackTime += (allAttacks[lastAttack].getSpeed(attackType) / 2) + 3;
+        } else {
             attackTime += 5;
         }
-        
+
         attackStun += stun;
-        attackTime -= speed+(tSpeed/10);
+        attackTime -= speed + (tSpeed / 10);
         stun = 0;
         speed = 0;
         save();
@@ -198,17 +194,13 @@ class Game extends Tools {
     //how much damage you did
     public int choseAttack() {
         num = 0;
-        if(attackNum<allAttacks.length)
-        {
-            if(lastAttack!=attackNum)
-            {
-                return allAttacks[attackNum].attack(1,attackType);
+        if (attackNum < allAttacks.length) {
+            if (lastAttack != attackNum) {
+                return allAttacks[attackNum].attack(1, attackType);
+            } else {
+                return allAttacks[attackNum].attack(0.5, attackType);
             }
-            else {
-                return allAttacks[attackNum].attack(0.5,attackType);
-            }
-        }
-        else {
+        } else {
             return FusionMenu();
         }
     }
@@ -228,45 +220,40 @@ class Game extends Tools {
             HP2069 = HPmax;
         }
     }
+
     public int FusionMenu() {
-        int bonus = 0;
+        int bonus;
         if (lastAttack < allAttacks.length) {
             Attack cur = allAttacks[lastAttack];
-            bonus = random(cur.low, cur.high)/3;
-            sPrint(cur.attackName+" is charged into this attack");
+            bonus = random(cur.low, cur.high) / 3;
+            sPrint(cur.attackName + " is charged into this attack");
         } else {
             bonus = -10;
         }
-        int stuff=2;
+        int stuff = 2;
         sPrint("1) Lasershot");
         sPrint("2) Healing Pad");
-        if(backpack!=null)
-        {
-            sPrint("3) "+backpack.toString());
+        if (backpack != null) {
+            sPrint("3) " + backpack);
             stuff++;
         }
-        sPrint("Which item? (1-"+stuff+")");
+        sPrint("Which item? (1-" + stuff + ")");
         int attack = scanner.nextInt();
-        if(attack==1)
-        {
+        if (attack == 1) {
             return laserShot(bonus);
-        }
-        else if(attack==2)
-        {
+        } else if (attack == 2) {
             cure(bonus);
             return 0;
-        }
-        else if(backpack!=null)
-        {
+        } else if (backpack != null) {
             return backpack.useItem(bonus);
         }
         return 0;
     }
-    public int laserShot(int bonus)
-    {
+
+    public int laserShot(int bonus) {
         sPrintln("LASERSHOT");
-        num = random(7,10)+(bonus*2);
-        sPrintln("Lasershot deals "+num+" damage");
+        num = random(7, 10) + (bonus * 2);
+        sPrintln("Lasershot deals " + num + " damage");
         return num;
     }
 
@@ -282,18 +269,12 @@ class Game extends Tools {
         long startTime = System.currentTimeMillis();
         int i = 0;
         while (startTime + 10000 > System.currentTimeMillis()) {
-            sPrint("Type Kick");
-            while (startTime + 10000 > System.currentTimeMillis()) {
-                if (scanner.nextLine().equals("Kick")) {
-                    i++;
-                    break;
-                }
+            if (quickTime("Kick", 3000)) {
+                i++;
             }
-            sPrint("Type Punch");
-            while (startTime + 10000 > System.currentTimeMillis()) {
-                if (scanner.nextLine().equals("Punch")) {
+            if (startTime + 10000 > System.currentTimeMillis()) {
+                if (quickTime("Punch", 3000)) {
                     i++;
-                    break;
                 }
             }
         }
@@ -306,13 +287,12 @@ class Game extends Tools {
             if (num == 1) {
                 sPrintln("TIME WARP");
                 speed = 3;
-                sPrintln("You attacks are 3 seocnds faster");
+                sPrintln("You attacks are 3 seconds faster");
             }
             if (num == 2) {
                 sPrintln("STUN RUSH");
                 stun = 3;
                 sPrintln("You attacks are now more likely to stun someone");
-
             }
         }
         if (is2051joined) {
@@ -335,7 +315,6 @@ class Game extends Tools {
     public int chainAttack(int HP) {
         int damage = 0;
         int speed = 15;
-        int mul = 1;
         boolean overkill = false;
         sPrintln("2051: I SEE AN OPENING");
         sPrintln("CHAIN ATTACK START");
@@ -347,7 +326,6 @@ class Game extends Tools {
             attack();
             if (speed < attackTime || overkill) {
                 damage += choseAttack();
-                mul += attackStun / 10;
                 damage += attackSupport();
                 speed += 5;
             }
@@ -356,7 +334,6 @@ class Game extends Tools {
                 sPrintln("ENEMY DOWN");
                 sPrintln("OVERKILL START");
                 overkill = true;
-                mul *= 2;
             }
 
         }
@@ -552,13 +529,7 @@ class Game extends Tools {
 
         if (choice("Would you like to overwrite a save file? (Returns the file to the start of the game)")) {
             if (choice("Are you sure?")) {
-                sPrint("Which save would you like to overwrite?");
-                int saveOverwrite = scanner.nextInt();
-                if (saveOverwrite == 1) {
-                    Edit("Lbob.txt", Read("SaveTemplate.txt"));
-                } else if (saveOverwrite == 3) {
-                    Edit("Save2.txt", Read("SaveTemplate.txt"));
-                }
+                    Edit("Lbob.txt", resetArr);
             }
         }
         Object[] Save = Read(savePath);
@@ -625,8 +596,7 @@ class Game extends Tools {
             num -= exp1;
 
             while (pull_num > 0) {
-                int[] odds = new int[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 6, 7};
-                int tier = odds[random(0, odds.length - 1)];
+                int tier = random(1, random(2,random(3,random(4,5))));
                 sPrintln("Tier " + tier + " pull");
                 if (tier == 1) {
                     HPmax += 2;
@@ -640,7 +610,7 @@ class Game extends Tools {
                             sPrintln("ember leveled up");
                             sPrintln(ember.attackTier + " --> " + tier);
                             sendToBot(user + "'s ember leveled up " + ember.attackTier + " --> " + tier);
-                            ember.attackTier=tier;
+                            ember.attackTier = tier;
                         }
                     }
                     // Cure level up
@@ -659,7 +629,7 @@ class Game extends Tools {
                             sPrintln("Aqua leveled up");
                             sPrintln(aqua.attackTier + " --> " + tier);
                             sendToBot(user + "'s Aqua leveled up " + aqua.attackTier + " --> " + tier);
-                            aqua.attackTier=tier;
+                            aqua.attackTier = tier;
                         }
                     }
                     //Laser level up
@@ -668,7 +638,7 @@ class Game extends Tools {
                             sPrintln("Laser leveled up");
                             sPrintln(freeze.attackTier + " --> " + tier);
                             sendToBot(user + "'s Laser leveled up " + freeze.attackTier + " --> " + tier);
-                            freeze.attackTier=tier;
+                            freeze.attackTier = tier;
 
                         }
                     }

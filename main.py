@@ -4,7 +4,7 @@ from discord.ext import tasks
 import multiprocessing
 
 ticks = 0
-home = 981204380428673045
+home = 912785441089003610
 client = discord.Client()
 
 def java():

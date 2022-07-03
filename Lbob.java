@@ -6,7 +6,7 @@ class Lbob extends Game {
 
     //obj
     Main main = new Main();
-    Scanner scanner = new Scanner(System.in);
+
     Dungeon local6_11 = new Dungeon("Rubble filled 6-11", 10);
     Dungeon factory = new Dungeon("Run down Factory", 30);
     Dungeon city = new Dungeon("Rubble filled City", 35);

@@ -111,7 +111,7 @@ class Speedrun extends Lbob
         else {
             sPrintln("RUN COMPLETE TIME: "+time);
         }
-        if(choice("contuine"))
+        if(choice("continue?"))
         {
             menu();    
         }

@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 @SuppressWarnings("unused")
 class Tools {
-            //the Colors of gay
+    //the Colors of gay
     public static final String SCREEN_CLEAR = "\033[H\033[2J";
     public static final String RESET = "\u001B[0m";
     public static final String BLACK = "\u001B[30m";
@@ -73,7 +73,7 @@ class Tools {
     }
 
     /**
-     * @return RANDOM NUMBER between low and high iirc LETS GO
+     * @return RANDOM NUMBER between low and high LETS GO
      */
     public int random(int low, int high) {
         int range = high - low + 1;
@@ -102,7 +102,7 @@ class Tools {
 
         }
         //Tech giant talking RED
-        else if (str.contains("Mark Zuckerberg") || str.contains("Elon musk") || str.contains("Bill Gates") || str.contains("Jeff bezos")) {
+        else if (str.contains("Mark Zuckerberg") || str.contains("Elon musk") || str.contains("Bill Gates") || str.contains("Jeff Bezos")) {
             for (int i = 0; i < str.length(); i++) {
                 System.out.print(RED + str.charAt(i));
                 wait(tSpeed);
@@ -115,6 +115,16 @@ class Tools {
                     System.out.print((char) (random(0, 3000)));
                 } else {
                     System.out.print(PURPLE + str.charAt(i));
+                }
+                wait(tSpeed);
+            }
+        }
+        else if (str.contains("UNKNOWN_PERSON")) {
+            for (int i = 0; i < str.length(); i++) {
+                if (i<"UNKNOWN_PERSON".length()) {
+                    System.out.print(RED+(char) (random(0, 3000)));
+                } else {
+                    System.out.print(RED + str.charAt(i));
                 }
                 wait(tSpeed);
             }
@@ -144,7 +154,6 @@ class Tools {
      *
      */
     public void wait(int time) {
-
         long startTime = System.currentTimeMillis();
         while (startTime + time > System.currentTimeMillis());
     }
@@ -242,6 +251,18 @@ class Tools {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public boolean quickTime(String word,int millis)
+    {
+        long startTime = System.currentTimeMillis();
+        while (startTime + millis > System.currentTimeMillis()) {
+            sPrint("Type "+word);
+            if (scanner.nextLine().equals(word) && startTime + millis > System.currentTimeMillis()) {
+                return true;
+            }
+        }
+        return false;
+
     }
     
 
