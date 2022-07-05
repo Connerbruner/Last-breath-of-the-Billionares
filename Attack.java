@@ -1,4 +1,4 @@
-class Attack extends Tools {
+class Attack extends FileRead {
 
     String attackName;
     int speed;
@@ -50,21 +50,21 @@ class Attack extends Tools {
 
     public int attack ( double power , boolean style ) {
         if ( style ) {
-            sPrint( "Fast " + attackName );
-            num = ( int ) ( ( random( low , high ) * ((attackTier/2)+0.5) ) * power );
+            nbes.sPrint( "Fast " + attackName );
+            num = ( int ) ( ( nbes.random( low , high ) * ((attackTier/2)+0.5) ) * power );
         } else {
-            sPrint( "Powerful " + attackName );
-            num = ( int ) (( ( random( low , high ) * ((attackTier/2)+0.5) ) * 1.5) * power);
+            nbes.sPrint( "Powerful " + attackName );
+            num = ( int ) (( ( nbes.random( low , high ) * ((attackTier/2)+0.5) ) * 1.5) * power);
 
         }
-        sPrintln( "2069 deals " + num + " damage" );
+        nbes.sPrintln( "2069 deals " + num + " damage" );
         return num;
     }
 
     public int attack ( ) {
-        sPrint( attackName );
-        num = random( low , high );
-        sPrintln( attackUser + " deals " + num + " damage" );
+        nbes.sPrint( attackName );
+        num = nbes.random( low , high );
+        nbes.sPrintln( attackUser + " deals " + num + " damage" );
         return num;
     }
 }

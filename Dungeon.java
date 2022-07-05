@@ -1,4 +1,4 @@
-class Dungeon extends Tools {
+class Dungeon extends FileRead {
     String dungeonName;
     int dungeonLength;
     int amountMoved;
@@ -14,14 +14,14 @@ class Dungeon extends Tools {
 
 
     public void start() {
-        sPrint("Welcome to the " + dungeonName + " (length: " + dungeonLength + " )");
+        nbes.sPrint("Welcome to the " + dungeonName + " (length: " + dungeonLength + " )");
         amountMoved = 0;
     }
 
     public void move() {
-        int steps = random(3, 5);
+        int steps = nbes.random(3, 5);
         amountMoved += steps;
-        sPrintln("You move " + steps + " feet");
+        nbes.sPrintln("You move " + steps + " feet");
     }
 
 }

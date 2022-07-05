@@ -1,4 +1,4 @@
-class Phase extends Tools {
+class Phase extends FileRead {
     int HP;
     Attack[] attacks;
     String name;
@@ -22,8 +22,8 @@ class Phase extends Tools {
     }
 
     public void pickAttack ( ) {
-        curAttack = random( 0 , attacks.length - 1 );
-        sPrint( attacks[ curAttack ].attackName );
+        curAttack = nbes.random( 0 , attacks.length - 1 );
+        nbes.sPrint( attacks[ curAttack ].attackName );
     }
 
 }

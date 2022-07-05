@@ -1,4 +1,4 @@
-class ItemClass extends Tools {
+class ItemClass extends FileRead {
     int damageLow, damageHigh, durLow, durHigh;
     String itemName;
     boolean isHeal=false;
@@ -22,13 +22,13 @@ class ItemClass extends Tools {
     public Item createRandomItem() {
         if(isHeal)
         {
-            return new Item(itemName, random(damageLow, damageHigh));
+            return new Item(itemName, nbes.random(damageLow, damageHigh));
         }
         if(isShield)
         {
             return new Item(itemName,damageHigh,1.0);
         }
-        int damage = random(damageLow, damageHigh);
+        int damage = nbes.random(damageLow, damageHigh);
         int dPower = damageHigh-damage;
         
         int maxDur = durLow+dPower;
@@ -42,7 +42,7 @@ class ItemClass extends Tools {
         {
             minDur=durHigh;
         }
-        return new Item(itemName, damage, random(minDur, maxDur));
+        return new Item(itemName, damage, nbes.random(minDur, maxDur));
     }
 
 

@@ -1,4 +1,4 @@
-class Hallway extends Tools{
+class Hallway extends FileRead {
     Hallway[] neighbors;
     String hallwayName;
     ItemClass[] hallwayItems;
@@ -22,22 +22,21 @@ class Hallway extends Tools{
     }
     public Item loot()
     {
-        return hallwayItems[random(0,hallwayItems.length-1)].createRandomItem();
+        return hallwayItems[nbes.random(0,hallwayItems.length-1)].createRandomItem();
     }
     public Hallway move()
     {
-        sPrint("Current hallway: "+hallwayName);
+        nbes.sPrint("Current hallway: "+hallwayName);
         int l=0;
         for(int i=0; i<neighbors.length; i++)
         {
             if(neighbors[i].hallUnlocked)
             {
-                sPrint(i+": "+neighbors[i].hallwayName);
+                nbes.sPrint(i+": "+neighbors[i].hallwayName);
                 l++;
             }
         }
-        sPrint("Where would you like to go 0-"+(l-1));
-        Hallway chose = neighbors[scanner.nextInt()];
+        Hallway chose = neighbors[nbes.inputInt("Where would you like to go 0-"+(l-1))];
         if( chose.hallUnlocked )
         {
             return chose;

@@ -1,4 +1,4 @@
-class Item extends Tools {
+class Item extends FileRead {
     int damage, dur;
     String itemName;
     boolean isHeal = false;
@@ -39,7 +39,7 @@ class Item extends Tools {
     {
         if(isHeal && dur>0)
         {
-            sPrintln("You heal "+damage+" damage");
+            nbes.sPrintln("You heal "+damage+" damage");
             dur--;
             return damage;
 
@@ -47,14 +47,14 @@ class Item extends Tools {
         else if (dur>0)
         {
             int hit=damage;
-            sPrintln("You deal "+hit+" damage");
+            nbes.sPrintln("You deal "+hit+" damage");
             dur--;
-            sPrintln(itemName+" just lost one durability\ndurability left: "+dur);
+            nbes.sPrintln(itemName+" just lost one durability\ndurability left: "+dur);
             return hit;
         }
         else
         {
-            sPrintln("Cant use this Item no durability");
+            nbes.sPrintln("Cant use this Item no durability");
             return 0;
         }
         
@@ -63,7 +63,7 @@ class Item extends Tools {
     {
         if(isHeal && dur>0)
         {
-            sPrintln("You heal "+(damage+bonus)+" damage");
+            nbes.sPrintln("You heal "+(damage+bonus)+" damage");
             dur--;
             return damage+bonus;
 
@@ -71,14 +71,14 @@ class Item extends Tools {
         else if (dur>0)
         {
             int hit=damage+bonus;
-            sPrintln("You deal "+hit+" damage");
+            nbes.sPrintln("You deal "+hit+" damage");
             dur--;
-            sPrintln(itemName+" just lost one durability\ndurability left: "+dur);
+            nbes.sPrintln(itemName+" just lost one durability\ndurability left: "+dur);
             return hit;
         }
         else
         {
-            sPrintln("Cant use this Item no durability");
+            nbes.sPrintln("Cant use this Item no durability");
             return 0;
         }   
     }

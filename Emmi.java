@@ -1,4 +1,4 @@
-class Emmi extends Tools {
+class Emmi extends FileRead {
     String emmi_type;
     int emmi_HP;
     int emmi_level;
@@ -53,7 +53,7 @@ class Emmi extends Tools {
             emmi_type = "Mech";
             emmi_HP = 200 + ( emmi_level * 5 );
         }
-        sPrintln("A "+emmi_type+" appears");
+        nbes.sPrintln("A "+emmi_type+" appears");
         emmi_HPM=emmi_HP;
     }
 
@@ -66,7 +66,7 @@ class Emmi extends Tools {
         emmi_level = level;
         emmi_HP = 200 + ( emmi_level * 20 );
         emmi_HPM=emmi_HP;
-        sPrintln( "Giga Mech crashes down" );
+        nbes.sPrintln( "Giga Mech crashes down" );
     }
 
     /**
@@ -81,122 +81,122 @@ class Emmi extends Tools {
       if(emmi_num < 3){
         num = 2;
       }
-        emmi_attackNum = random( 1 , num );
+        emmi_attackNum = nbes.random( 1 , num );
         if ( emmi_type.equals( "Roomba" ) ) {
             if ( emmi_attackNum == 1 ) {
-                sPrintln( "ROOMBA RUSH" );
+                nbes.sPrintln( "ROOMBA RUSH" );
                 emmi_attack = new Attack( emmi_type , "ROOMBA RUSH" , emmi_HP - 10 , emmi_HP , 20 );
             }
             if ( emmi_attackNum == 2) {
-                sPrintln( "DARK RUSH" );
+                nbes.sPrintln( "DARK RUSH" );
                 emmi_attack = new Attack( emmi_type , "DARK RUSH" , 1 , 10+emmi_level , 15 );
             }
         }
         if ( emmi_type.equals( "Dog bot" ) ) {
             if ( emmi_attackNum == 1 ) {
-                sPrintln( "SPEED TACKLE" );
+                nbes.sPrintln( "SPEED TACKLE" );
                 emmi_attack = new Attack( emmi_type , "SPEED TACKLE" , 1 , 3+emmi_level , 5 );
             }
             if ( emmi_attackNum == 2 ) {
-                sPrintln( "BITE FURY" );
+                nbes.sPrintln( "BITE FURY" );
                 emmi_attack = new Attack( emmi_type , "BITE FURY" , 1 , 10+emmi_level , 15 );
             }
         }
         if ( emmi_type.equals( "Robot with a sword" ) ) {
             if ( emmi_attackNum == 1 ) {
-                sPrintln( "TRIPLE SLASH" );
+                nbes.sPrintln( "TRIPLE SLASH" );
                 emmi_attack = new Attack( emmi_type , "TRIPLE SLASH" , 5 , 15+emmi_level , 17 );
             }
             if ( emmi_attackNum == 2 ) {
-                sPrintln( "BLADE OF DESTRUCTION" );
+                nbes.sPrintln( "BLADE OF DESTRUCTION" );
                 emmi_attack = new Attack( emmi_type , "BLADE OF DESTRUCTION" , 1 , 20+emmi_level , 30 );
             }
             if ( emmi_attackNum == 3 ) {
-                sPrintln( "ZERO RUSH" );
+                nbes.sPrintln( "ZERO RUSH" );
                 emmi_attack = new Attack( emmi_type , "ZERO RUSH" , 7 , 10+emmi_level , 10 );
             }
         }
         if ( emmi_type.equals( "Robot with a gun" ) ) {
             if ( emmi_attackNum == 1 ) {
-                sPrintln( "BULLET STORM" );
+                nbes.sPrintln( "BULLET STORM" );
                 emmi_attack = new Attack( emmi_type , "BULLET STORM" , 10 , 15+emmi_level , 30 );
             }
             if ( emmi_attackNum == 2 ) {
-                sPrintln( "ZERO RUSH" );
+                nbes.sPrintln( "ZERO RUSH" );
                 emmi_attack = new Attack( emmi_type , "ZERO RUSH" , 5 , 11+emmi_level , 10 );
             }
             if ( emmi_attackNum == 3 ) {
-                sPrintln( "POWER SHOT" );
+                nbes.sPrintln( "POWER SHOT" );
                 emmi_attack = new Attack( emmi_type , "POWER SHOT" , 5 , 10+emmi_level , 30 );
             }
         }
         if ( emmi_type.equals( "Robot with a spear" ) ) {
             if ( emmi_attackNum == 1 ) {
-                sPrintln( "SPEAR RUSH" );
+                nbes.sPrintln( "SPEAR RUSH" );
                 emmi_attack = new Attack( emmi_type , "SPEAR RUSH" , 5 , 10+emmi_level , 7 );
             }
             if ( emmi_attackNum == 2 ) {
-                sPrintln( "ZERO RUSH" );
+                nbes.sPrintln( "ZERO RUSH" );
                 emmi_attack = new Attack( emmi_type , "ZERO RUSH" , 5 , 11+emmi_level , 10 );
             }
             if ( emmi_attackNum == 3 ) {
-                sPrintln( "ULTIMATE SPEAR" );
+                nbes.sPrintln( "ULTIMATE SPEAR" );
                 emmi_attack = new Attack( emmi_type , "ULTIMATE SPEAR" , 5 , 20+emmi_level , 20 );
             }
         }
         if ( emmi_type.equals( "Giga Mech" ) ) {
             if ( emmi_attackNum == 1 ) {
-                sPrintln( "LASER RAIN" );
+                nbes.sPrintln( "LASER RAIN" );
                 emmi_attack = new Attack( emmi_type , "ZERO RUSH" , 1 , 40+emmi_level*2 , 10 );
             }
             if ( emmi_attackNum == 2 ) {
-                sPrintln( "DUAL BLADE" );
+                nbes.sPrintln( "DUAL BLADE" );
                 emmi_attack = new Attack( emmi_type , "ZERO RUSH" , 10 , 20+emmi_level*2 , 10 );
             }
             if ( emmi_attackNum == 3 ) {
-                sPrintln( "ZERO RUSH" );
+                nbes.sPrintln( "ZERO RUSH" );
                 emmi_attack = new Attack( emmi_type , "ZERO RUSH" , 5 , 30+emmi_level*2 , 10 );
             }
         }
         if ( emmi_type.equals( "Mech" ) ) {
             if ( emmi_attackNum == 1 ) {
-                sPrintln( "LASER RAIN" );
+                nbes.sPrintln( "LASER RAIN" );
                 emmi_attack = new Attack( emmi_type , "LASER RAIN" , 5 , 25+emmi_level , 20 );
             }
             if ( emmi_attackNum == 2 ) {
-                sPrintln( "POWER BURST" );
+                nbes.sPrintln( "POWER BURST" );
                 emmi_attack = new Attack( emmi_type , "LASER RAIN" , 10 , 30+emmi_level , 20 );
             }
             if ( emmi_attackNum == 3 ) {
-                sPrintln( "ULTIMATE RUSH" );
+                nbes.sPrintln( "ULTIMATE RUSH" );
                 emmi_attack = new Attack( emmi_type , "ULTIMATE RUSH" , 1 , 50 , 30 );
             }
         }
         if ( emmi_type.equals( "Mini Mech" ) ) {
             if ( emmi_attackNum == 1 ) {
-                sPrintln( "LASER SHOT" );
+                nbes.sPrintln( "LASER SHOT" );
                 emmi_attack = new Attack( emmi_type , "LASER SHOT" , 1 , 30+emmi_level , 30 );
             }
             if ( emmi_attackNum == 2 ) {
-                sPrintln( "POWER BURST" );
+                nbes.sPrintln( "POWER BURST" );
                 emmi_attack = new Attack( emmi_type , "POWER BURST" , 10 , 20+emmi_level , 30 );
             }
             if ( emmi_attackNum == 3 ) {
-                sPrintln( "TRIPLE SLASH" );
+                nbes.sPrintln( "TRIPLE SLASH" );
                 emmi_attack = new Attack( emmi_type , "TRIPLE SLASH" , 15 , 17+emmi_level , 10 );
             }
         }
         if ( emmi_type.equals( "Cyborg" ) ) {
             if ( emmi_attackNum == 1 ) {
-                sPrintln( "LASER SHOT" );
+                nbes.sPrintln( "LASER SHOT" );
                 emmi_attack = new Attack( emmi_type , "POWER BURST" , 10 , 30+emmi_level , 20 );
             }
             if ( emmi_attackNum == 2 ) {
-                sPrintln( "LASER SLASH" );
+                nbes.sPrintln( "LASER SLASH" );
                 emmi_attack = new Attack( emmi_type , "LASER SLASH" , 15 , 25+emmi_level , 10 );
             }
             if ( emmi_attackNum == 3 ) {
-                sPrintln( "CHARGE BEAM" );
+                nbes.sPrintln( "CHARGE BEAM" );
                 emmi_attack = new Attack( emmi_type , "CHARGE BEAM" , 5 , 40+emmi_level , 30 );
 
             }

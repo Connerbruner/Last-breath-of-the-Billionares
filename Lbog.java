@@ -108,23 +108,15 @@ class Lbog extends Game {
         track.setNeighbors(neighborTrack);
 
         for (int turn = 1; HP > 0; turn++) {
-            System.out.print(SCREEN_CLEAR);
-            sPrintln("Turn " + turn);
-            sPrint(allGoals[story].toString());
-            sPrint("Current hallway: "+current.hallwayName);
-            sPrint("HP: "+HP);
-            System.out.println();
-            sPrint("What would you like to do? ");
-            sPrint("1) loot\n2) use item\n3) move");
-            int action1 = scanner.nextInt();
-            sPrint("What would you like to do? ");
-            sPrint("1) loot\n2) use item\n3) move");
-            int action2 = scanner.nextInt();
+            nbes.sPrintln("Turn " + turn);
+            nbes.sPrint(allGoals[story].toString());
+            nbes.sPrint("Current hallway: "+current.hallwayName);
+            nbes.sPrint("HP: "+HP);
+            int action1 = nbes.inputInt("What would you like to do?\n1) loot\n2) use item\n3) move");
+            int action2 = nbes.inputInt("\nWhat would you like to do?\n1) loot\n2) use item\n3) move");
             while (action2 == action1) {
-                action2 = scanner.nextInt();
+                action2 = nbes.inputInt("\nWhat would you like to do?\n1) loot\n2) use item\n3) move");
             }
-            scanner.nextLine();
-            System.out.println();
 
 
             if (action1 == 1 || action2 == 1) {
@@ -138,12 +130,12 @@ class Lbog extends Game {
                 if (temp != null) {
                     current = temp;
                 }
-                sPrintln("You are in the "+current.hallwayName);
+                nbes.sPrintln("You are in the "+current.hallwayName);
             }
 
             if(gordy.HP<0 ) {
-                sPrintln("Gordy fades away");
-                sPrintln("Gordy is back at the footBall feild");
+                nbes.sPrintln("Gordy fades away");
+                nbes.sPrintln("Gordy is back at the footBall feild");
                 gordyHP*=1.5;
                 gordyLevel*=1.5;
                 gordy = new Gordy(field, gordyHP, gordyLevel);
@@ -160,7 +152,7 @@ class Lbog extends Game {
                 {
                     gordy.move();
                 }
-                sPrintln("Gordy is in the "+gordy.hallway.hallwayName);
+                nbes.sPrintln("Gordy is in the "+gordy.hallway.hallwayName);
                 if (gordy.hallway.hallwayName.equals(current.hallwayName)) {
                     HP -= gordy.Attack();
                 }
@@ -197,33 +189,25 @@ class Lbog extends Game {
 
         }
         sendToBot(user+" has fallen");
-        sPrintln("GAME OVER");                           run.exit(69420);
+        nbes.sPrintln("GAME OVER");
+        run.exit(69420);
 
     }
     public void lootBackpack(int size,Hallway lootTable)
     {
-        sPrintln("You find a Backpack Size: "+size);
+        nbes.sPrintln("You find a Backpack Size: "+size);
         for(; size>0; size--) {
-            Item temp = lootTable.loot();
-            sPrint(packToString());
-            sPrint(temp.toString());
-            if (choice("Want this item")) {
-                sPrint("What slot 0-2");
-                backpack[scanner.nextInt()] = temp;
-                scanner.nextLine();
-            }
+            find();
             score+=10;
 
         }
     }
     public void find() {
         Item temp = current.loot();
-        sPrint(packToString());
-        sPrint(temp.toString());
-        if (choice("Want this item")) {
-            sPrint("What slot 0-2");
-            backpack[scanner.nextInt()] = temp;
-            scanner.nextLine();
+        nbes.sPrint(packToString());
+        nbes.sPrint(temp.toString());
+        if (nbes.inputBool("Want this item")) {
+            backpack[nbes.inputInt("What slot 0-2")] = temp;
             score++;
             sendToBot(user+" Just found "+ temp);
         }
@@ -234,14 +218,12 @@ class Lbog extends Game {
     }
     @Override
     public int useItem() {
-        sPrint(packToString());
-        sPrint("What slot 0-1");
-        int i = 3;
-        while (i == 3) {
-            i = scanner.nextInt();
+        nbes.sPrint(packToString());
+        int i = 2;
+        while (i == 2) {
+            i = nbes.inputInt("What slot 0-1");
         }
         Item use = backpack[i];
-        scanner.nextLine();
         if (use != null) {
             if (use.isHeal) {
                 if (HP != HPM) {
@@ -259,16 +241,16 @@ class Lbog extends Game {
                 }
             }
         } else {
-            sPrint("No item to use");
+            nbes.sPrint("No item to use");
         }
         if (backpack[0] == null && backpack[2] != null) {
-            if (choice("Pull out " + backpack[2].itemName + " of storage")) {
+            if (nbes.inputBool("Pull out " + backpack[2].itemName + " of storage")) {
                 backpack[0] = backpack[2];
                 backpack[2] = null;
             }
         }
         if (backpack[1] == null && backpack[2] != null) {
-            if (choice("Pull out " + backpack[2].itemName + " of storage")) {
+            if (nbes.inputBool("Pull out " + backpack[2].itemName + " of storage")) {
                 backpack[1] = backpack[2];
                 backpack[2] = null;
             }

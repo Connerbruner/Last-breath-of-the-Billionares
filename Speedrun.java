@@ -23,11 +23,10 @@ class Speedrun extends Lbob
     public void menu() {
         for(int i=0; i<allRaces.length; i++)
         {
-            sPrint(i+" "+allRaces[i].mission+" Current record: "+readTime(i)+" sec");
+            nbes.sPrint(i+") "+allRaces[i].mission+" Current record: "+readTime(i)+" sec");
         }
-        int index=scanner.nextInt();
+        int index=nbes.inputInt("Which race?");
         Race race = allRaces[index];
-        scanner.nextLine();
         HP2069 = HPmax;
         long startTime = System.currentTimeMillis();
         if(race.isEmmi)
@@ -35,8 +34,8 @@ class Speedrun extends Lbob
             Emmi emmi = new Emmi(race.vsEmmi);
             
             while (emmi.emmi_HP > 0) {
-            sPrint("2069 health " + HP2069);
-            sPrint(emmi.emmi_type + " health " + emmi.emmi_HP);
+            nbes.sPrint("2069 health " + HP2069);
+            nbes.sPrint(emmi.emmi_type + " health " + emmi.emmi_HP);
             System.out.println();
             emmi.emmi_prep();
             attack();
@@ -53,8 +52,8 @@ class Speedrun extends Lbob
             }
             if(HP2069<=0)
             {
-                sPrintln("You have fallen");
-                sPrintln("Returning to menu");
+                nbes.sPrintln("You have fallen");
+                nbes.sPrintln("Returning to menu");
                 menu();
             }
         }
@@ -66,8 +65,8 @@ class Speedrun extends Lbob
             if (!boss.differntPhases.isEmpty()) {
             while (!boss.differntPhases.isEmpty()) {
                 Phase current = boss.differntPhases.get(0);
-                sPrint(current.name + "'s Health " + current.getHP());
-                sPrintln("2069's Health " + HP2069);
+                nbes.sPrint(current.name + "'s Health " + current.getHP());
+                nbes.sPrintln("2069's Health " + HP2069);
 
                 current.pickAttack();
                 Attack bossAttack = current.attacks[current.curAttack];
@@ -84,7 +83,7 @@ class Speedrun extends Lbob
             }
         }
         else{
-            sPrintln("Boss not available");
+            nbes.sPrintln("Boss not available");
             menu();
         }
         }
@@ -95,7 +94,7 @@ class Speedrun extends Lbob
             while (dungeon.dungeonLength > dungeon.amountMoved) {
                 dungeon.move();
                 if (dungeon.dungeonLength > dungeon.amountMoved) {
-                    sPrintln((dungeon.dungeonLength - dungeon.amountMoved) + " left to go");
+                    nbes.sPrintln((dungeon.dungeonLength - dungeon.amountMoved) + " left to go");
                     battle();
                 }
 
@@ -105,13 +104,13 @@ class Speedrun extends Lbob
         if(time<readTime(index)) {
             writeScores(index);
             String msg = "NEW RECORD: "+race.mission+" by "+user+" with a time of "+time;
-            sPrintln(msg);
+            nbes.sPrintln(msg);
             sendToBot(msg);
         }
         else {
-            sPrintln("RUN COMPLETE TIME: "+time);
+            nbes.sPrintln("RUN COMPLETE TIME: "+time);
         }
-        if(choice("continue?"))
+        if(nbes.inputBool("continue?"))
         {
             menu();    
         }
@@ -160,7 +159,7 @@ class Speedrun extends Lbob
             int i;
             for (i=0; (int)(info.charAt(i))!=59; i++);
             reader.close();
-            if(strIsInt(info.substring(i+2)))
+            if(nbes.strIsInt(info.substring(i+2)))
             {
                 return Integer.parseInt(info.substring(i+2));
             }
@@ -173,10 +172,10 @@ class Speedrun extends Lbob
 
     public void battle()
     {
-        Emmi emmi = new Emmi(random(1,8),5);
+        Emmi emmi = new Emmi(nbes.random(1,8),5);
         while (emmi.emmi_HP > 0) {
-            sPrint("2069 health " + HP2069);
-            sPrint(emmi.emmi_type + " health " + emmi.emmi_HP);
+            nbes.sPrint("2069 health " + HP2069);
+            nbes.sPrint(emmi.emmi_type + " health " + emmi.emmi_HP);
             System.out.println();
             emmi.emmi_prep();
             attack();
@@ -194,8 +193,8 @@ class Speedrun extends Lbob
             }
             if(HP2069<=0)
             {
-                sPrintln("You have fallen");
-                sPrintln("Returning to menu");
+                nbes.sPrintln("You have fallen");
+                nbes.sPrintln("Returning to menu");
                 menu();
             }
         }

@@ -1,4 +1,4 @@
-class Gordy extends Tools {
+class Gordy extends FileRead {
     Hallway hallway;
     int HP;
     boolean charge=false;
@@ -15,31 +15,31 @@ class Gordy extends Tools {
         int r=4;
         if(!charge)
         {
-            r = random(1,(level/3)+1);
+            r = nbes.random(1,(level/3)+1);
         }
         if(r==1)
         {
-            sPrintln("DARK RUSH");
-            int damage = 3*random(0,5)+(level/2);
-            sPrintln("Gordy deals "+damage+" damage");
+            nbes.sPrintln("DARK RUSH");
+            int damage = 3*nbes.random(0,5)+(level/2);
+            nbes.sPrintln("Gordy deals "+damage+" damage");
             return damage;
         }
         else if(r==2)
         {
-            sPrintln("DOUBLE BLADE");
-            int damage = 8*random(0,2)+(level/2);
-            sPrintln("Gordy deals "+damage+" damage");
+            nbes.sPrintln("DOUBLE BLADE");
+            int damage = 8*nbes.random(0,2)+(level/2);
+            nbes.sPrintln("Gordy deals "+damage+" damage");
             return damage;
         }
         else if(r==3){
-            sPrintln("FIRE BLADE OF DARKNESS");
-            sPrintln("Gordy is charging");
+            nbes.sPrintln("FIRE BLADE OF DARKNESS");
+            nbes.sPrintln("Gordy is charging");
             charge=true;
         }
         else {
-            sPrintln("FIRE BLADE OF DARKNESS");
-            int damage = 2*random(7,10)+(level/2);
-            sPrintln("Gordy deals "+damage+" damage");
+            nbes.sPrintln("FIRE BLADE OF DARKNESS");
+            int damage = 2*nbes.random(7,10)+(level/2);
+            nbes.sPrintln("Gordy deals "+damage+" damage");
             charge=false;
             return damage;
             }
@@ -48,14 +48,14 @@ class Gordy extends Tools {
     public void move() {
             if(hallway.hallUnlocked)
             {
-            Hallway temp=hallway.neighbors[random(0,hallway.neighbors.length-1)];
+            Hallway temp=hallway.neighbors[nbes.random(0,hallway.neighbors.length-1)];
             while(!temp.hallUnlocked) {
-                temp=hallway.neighbors[random(0,hallway.neighbors.length-1)];
+                temp=hallway.neighbors[nbes.random(0,hallway.neighbors.length-1)];
             }
             hallway=temp;
             }
             else {
-            hallway=hallway.neighbors[random(0,hallway.neighbors.length-1)];
+            hallway=hallway.neighbors[nbes.random(0,hallway.neighbors.length-1)];
             }
             
             

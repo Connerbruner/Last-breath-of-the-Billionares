@@ -1,4 +1,4 @@
-public class Race extends Tools{
+public class Race {
     Emmi vsEmmi;
     Boss vsBoss;
     Dungeon vsDungeon;

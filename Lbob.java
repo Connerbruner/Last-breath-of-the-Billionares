@@ -1,11 +1,9 @@
-import java.util.Scanner;
 
 //Main class
 class Lbob extends Game {
 
 
     //obj
-    Main main = new Main();
 
     Dungeon local6_11 = new Dungeon("Rubble filled 6-11", 10);
     Dungeon factory = new Dungeon("Run down Factory", 30);
@@ -59,55 +57,43 @@ class Lbob extends Game {
         while (true) {
             levelUp();
             HP2069 = HPmax;
-            sPrint("Type 1 -> " + missionNum + " to try that Mission");
+            nbes.sPrint("Type 1 -> " + missionNum + " to try that Mission");
             //Tells you how to roll the gotcha
             if (missionNum > 1) {
-                sPrint("Type 0 to trade exp for new moves");
+                nbes.sPrint("Type 0 to trade exp for new moves");
             }
-            sPrint("Type 12 to enter main menu");
-            int choice = scanner.nextInt();
+            int choice = nbes.inputInt("what would you like to do?");
             
             if (choice < missionNum && choice > 0) {
-                sPrint("How many stars would like to add (makes mission harder)");
-                stars = scanner.nextInt();
+                stars = nbes.inputInt("How many stars would like to add (makes mission harder)");
             } else {
                 stars = 0;
             }
             System.out.println();
 //mission 1
             if (choice == 1) {
-                sPrintln("Mission 1: The Awakening of The Revolution");
-                sPrintln("A Roomba appears ");
+                nbes.sPrintln("Mission 1: The Awakening of The Revolution");
+                nbes.sPrintln("A Roomba appears ");
 
-                sPrintln("2069's turn");
-                sPrint("Fusion charm status: "+lastAttack);
+                nbes.sPrintln("2069's turn");
+                nbes.sPrint("Fusion charm status: "+lastAttack);
                 for (int i=0; i<allAttacks.length; i++)
                 {
-                    sPrint(i+") "+allAttacks[i].toString());
+                    nbes.sPrint(i+") "+allAttacks[i].toString());
                 }
-                sPrint(allAttacks.length+") Fusion charm with Item (Speed: 3)");
+                nbes.sPrint(allAttacks.length+") Fusion charm with Item (Speed: 3)");
                 System.out.println();
 
-                sPrint("Chose a number corresponding to the attack you want to use (be fast) (1-"+allAttacks.length+")");
-                attackNum = scanner.nextInt();
-                scanner.nextLine();
-                sPrint("Chose Out (Power) or Out (Speed) (Speed is weaker and faster and Power is Powerful but slow");
-                String style = scanner.nextLine().toLowerCase();
+                attackNum = nbes.inputInt("Chose a number corresponding to the attack you want to use (be fast) (1-"+allAttacks.length+")");
+
+                String style = nbes.inputString("Chose Out (Power) or Out (Speed) (Speed is weaker and faster and Power is Powerful but slow").toLowerCase();
                 while (!style.equals("power") && !style.equals("speed")) {
-                    style = scanner.nextLine();
+                    style = nbes.inputString("Chose Out (Power) or Out (Speed) (Speed is weaker and faster and Power is Powerful but slow").toLowerCase();
                 }
                 System.out.println();
-                sPrint("Type Kick");
-                style = scanner.nextLine();
-                while (!style.equals("Kick")) {
-                    style = scanner.nextLine();
-                }
-                sPrint("Type Punch");
-                style = scanner.nextLine();
-                while (!style.equals("Punch")) {
-                    style = scanner.nextLine();
-                }
-                sPrintln("Roomba fades away");
+                nbes.quickTime("Kick", 3000);
+                nbes.quickTime("Punch", 3000);
+                nbes.sPrintln("Roomba fades away");
 
                 
                 dungeon(subway);
@@ -120,7 +106,7 @@ class Lbob extends Game {
 
 //Mission 2
             if ((choice == 2) && (missionNum >= 2)) {
-                sPrintln("Mission 2: First Encounters");
+                nbes.sPrintln("Mission 2: First Encounters");
                 if (stars > 5) {
                     dungeon(city);
                 }
@@ -133,7 +119,7 @@ class Lbob extends Game {
             }
 //Mission 3
             if ((missionNum >= 3) && (choice == 3)) {
-                sPrintln("MISSION 3: Rest In The Rubble");
+                nbes.sPrintln("MISSION 3: Rest In The Rubble");
                 dungeon(local6_11);
                 bossFight(elon);
                 dungeon(subway);
@@ -145,7 +131,7 @@ class Lbob extends Game {
             }
 //Mission 4
             if ((missionNum >= 4) && (choice == 4)) {
-                sPrintln("Mission 4: 101 battles");
+                nbes.sPrintln("Mission 4: 101 battles");
                 dungeon(highway);
                 if (stars > 2) {
                     dungeon(local6_11);
@@ -159,14 +145,14 @@ class Lbob extends Game {
             }
 //Mission 5
             if ((missionNum >= 5) && (choice == 5)) {
-                sPrintln("Mission 5: Rematch Cubed");
+                nbes.sPrintln("Mission 5: Rematch Cubed");
                 bossFight(Tri);
                 missionComplete(5);
 
             }
 //Mission 6
             if ((missionNum >= 6) && (choice == 6)) {
-                sPrintln("Mission 6: Battle on the highway");
+                nbes.sPrintln("Mission 6: Battle on the highway");
 
                 dungeon(highway);
                 if (stars > 2) {
@@ -178,7 +164,7 @@ class Lbob extends Game {
             }
 //Mission 7
             if (missionNum >= 7 && choice == 6) {
-                sPrintln("Mission 7: Face off in the factory");
+                nbes.sPrintln("Mission 7: Face off in the factory");
 
                 dungeon(factory);
                 if (stars > 2) {
@@ -190,7 +176,7 @@ class Lbob extends Game {
             }
 //Mission 8
             if ((missionNum >= 8) && (choice == 8)) {
-                sPrintln("MISSION 8: Highway to the future");
+                nbes.sPrintln("MISSION 8: Highway to the future");
                 dungeon(highway);
                 if (stars > 2) {
                     dungeon(local6_11);
@@ -201,13 +187,13 @@ class Lbob extends Game {
             }
 //Mission 9
             if ((missionNum >= 9) && (choice == 9)) {
-                sPrintln("Mission 9: Face-Off On The Grand Tower");
+                nbes.sPrintln("Mission 9: Face-Off On The Grand Tower");
                 bossFight(Tri2);
                 missionComplete(9);
             }
 //Mission 10
             if ((missionNum >= 10) && (choice == 10)) {
-                sPrintln("Mission 10: 2 Sides Of The Same Coin");
+                nbes.sPrintln("Mission 10: 2 Sides Of The Same Coin");
                 bossFight(Zuckerberg);
                 missionComplete(10);
             }
@@ -216,9 +202,7 @@ class Lbob extends Game {
             if ((choice == 0) && (missionNum > 1)) {
                 pull();
             }
-            if (choice == 12) {
-                main.play();
-            }
+
 
             save();
         }

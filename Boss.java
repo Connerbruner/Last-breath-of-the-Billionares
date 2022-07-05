@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
-class Boss extends Tools {
+class Boss {
     public ArrayList < Phase > differntPhases = new ArrayList <>( );
 
     public Boss (Phase boss ) {

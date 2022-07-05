@@ -1,4 +1,4 @@
-class Goal extends Tools {
+class Goal extends FileRead {
 
     String goal;
     Hallway ending;
@@ -27,7 +27,7 @@ class Goal extends Tools {
         {
         if(hallway.hallwayName.equals(ending.hallwayName) && !complete)
         {
-            sPrintln(this +" COMPLETE");
+            nbes.sPrintln(this +" COMPLETE");
             complete=true;
             return true;
         }
