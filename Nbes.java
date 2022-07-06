@@ -16,7 +16,7 @@ public class Nbes extends JFrame {
     static final int MAX_CHAR = SYSTEM_WIDTH/10;
     static final JTextPane TEXT1 = new JTextPane();
     static final JTextField INPUT = new JTextField(10);
-    static final JFrame SYSTEM = new JFrame("Nbes (Non Binary Entertainment System)");
+    static final JFrame SYSTEM = new JFrame("NBES (Non Binary Entertainment System)");
     volatile boolean keyButton = false;
     static final int PLATERGB = JColorChooser.showDialog(SYSTEM, "What color would you like the system?", SYSTEM.getBackground()).getRGB();
     static final Color SCREEN_COLOR = JColorChooser.showDialog(SYSTEM, "What color would you like the screen?", SYSTEM.getBackground());
