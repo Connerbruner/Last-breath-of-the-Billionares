@@ -252,7 +252,7 @@ public class Nbes extends JFrame {
         sPrint("Type "+word);
         while(!INPUT.getText().equals(word) && startTime+ millis>System.currentTimeMillis());
         TEXT1.setText("");
-        return !INPUT.getText().equals(word);
+        return INPUT.getText().equals(word);
     }
 
 
