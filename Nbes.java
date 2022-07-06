@@ -133,9 +133,10 @@ public class Nbes extends JFrame {
         sPrint(str + "\n(Type in the text box then click)");
         INPUT.setText("");
         INPUT.setEditable(true);
-        while (!keyButton) ;
+        while (!keyButton || TEXT1.getText().equals("")) {
+            SYSTEM.requestFocusInWindow();
+        }
         INPUT.setEditable(false);
-        TEXT1.setText("");
         lastsPrint="";
         keyButton = false;
         return INPUT.getText();
@@ -145,9 +146,10 @@ public class Nbes extends JFrame {
         sPrint(str + "\n(Type in the text box then click)");
         INPUT.setText("");
         INPUT.setEditable(true);
-        while (!keyButton);
+        while (!keyButton || TEXT1.getText().equals("")) {
+            SYSTEM.requestFocusInWindow();
+        }
         INPUT.setEditable(false);
-        TEXT1.setText("");
         lastsPrint="";
         keyButton = false;
         if (strIsInt(INPUT.getText())) {
@@ -160,10 +162,11 @@ public class Nbes extends JFrame {
         sPrint(str + "\n(Type in the text box then click)");
         INPUT.setText("");
         INPUT.setEditable(true);
-        while (!keyButton) ;
+        while (!keyButton || TEXT1.getText().equals("")) {
+            SYSTEM.requestFocusInWindow();
+        }
         INPUT.setEditable(false);
         String input = INPUT.getText().toLowerCase();
-        TEXT1.setText("");
         lastsPrint="";
         keyButton = false;
         return input.equals("yes") || input.equals("y");
@@ -177,8 +180,7 @@ public class Nbes extends JFrame {
             setText1(text);
         }
         setText1(text + "\n>Click<");
-        SYSTEM.requestFocusInWindow();
-        while (!keyButton) {
+        while (!keyButton ) {
             SYSTEM.requestFocusInWindow();
         }
         keyButton = false;
