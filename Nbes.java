@@ -1,3 +1,5 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -10,16 +12,19 @@ import java.io.File;
 import java.io.IOException;
 
 public class Nbes extends JFrame {
+
     static final int SYSTEM_WIDTH = 400;
     static final int SYSTEM_HEIGHT = 640;
     static final int SYSTEM_BORDER = SYSTEM_WIDTH / 10;
     static final int MAX_CHAR = SYSTEM_WIDTH/10;
+
     static final JTextPane TEXT1 = new JTextPane();
     static final JTextField INPUT = new JTextField(10);
     static final JFrame SYSTEM = new JFrame("NBES (Non Binary Entertainment System)");
     volatile boolean keyButton = false;
     static final int PLATERGB = JColorChooser.showDialog(SYSTEM, "What color would you like the system?", SYSTEM.getBackground()).getRGB();
     static final Color SCREEN_COLOR = JColorChooser.showDialog(SYSTEM, "What color would you like the screen?", SYSTEM.getBackground());
+
     String lastsPrint="";
     MouseListener mouseListener = new MouseListener() {
         @Override
@@ -51,7 +56,7 @@ public class Nbes extends JFrame {
 
     int tSpeed = 20;
 
-    public Nbes() {
+    public Nbes() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Retro Gaming.ttf")));
@@ -86,6 +91,9 @@ public class Nbes extends JFrame {
         SYSTEM.pack();
         SYSTEM.setVisible(true);
         SystemMove(1000,2000,0,0);
+        Sound sound = new Sound("sound.wav");
+        sound.play();
+        SYSTEM.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
     public void SystemMove(int x1,int y1,int x2,int y2)
     {
@@ -133,7 +141,6 @@ public class Nbes extends JFrame {
         sPrint(str + "\n(Type in the text box then click)");
         INPUT.setText("");
         INPUT.setEditable(true);
-        String text="";
         while (INPUT.getText().equals("") || !keyButton);
         SYSTEM.requestFocusInWindow();
         INPUT.setEditable(false);
@@ -146,7 +153,6 @@ public class Nbes extends JFrame {
         sPrint(str + "\n(Type in the text box then click)");
         INPUT.setText("");
         INPUT.setEditable(true);
-        String text="";
         while (INPUT.getText().equals("") || !keyButton);
         SYSTEM.requestFocusInWindow();
         INPUT.setEditable(false);
@@ -162,7 +168,6 @@ public class Nbes extends JFrame {
         sPrint(str + "\n(Type in the text box then click)");
         INPUT.setText("");
         INPUT.setEditable(true);
-        String text="";
         while (INPUT.getText().equals("") || !keyButton);
         SYSTEM.requestFocusInWindow();
         INPUT.setEditable(false);
@@ -259,4 +264,3 @@ public class Nbes extends JFrame {
 
 
 }
-

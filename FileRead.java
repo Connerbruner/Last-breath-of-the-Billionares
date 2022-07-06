@@ -1,8 +1,19 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.*;
 
 @SuppressWarnings("unused")
 class FileRead {
-    final static Nbes nbes = new Nbes();
+    final static Nbes nbes;
+
+    static {
+        try {
+            nbes = new Nbes();
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     Runtime run = Runtime.getRuntime();
     int tSpeed;
 
