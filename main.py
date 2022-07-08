@@ -24,7 +24,7 @@ async def on_ready():
 # bot testing 972268992876150887
 @tasks.loop(seconds=1.0)
 async def txt():
-    f = open("bot.txt", "r")
+    f = open("Files/bot.txt", "r")
     msg = f.read()
     f.close()
     if msg == "":
@@ -32,7 +32,7 @@ async def txt():
     else:
         channel = client.get_channel(home)
         await channel.send(msg)
-        open("bot.txt", "w").close()
+        open("Files/bot.txt", "w").close()
 @client.event
 async def on_message(message):
     if message.content.startswith("!"):
@@ -42,7 +42,7 @@ async def on_message(message):
          message.channel.send(home)
 #starts Processes java and bot
 try:
- r = open("token.txt", "r")
+ r = open("Files/token.txt", "r")
  token = r.read()[1:len(r.read())-1]
  client.run(token)
 except:

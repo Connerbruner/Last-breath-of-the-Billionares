@@ -1,27 +1,27 @@
 class Phase extends FileRead {
-    int HP;
+    int      HP;
     Attack[] attacks;
-    String name;
-    int curAttack;
+    String   name;
+    int      curAttack;
 
 
-    public Phase ( Attack[] arr , int health , String n ) {
+    public Phase( Attack[] arr , int health , String n ) {
         attacks = arr;
-        HP = health;
-        name = n;
+        HP      = health;
+        name    = n;
 
     }
 
-    public int getHP ( ) {
+    public int getHP( ) {
         return HP;
     }
 
 
-    public void loseHP ( int HP ) {
+    public void loseHP( int HP ) {
         this.HP -= HP;
     }
 
-    public void pickAttack ( ) {
+    public void pickAttack( ) {
         curAttack = nbes.random( 0 , attacks.length - 1 );
         nbes.sPrint( attacks[ curAttack ].attackName );
     }
