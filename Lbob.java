@@ -43,8 +43,8 @@ class Lbob extends Game {
     Phase mark       = new Phase( attacksMark , 1000 , "Mark Zuckerberg" );
     Boss  Zuckerberg = new Boss( mark );
 
-    public Lbob( String file , String name , int speed , int placement ) {
-        super( file , name , speed , placement );
+    public Lbob( String file , String name , int speed , int placement,Object[] arr ) {
+        super( file , name , speed , placement,arr);
     }
 
 
@@ -200,8 +200,6 @@ class Lbob extends Game {
             if ( ( choice == 0 ) && ( missionNum > 1 ) ) {
                 pull( );
             }
-
-
             save( );
         }
 

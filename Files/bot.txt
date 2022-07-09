@@ -1,1 +1,1 @@
- Just loaded up the game using lbob.txt
+Hello's Max HP increased by 2

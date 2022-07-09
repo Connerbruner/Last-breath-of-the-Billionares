@@ -113,6 +113,7 @@ public class Nbes extends JFrame {
         sPrint( str + "\n(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
+        INPUT.requestFocus();
         while ( INPUT.getText( ).equals( "" ) || ! keyButton ) ;
         SYSTEM.requestFocusInWindow( );
         INPUT.setEditable( false );
@@ -125,6 +126,7 @@ public class Nbes extends JFrame {
         sPrint( str + "\n(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
+        INPUT.requestFocus();
         while ( INPUT.getText( ).equals( "" ) || ! keyButton ) ;
         SYSTEM.requestFocusInWindow( );
         INPUT.setEditable( false );
@@ -140,6 +142,7 @@ public class Nbes extends JFrame {
         sPrint( str + "\n(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
+        INPUT.requestFocus();
         while ( INPUT.getText( ).equals( "" ) || ! keyButton ) ;
         SYSTEM.requestFocusInWindow( );
         INPUT.setEditable( false );
@@ -227,8 +230,11 @@ public class Nbes extends JFrame {
         long startTime = System.currentTimeMillis( );
         INPUT.setText( "" );
         sPrint( "Type " + word );
+        INPUT.setEditable( true );
+        INPUT.requestFocus();
         while ( ! INPUT.getText( ).equals( word ) && startTime + millis > System.currentTimeMillis( ) ) ;
         TEXT1.setText( "" );
+        INPUT.setEditable( false );
         return INPUT.getText( ).equals( word );
     }
 

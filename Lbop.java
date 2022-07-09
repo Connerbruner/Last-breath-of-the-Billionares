@@ -18,29 +18,10 @@ public class Lbop extends Game {
             new Dungeon( "Funland" , 70 ) ,
             new Dungeon( "City roofTops" , 75 )
     };
-    ArrayList < Dungeon > missionDungeons = new ArrayList <>( );
 
 
-    public Lbop( String file , String name , int speed , int placement ) {
-        super( file , name , speed , placement );
-        resetArr = new Object[] { 0 , 50 , 1 , 20 , 0 , 1 , 1 , 1 , 1 , 5 };
-
-        int                   metaLeft     = missionNum - 1;
-        ArrayList < Dungeon > dungeonsLeft = new ArrayList <>( );
-        Collections.addAll( dungeonsLeft , dungeons );
-
-        while ( metaLeft != 0 ) {
-            for ( int i = 0 ; i < dungeonsLeft.size( ) ; i++ ) {
-                if ( dungeonsLeft.get( i ).dungeonLength > metaLeft ) {
-                    dungeonsLeft.remove( i );
-                }
-            }
-            while ( metaLeft < 0 ) {
-                metaLeft += missionDungeons.get( 0 ).dungeonLength;
-                missionDungeons.remove( 0 );
-            }
-            missionDungeons.add( dungeonsLeft.get( nbes.random( 0 , nbes.random( 1 , dungeonsLeft.size( ) ) ) ) );
-        }
+    public Lbop( String file , String name , int speed , int placement,Object[] arr ) {
+        super( file , name , speed , placement ,arr);
     }
 
     public void game( ) {

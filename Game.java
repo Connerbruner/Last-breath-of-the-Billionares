@@ -24,7 +24,7 @@ class Game extends FileRead {
     int      maxHit       = 5;
     boolean  is2051joined = false;
     boolean  is2048joined = false;
-    Object[] resetArr     = { 1 , 50 , 1 , 20 , 0 , 1 , 1 , 1 , 1 , 5 };
+    Object[] resetArr;
 
     ItemClass[] allItems   = { new ItemClass( "staplers" , 5 , 10 , 50 , 100 ) , new ItemClass( "Cleaner" , 3 , 5 , 100 , 200 ) , new ItemClass( "ruler" , 8 , 12 , 4 , 5 ) , new ItemClass( "binder" , 5 , 20 , 10 , 20 ) , new ItemClass( "scissors" , 7 , 20 , 3 , 10 ) , new ItemClass( "Water Bottle (attack)" , 1 , 20 , 2 , 12 ) , new ItemClass( "labTop" , 10 , 20 , 1 , 2 ) , new ItemClass( "metalPiece" , 1 , 20 , 1 , 50 ) , new ItemClass( "basketBall" , 10 , 20 , 1 , 5 ) , new ItemClass( "FootBall" , 5 , 10 , 3 , 7 ) , new ItemClass( "tennisBall" , 1 , 5 , 8 , 20 ) , new ItemClass( "Soda" , 5 , 10 ) , new ItemClass( "Chip bag" , 7 , 12 ) , new ItemClass( "Water bottle (heal)" , 6 , 10 ) , new ItemClass( "lunch box" , 1 , 20 ) };
     Item        backpack   = allItems[ nbes.random( 0 , allItems.length - 1 ) ].createRandomItem( );
@@ -37,12 +37,17 @@ class Game extends FileRead {
     int         num        = 0;
 
     //Setup
-    public Game( String file , String name , int speed , int placement ) {
+    public Game( String file , String name , int speed , int placement, Object[] arr ) {
         savePath = file;
         user     = name;
         tSpeed   = speed;
         Timeline = placement;
-        grabSave( );
+        resetArr=arr;
+        if(resetArr!=null)
+        {
+            grabSave( );
+        }
+
     }
 
 
@@ -140,8 +145,8 @@ class Game extends FileRead {
         attackNum  = 0;
 
         nbes.sPrint( "Fusion charm status: " + lastAttack );
-        for ( int i = 0 ; i < allAttacks.length ; i++ ) {
-            nbes.sPrint( allAttacks[ i ].toString( ) );
+        for ( Attack allAttack : allAttacks ) {
+            nbes.sPrint( allAttack.toString( ) );
         }
         nbes.sPrint( allAttacks.length + ") Fusion charm with Item (Speed: 3)" );
         System.out.println( );
@@ -179,7 +184,7 @@ class Game extends FileRead {
         }
 
         attackStun += stun;
-        attackTime -= speed + ( tSpeed / 10 );
+        attackTime -= speed + ( tSpeed * 10 );
         stun  = 0;
         speed = 0;
         save( );
@@ -216,13 +221,11 @@ class Game extends FileRead {
     }
 
     public int FusionMenu( ) {
-        int bonus;
+        int bonus = 0;
         if ( lastAttack < allAttacks.length ) {
             Attack cur = allAttacks[ lastAttack ];
             bonus = nbes.random( cur.low , cur.high ) / 3;
             nbes.sPrint( cur.attackName + " is charged into this attack" );
-        } else {
-            bonus = - 10;
         }
         int stuff = 2;
         nbes.sPrint( "1) Lasershot" );
@@ -261,17 +264,17 @@ class Game extends FileRead {
         long startTime = System.currentTimeMillis( );
         int  i         = 0;
         while ( startTime + 10000 > System.currentTimeMillis( ) ) {
-            if ( nbes.quickTime( "Kick" , 3000 ) ) {
+            if ( nbes.quickTime( "Kick" , 5000 ) ) {
                 i++;
             }
             if ( startTime + 10000 > System.currentTimeMillis( ) ) {
-                if ( nbes.quickTime( "Punch" , 3000 ) ) {
+                if ( nbes.quickTime( "Punch" , 5000 ) ) {
                     i++;
                 }
             }
         }
-        total += i * ( hit / 2 );
-        nbes.sPrintln( "2077 Deals " + ( i * ( hit / 2 ) ) + " Damage" );
+        total += (i *  hit)/ 2 ;
+        nbes.sPrintln( "2077 Deals " + ( (i *  hit)/ 2 ) + " Damage" );
 
         if ( is2048joined ) {
             nbes.sPrintln( "2048's turn" );
@@ -520,7 +523,7 @@ class Game extends FileRead {
 
         if ( nbes.inputBool( "Would you like to overwrite a save file? (Returns the file to the start of the game)" ) ) {
             if ( nbes.inputBool( "Are you sure?" ) ) {
-                FileRead.Edit( "Files/Lbob.txt" , resetArr );
+                FileRead.Edit( savePath, resetArr );
             }
         }
         Object[] Save = FileRead.Read( savePath );
@@ -576,12 +579,12 @@ class Game extends FileRead {
 
         if ( exp1 >= 25 ) {
             nbes.sPrint( "how much exp would you like to use? " );
-            num = nbes.inputInt( "how much exp would you like to use? " );
-            int pull_num = num / 25;
-            exp1 -= num;
+            num = nbes.inputInt( "how much exp would you like to use? (Current Exp:"+exp1+" )" );
+
             if ( exp1 < num ) {
                 num = exp1;
             }
+            int pull_num = num / 25;
             num -= exp1;
 
             while ( pull_num > 0 ) {

@@ -22,7 +22,7 @@ class Main {
         }
         System.out.println( "testing" );
         if ( choice == 1 ) {
-            Lbob game = new Lbob( "Files/Lbob.txt" , user , FileRead.nbes.tSpeed , 9 );
+            Lbob game = new Lbob( "Files/Lbob.txt" , user , FileRead.nbes.tSpeed , 9 ,new Object[] { 0 , 50 , 1 , 20 , 0 , 1 , 1 , 1 , 1 , 5 });
             game.game( );
         } else if ( choice == 2 ) {
             Lbog game = new Lbog( "" , user , FileRead.nbes.tSpeed , - 3 );

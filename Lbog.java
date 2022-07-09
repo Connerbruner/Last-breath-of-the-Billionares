@@ -86,8 +86,8 @@ class Lbog extends Game {
     int     HPM      = 50;
     int     story    = 0;
 
-    public Lbog( String file , String name , int speed , int placement ) {
-        super( file , name , speed , placement );
+    public Lbog( String file , String name , int speed , int placement) {
+        super( file , name , speed , placement ,null);
     }
 
     public void game( ) {
