@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class Lbop extends Game {
 
 
-    Dungeon[]             dungeons        = {
+    Dungeon[] dungeons = {
             new Dungeon( "6-11" , 5 ) ,
             new Dungeon( "SafeCost" , 10 ) ,
             new Dungeon( "Busy street" , 20 ) ,
@@ -20,21 +19,22 @@ public class Lbop extends Game {
     };
 
 
-    public Lbop( String file , String name , int speed , int placement,Object[] arr ) {
-        super( file , name , speed , placement ,arr);
+    public Lbop( String file , String name , int speed , int placement , Object[] arr ) {
+        super( file , name , speed , placement , arr );
     }
 
     public void game( ) {
         if ( missionNum == 0 ) {
             nbes.sPrintln( "UNKNOWN_PERSON: send 1000 M.E.T.A s after them" );
-            nbes.sPrintln( "nbes.random person: YES SIR" );
+            nbes.sPrintln( "random person: YES SIR" );
             nbes.sPrintln( "UNKNOWN_PERSON: They will never live past this" );
             missionNum += 1001;
         }
         nbes.sPrintln( "M.E.T.As remaining: " + missionNum );
         nbes.sPrint( "1) Explore the city" );
-        nbes.sPrint( "2) " );
+        nbes.sPrint( "2) Upgrade skills" );
         nbes.sPrint( "3) Quit" );
+
     }
 
     public int battle( int targets ) {
@@ -148,4 +148,61 @@ public class Lbop extends Game {
         }
     }
 
+    @Override
+    public void pull( ) {
+        nbes.sPrintln( "???: So you are tried of losing? huh" );
+        if ( ! allMaxedOut( ) ) {
+            nbes.sPrintln( "???: What do you want upgraded" );
+            for ( int i = 0 ; i < allAttacks.length ; i++ ) {
+                nbes.sPrint( i + "( " + allAttacks[ i ] );
+            }
+            int index=nbes.inputInt( "Which attack? A number (0-" + ( allAttacks.length - 1 ) + ")" );
+            Attack choice = allAttacks[index];
+            while ( choice.attackTier == 5 ) {
+                nbes.sPrintln( "???: Sorry that move is already maxed out" );
+                index=nbes.inputInt( "Which attack? A number (0-" + ( allAttacks.length - 1 ) + ")" );
+                choice = allAttacks[index];
+            }
+            int power = nbes.inputInt( "What tier? A number (" + choice.attackTier + "-5 )" );
+            while ( power < 6 || power < choice.attackTier) {
+                power = nbes.inputInt( "What tier? A number (" + choice.attackTier + "-5 )" );
+            }
+            int min = ((power-choice.attackTier)*power)*(power* nbes.random(20,30));
+            int offer = ((power-choice.attackTier)*power)*(power*50);
+            int yourOffer = nbes.inputInt("What is your offer? (max: "+exp1+")");
+            if(yourOffer>exp1)
+            {
+                yourOffer=exp1;
+            }
+            if(yourOffer>=min)
+            {
+                nbes.sPrintln("???: Deal");
+                allAttacks[index].attackTier=power;
+                save();
+            }
+            else if(exp1>offer){
+                if(nbes.inputBool("???: Nope, but how about "+offer))
+                {
+                    nbes.sPrintln("???: Nice");
+                    allAttacks[index].attackTier=power;
+                    save();
+                }
+            }
+            else {
+                nbes.sPrintln("???: Your too poor for this kid");
+            }
+
+        } else {
+            nbes.sPrintln( "???: Sounds like a skill issue" );
+        }
+
+    }
+
+    public boolean allMaxedOut( ) {
+        boolean maxed = true;
+        for ( int i = 0 ; i < allAttacks.length && maxed ; i++ ) {
+            maxed = allAttacks[ i ].attackTier == 5;
+        }
+        return maxed;
+    }
 }

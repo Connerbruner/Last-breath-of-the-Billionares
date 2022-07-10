@@ -12,7 +12,7 @@ class Speedrun extends Lbob {
 
 
     public Speedrun( String file , String name , int speed , int placement ) {
-        super( file , name , speed , placement );
+        super( file , name , speed , placement ,null);
         HPmax        = 60;
         maxHit       = 7;
         is2051joined = true;

@@ -145,15 +145,15 @@ class Game extends FileRead {
         attackNum  = 0;
 
         nbes.sPrint( "Fusion charm status: " + lastAttack );
-        for ( Attack allAttack : allAttacks ) {
-            nbes.sPrint( allAttack.toString( ) );
+        for ( int i=0; i<allAttacks.length; i++ ) {
+            nbes.sPrint(i+"( "+allAttacks[i]);
         }
         nbes.sPrint( allAttacks.length + ") Fusion charm with Item (Speed: 3)" );
         System.out.println( );
         //This while loop just
         long start_Time = System.currentTimeMillis( );
 
-        attackNum = nbes.inputInt( "Which attack? A number (1-" + allAttacks.length + ")" );
+        attackNum = nbes.inputInt( "Which attack? A number (0-" + (allAttacks.length-1) + ")" );
         System.out.println( );
         String  tackType;
         boolean typeDetermined = false;
@@ -588,7 +588,7 @@ class Game extends FileRead {
             num -= exp1;
 
             while ( pull_num > 0 ) {
-                int tier = nbes.random( 1 , nbes.random( 2 , nbes.random( 3 , nbes.random( 4 , 5 ) ) ) );
+                int tier = nbes.random( 1 , nbes.random( 2 , nbes.random( 3 , nbes.random( 4 , nbes.random(5,nbes.random(6,7)) ) ) ) );
                 nbes.sPrintln( "Tier " + tier + " pull" );
                 if ( tier == 1 ) {
                     HPmax += 2;
@@ -627,7 +627,7 @@ class Game extends FileRead {
                     //Laser level up
                     if ( num == 2 ) {
                         if ( tier > freeze.attackTier ) {
-                            nbes.sPrintln( "Laser leveled up" );
+                            nbes.sPrintln( "Freeze leveled up" );
                             nbes.sPrintln( freeze.attackTier + " --> " + tier );
                             sendToBot( user + "'s Laser leveled up " + freeze.attackTier + " --> " + tier );
                             freeze.attackTier = tier;
