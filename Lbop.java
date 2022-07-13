@@ -3,22 +3,6 @@ import java.util.ArrayList;
 
 public class Lbop extends Game {
 
-
-    Dungeon[] dungeons = {
-            new Dungeon( "6-11" , 5 ) ,
-            new Dungeon( "SafeCost" , 10 ) ,
-            new Dungeon( "Busy street" , 20 ) ,
-            new Dungeon( "Busy mall" , 25 ) ,
-            new Dungeon( "Underground subway" , 30 ) ,
-            new Dungeon( "Storage center" , 35 ) ,
-            new Dungeon( "Toll Bridge" , 40 ) ,
-            new Dungeon( "Skyscraper" , 50 ) ,
-            new Dungeon( "Huge Park" , 60 ) ,
-            new Dungeon( "Funland" , 70 ) ,
-            new Dungeon( "City roofTops" , 75 )
-    };
-
-
     public Lbop( String file , String name , int speed , int placement , Object[] arr ) {
         super( file , name , speed , placement , arr );
     }
@@ -33,7 +17,15 @@ public class Lbop extends Game {
         nbes.sPrintln( "M.E.T.As remaining: " + missionNum );
         nbes.sPrint( "1) Explore the city" );
         nbes.sPrint( "2) Upgrade skills" );
-        nbes.sPrint( "3) Quit" );
+        int choice = nbes.inputInt( "What would you like to do?" );
+        if(choice==1)
+        {
+            missionNum-=battle(nbes.random( 1,5 ));
+        }
+        if(choice==2)
+        {
+            pull();
+        }
 
     }
 
@@ -44,7 +36,7 @@ public class Lbop extends Game {
 
         ArrayList < Emmi > group = new ArrayList <>( );
         for ( int i = 0 ; i < targets ; i++ ) {
-            group.add( new Emmi( nbes.random( 2 , targets ) , level2069 / 3 ) );
+            group.add( new Emmi( true , level2069 / 3 ) );
         }
         int deadTargets = 0;
         while ( ! group.isEmpty( ) ) {
@@ -70,7 +62,7 @@ public class Lbop extends Game {
                         distance /= 1.5;
                     }
                 } else {
-                    HP2069 -= group.get( nbes.random( 0 , group.size( ) - 1 ) ).attack_emmi( );
+                    HP2069 -= group.get( nbes.random( 0 , group.size( ) - 1 ) ).attack( );
                     if ( HP2069 < 1 ) {
                         restart( );
                     }
@@ -97,21 +89,6 @@ public class Lbop extends Game {
             }
         }
         return deadTargets;
-    }
-
-    @Override
-    public void dungeon( Dungeon dungeon ) {
-        nbes.sPrintln( "UNKNOWN_PERSON: send " + dungeon.dungeonLength + " M.E.T.A s after them" );
-        while ( dungeon.dungeonLength > dungeon.amountMoved ) {
-            num = ( ( dungeon.dungeonLength - dungeon.amountMoved ) / 5 ) + 1;
-            if ( num > 5 ) {
-                num = 5;
-            }
-            if ( num < 2 ) {
-                num = ( dungeon.dungeonLength - dungeon.amountMoved );
-            }
-            dungeon.amountMoved += battle( num );
-        }
     }
 
     @Override

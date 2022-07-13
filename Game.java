@@ -347,7 +347,7 @@ class Game extends FileRead {
         if ( num > MAX_EMMI ) {
             num = MAX_EMMI;
         }
-        Emmi emmi = new Emmi( nbes.random( 1 , num ) , level2069 + stars );
+        Emmi emmi = new Emmi( false, level2069 + stars );
         sendToBot( user + " just found a " + emmi.emmi_type );
         while ( emmi.emmi_HP > 0 ) {
             nbes.sPrint( "2069 health " + HP2069 );
@@ -355,7 +355,7 @@ class Game extends FileRead {
             System.out.println( );
             emmi.emmi_prep( );
             attack( );
-            if ( attackTime < emmi.emmi_attack.speed ) {
+            if ( attackTime < emmi.curAttack.speed ) {
                 emmi.emmi_HP -= choseAttack( );
                 if ( attackNum != 3 ) {
                     emmi.emmi_HP -= attackSupport( );
@@ -363,10 +363,10 @@ class Game extends FileRead {
             } else {
                 nbes.sPrintln( "Too slow. Pick a faster attack" );
             }
-            if ( emmi.emmi_HP > 0 && ( attackTime > emmi.emmi_attack.speed || attackStun < emmi.emmi_num + 5 ) ) {
-                HP2069 -= emmi.emmi_attack.attack( );
+            if ( emmi.emmi_HP > 0 && ( attackTime > emmi.curAttack.speed || attackStun < emmi.emmi_num + 5 ) ) {
+                HP2069 -= emmi.curAttack.attack( );
             }
-            if ( is2051joined && ( emmi.emmi_HPM / 3 ) < emmi.emmi_HP && attackStun < emmi.emmi_num + 2 ) {
+            if ( is2051joined && ( attackStun < emmi.emmi_num + 2 )) {
                 emmi.emmi_HP -= chainAttack( emmi.emmi_HP );
             }
             restart( );
@@ -386,7 +386,7 @@ class Game extends FileRead {
         }
         ArrayList < Emmi > group = new ArrayList <>( );
         for ( int i = 0 ; i < num ; i += nbes.random( 0 , 2 ) ) {
-            group.add( new Emmi( nbes.random( 1 , num ) , 1 ) );
+            group.add( new Emmi( false , 1 ) );
             sendToBot( user + " just found a " + group.get( i ).emmi_type );
         }
 
@@ -397,7 +397,7 @@ class Game extends FileRead {
             System.out.println( );
             cur.emmi_prep( );
             attack( );
-            if ( attackTime < cur.emmi_attack.speed ) {
+            if ( attackTime < cur.curAttack.speed ) {
                 cur.emmi_HP -= choseAttack( );
                 if ( attackNum != 3 ) {
                     cur.emmi_HP -= attackSupport( );
@@ -409,9 +409,9 @@ class Game extends FileRead {
                 group.remove( 0 );
             }
             for ( int i = group.size( ) - 1 ; i > 0 ; i-- ) {
-                HP2069 -= group.get( i ).attack_emmi( );
+                HP2069 -= group.get( i ).attack( );
             }
-            if ( is2051joined && ( cur.emmi_HPM / 3 ) < cur.emmi_HP && attackStun < cur.emmi_num + 2 ) {
+            if ( is2051joined && attackStun < cur.emmi_num + 2 ) {
                 cur.emmi_HP -= chainAttack( cur.emmi_HP );
             }
             restart( );
@@ -432,7 +432,7 @@ class Game extends FileRead {
             System.out.println( );
             emmi.emmi_prep( );
             attack( );
-            if ( attackTime < emmi.emmi_attack.speed ) {
+            if ( attackTime < emmi.curAttack.speed ) {
                 emmi.emmi_HP -= choseAttack( );
                 if ( attackNum != 3 ) {
                     emmi.emmi_HP -= attackSupport( );
@@ -441,9 +441,9 @@ class Game extends FileRead {
             } else {
                 nbes.sPrintln( "Too slow. Pick a faster attack" );
             }
-            if ( emmi.emmi_HP > 1 && ( attackTime > emmi.emmi_attack.speed || attackStun < ( emmi.emmi_num + 5 ) ) ) {
-                HP2069 -= emmi.emmi_attack.attack( );
-            } else if ( is2051joined && ( emmi.emmi_HPM / 3 ) < emmi.emmi_HP ) {
+            if ( emmi.emmi_HP > 1 && ( attackTime > emmi.curAttack.speed || attackStun < ( emmi.emmi_num + 5 ) ) ) {
+                HP2069 -= emmi.attack( );
+            } else if ( is2051joined && ( attackStun < emmi.emmi_num + 2 )) {
                 emmi.emmi_HP -= chainAttack( emmi.emmi_HP );
             }
         }

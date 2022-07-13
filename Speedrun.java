@@ -4,8 +4,8 @@ import java.util.ArrayList;
 class Speedrun extends Lbob {
     int    time;
     Race[] allRaces = {
-            new Race( "VS roomba" , new Emmi( 1 , 5 ) ) ,
-            new Race( "VS GIGA MECH" , new Emmi( 5 ) ) ,
+            new Race( "VS random emmi" , new Emmi( false , 5 ) ) ,
+            new Race( "VS Random boss" , new Emmi( 5 ) ) ,
             new Race( "Underground subway" , subway ) ,
             new Race( "VS Bill gates" , gates ) ,
     };
@@ -36,15 +36,15 @@ class Speedrun extends Lbob {
                 System.out.println( );
                 emmi.emmi_prep( );
                 attack( );
-                if ( attackTime < emmi.emmi_attack.speed ) {
+                if ( attackTime < emmi.curAttack.speed ) {
                     emmi.emmi_HP -= choseAttack( );
                     if ( attackNum != 3 ) {
                         emmi.emmi_HP -= attackSupport( );
                     }
                 }
-                if ( emmi.emmi_HP > 1 && ( attackTime > emmi.emmi_attack.speed || attackStun < ( emmi.emmi_num + 5 ) ) ) {
-                    HP2069 -= emmi.emmi_attack.attack( );
-                } else if ( ( emmi.emmi_HPM / 3 ) < emmi.emmi_HP ) {
+                if ( emmi.emmi_HP > 1 && ( attackTime > emmi.curAttack.speed || attackStun < ( emmi.emmi_num + 5 ) ) ) {
+                    HP2069 -= emmi.attack();
+                } else if ( ( attackStun < emmi.emmi_num + 2 )) {
                     emmi.emmi_HP -= chainAttack( emmi.emmi_HP );
                 }
                 if ( HP2069 <= 0 ) {
@@ -160,23 +160,23 @@ class Speedrun extends Lbob {
     }
 
     public void battle( ) {
-        Emmi emmi = new Emmi( nbes.random( 1 , 8 ) , 5 );
+        Emmi emmi = new Emmi( false , 5 );
         while ( emmi.emmi_HP > 0 ) {
             nbes.sPrint( "2069 health " + HP2069 );
             nbes.sPrint( emmi.emmi_type + " health " + emmi.emmi_HP );
             System.out.println( );
             emmi.emmi_prep( );
             attack( );
-            if ( attackTime < emmi.emmi_attack.speed ) {
+            if ( attackTime < emmi.curAttack.speed ) {
                 emmi.emmi_HP -= choseAttack( );
                 if ( attackNum != 3 ) {
                     emmi.emmi_HP -= attackSupport( );
                 }
 
             }
-            if ( emmi.emmi_HP > 1 && ( attackTime > emmi.emmi_attack.speed || attackStun < ( emmi.emmi_num + 5 ) ) ) {
-                HP2069 -= emmi.emmi_attack.attack( );
-            } else if ( is2051joined && ( emmi.emmi_HPM / 3 ) < emmi.emmi_HP ) {
+            if ( emmi.emmi_HP > 1 && ( attackTime > emmi.curAttack.speed || attackStun < ( emmi.emmi_num + 5 ) ) ) {
+                HP2069 -= emmi.attack();
+            } else if ( is2051joined &&  ( attackStun < emmi.emmi_num + 2 ) ) {
                 emmi.emmi_HP -= chainAttack( emmi.emmi_HP );
             }
             if ( HP2069 <= 0 ) {

@@ -67,5 +67,11 @@ class Attack extends FileRead {
         nbes.sPrintln( attackUser + " deals " + num + " damage" );
         return num;
     }
+    public int attack(int level) {
+        nbes.sPrint( attackName );
+        num = nbes.random( low , high )+level;
+        nbes.sPrintln( attackUser + " deals " + num + " damage" );
+        return num;
+    }
 }
 
