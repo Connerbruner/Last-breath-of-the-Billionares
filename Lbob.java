@@ -82,7 +82,7 @@ class Lbob extends Game {
                 nbes.sPrint( allAttacks.length + ") Fusion charm with Item (Speed: 3)" );
                 System.out.println( );
 
-                attackNum = nbes.inputInt( "Chose a number corresponding to the attack you want to use (be fast) (1-" + allAttacks.length + ")" );
+                attackNum = nbes.inputInt( "Chose a number corresponding to the attack you want to use (be fast) (0-" + allAttacks.length + ")" );
 
                 String style = nbes.inputString( "Chose Out (Power) or Out (Speed) (Speed is weaker and faster and Power is Powerful but slow" ).toLowerCase( );
                 while ( ! style.equals( "power" ) && ! style.equals( "speed" ) ) {

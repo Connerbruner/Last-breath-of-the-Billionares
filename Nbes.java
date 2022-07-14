@@ -110,7 +110,8 @@ public class Nbes extends JFrame {
     }
 
     public String inputString( String str ) {
-        sPrint( str + "\n(Type in the text box then click)" );
+        sPrint( str );
+        sPrint( "(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
         INPUT.requestFocus();
@@ -123,7 +124,8 @@ public class Nbes extends JFrame {
     }
 
     public int inputInt( String str ) {
-        sPrint( str + "\n(Type in the text box then click)" );
+        sPrint( str );
+        sPrint( "(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
         INPUT.requestFocus();
@@ -139,7 +141,8 @@ public class Nbes extends JFrame {
     }
 
     public boolean inputBool( String str ) {
-        sPrint( str + "\n(Type in the text box then click)" );
+        sPrint( str );
+        sPrint( "(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
         INPUT.requestFocus();
