@@ -4,44 +4,6 @@ class Lbob extends Game {
 
     //obj
 
-    Dungeon  local6_11   = new Dungeon( "Rubble filled 6-11" , 10 );
-    Dungeon  factory     = new Dungeon( "Run down Factory" , 30 );
-    Dungeon  city        = new Dungeon( "Rubble filled City" , 35 );
-    Dungeon  highway     = new Dungeon( "Highway 101" , 30 );
-    Dungeon  subway      = new Dungeon( "Underground subway" , 20 );
-    //bosses
-    //attacks and attack[]
-    //bill gates
-    Attack[] attackGates = { new Attack( "Bill Gates" , "TRIPLE SLASH" , 10 , 12 , 15 ) , new Attack( "Bill Gates" , "ULTRA SLASH" , 7 , 15 , 20 ) , new Attack( "Bill Gates" , "LASER BLAST" , 5 , 20 , 30 ) };
-    //Elon musk
-    Attack[] attacksElon = { new Attack( "Elon musk" , "SPEAR RUSH" , 5 , 20 , 10 ) , new Attack( "Elon musk" , "REVENGE OF THE SPEAR" , 12 , 10 , 20 ) , new Attack( "Elon musk" , "ULTRA SPEAR" , 1 , 30 , 20 ) };
-    //jeff bezos
-    Attack[] attacksJeff = { new Attack( "Jeff bezos" , "ROOMBA INVASION" , 7 , 15 , 25 ) , new Attack( "Jeff bezos" , "MECH CANNON" , 5 , 20 , 30 ) , new Attack( "Jeff bezos" , "DUAL LASER" , 12 , 20 , 15 ) };
-    //Mark Zuckerberg
-    Attack[] attacksMark = { new Attack( "Mark Zuckerberg" , "FINAL SLASH" , 1 , 100 , 30 ) , new Attack( "Mark Zuckerberg" , "DUAL SLASH" , 25 , 50 , 15 ) , new Attack( "Mark Zuckerberg" , "ZERO SLASH" , 5 , 10 , 1 ) };
-    //Phases and Phase[]
-    Phase    Elon        = new Phase( attacksElon , 250 , "Elon Musk" );
-    //boss
-    //single phase
-    Boss     elon        = new Boss( Elon );
-    Phase    Gates       = new Phase( attackGates , 250 , "Bill Gates" );
-    Boss     gates       = new Boss( Gates );
-    Phase    Jeff        = new Phase( attacksJeff , 250 , "Jeff bezos" );
-    Phase[]  arrTri1     = { Elon , Gates , Jeff };
-    //trio
-    Boss     Tri         = new Boss( arrTri1 );
-    Boss     jeff        = new Boss( Jeff );
-    Phase    ElonP       = new Phase( attacksElon , 500 , "Elon Musk" );
-    Boss     elonP       = new Boss( ElonP );
-    Phase    GatesP      = new Phase( attackGates , 500 , "Bill Gates" );
-    Boss     gatesP      = new Boss( GatesP );
-    Phase    JeffP       = new Phase( attacksJeff , 500 , "Bill Gates" );
-    Phase[]  arrTri2     = { ElonP , GatesP , JeffP };
-    Boss     Tri2        = new Boss( arrTri2 );
-    Boss     jeffP       = new Boss( JeffP );
-
-    Phase mark       = new Phase( attacksMark , 1000 , "Mark Zuckerberg" );
-    Boss  Zuckerberg = new Boss( mark );
 
     public Lbob( String file , String name , int speed , int placement,Object[] arr ) {
         super( file , name , speed , placement,arr);

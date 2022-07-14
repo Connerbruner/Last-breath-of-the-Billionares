@@ -25,12 +25,11 @@ class Main {
             Lbob game = new Lbob( "Files/Lbob.txt" , user , FileRead.nbes.tSpeed , 9 ,new Object[] { 0 , 50 , 1 , 20 , 0 , 1 , 1 , 1 , 1 , 5 });
             game.game( );
         } else if ( choice == 2 ) {
-            Lbog game = new Lbog( "" , user , FileRead.nbes.tSpeed , - 3 );
+            Lbog game = new Lbog( null , user , FileRead.nbes.tSpeed , - 3 );
             game.game( );
         } else {
-            Speedrun game = new Speedrun( "lbob.txt" , user , FileRead.nbes.tSpeed , 9 );
+            Speedrun game = new Speedrun( null , user , FileRead.nbes.tSpeed , 9 );
             game.menu( );
         }
     }
-
 }

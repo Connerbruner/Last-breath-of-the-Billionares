@@ -2,69 +2,9 @@ class Lbog extends Game {
 
     String    user;
     //items in loot tables
-    //non-healing
-    ItemClass staplers    = new ItemClass( "staplers" , 5 , 10 , 50 , 100 );
-    ItemClass clean       = new ItemClass( "Cleaner" , 3 , 5 , 100 , 200 );
-    ItemClass ruler       = new ItemClass( "ruler" , 8 , 12 , 4 , 5 );
-    ItemClass binder      = new ItemClass( "binder" , 5 , 20 , 10 , 20 );
-    ItemClass scissors    = new ItemClass( "scissors" , 7 , 20 , 3 , 10 );
-    ItemClass waterBottle = new ItemClass( "Water Bottle (attack)" , 1 , 20 , 2 , 12 );
-    ItemClass chromeBook  = new ItemClass( "labTop" , 10 , 20 , 1 , 2 );
-    ItemClass metalPiece  = new ItemClass( "metalPiece" , 1 , 20 , 1 , 50 );
-    ItemClass basketBall  = new ItemClass( "basketBall" , 10 , 20 , 1 , 5 );
-    ItemClass footBall    = new ItemClass( "FootBall" , 5 , 10 , 3 , 7 );
-    ItemClass tennisBall  = new ItemClass( "tennisBall" , 1 , 5 , 8 , 20 );
-    //healing
-    ItemClass soda        = new ItemClass( "Soda" , 5 , 10 );
-    ItemClass chip        = new ItemClass( "Chip bag" , 7 , 12 );
-    ItemClass water       = new ItemClass( "Water bottle (heal)" , 6 , 10 );
-    ItemClass lunch       = new ItemClass( "lunch box" , 1 , 20 );
 
 
-    //Item-class array
-    ItemClass[] classroom = { water , waterBottle , clean , ruler , binder , scissors , chromeBook , staplers };
-    ItemClass[] gym       = { water , waterBottle , chromeBook };
-    ItemClass[] metal     = { water , waterBottle , chromeBook , metalPiece };
-    ItemClass[] court     = { water , waterBottle };
-    ItemClass[] main      = { soda , lunch , chip , water , waterBottle };
-    ItemClass[] outSide   = { soda , chip , lunch , water , waterBottle , chromeBook , basketBall , footBall , tennisBall , };
 
-
-    //Hallways
-    Hallway hallway200  = new Hallway( "200s" , classroom );
-    Hallway hallway100  = new Hallway( "100s" , classroom );
-    Hallway hallway700  = new Hallway( "700s" , classroom );
-    Hallway hallwayD200 = new Hallway( "D200s" , classroom );
-    Hallway hallwayD100 = new Hallway( "D100s" , classroom );
-    Hallway hallway500  = new Hallway( "500" , gym );
-    Hallway commons     = new Hallway( "Commons" , main );
-    Hallway courtYard   = new Hallway( "courtYard" , court );
-
-    Hallway robotics         = new Hallway( "Robotics Room" , metal , false );
-    Hallway swim             = new Hallway( "swim hallway" , gym , false );
-    Hallway field            = new Hallway( "Football field" , outSide , false );
-    Hallway track            = new Hallway( "Track field" , outSide , false );
-    Hallway parkingLotBus    = new Hallway( "Parking lot (Bus)" , outSide , false );
-    Hallway parkingLotSenior = new Hallway( "Parking lot (Senior)" , outSide , false );
-    Hallway parkingLotBack   = new Hallway( "Parking lot (Back)" , outSide , false );
-
-    //hallway[]
-    Hallway[] neighborCommon = { hallwayD100 , hallway100 , hallway200 , hallway500 , parkingLotSenior };
-    Hallway[] neighborD200   = { hallwayD100 , hallway200 };
-    Hallway[] neighborD100   = { hallwayD200 , commons , hallway700 , courtYard , parkingLotBack };
-    Hallway[] neighbor200    = { hallway100 , commons , hallwayD200 };
-    Hallway[] neighbor100    = { courtYard , hallway200 , commons , parkingLotSenior };
-    Hallway[] neighbor500    = { swim , commons , parkingLotBus };
-    Hallway[] neighbor700    = { courtYard , hallwayD100 , robotics , parkingLotBack };
-    Hallway[] neighborSwim   = { hallway500 , hallwayD100 , parkingLotBus };
-    Hallway[] neighborRobot  = { hallway700 };
-    Hallway[] neighborCourt  = { hallway100 , hallway700 , parkingLotBack };
-
-    Hallway[] neighborFootBall = { parkingLotBack };
-    Hallway[] neighborBack     = { field , track , parkingLotSenior };
-    Hallway[] neighborSenior   = { parkingLotBack , parkingLotBus , hallway100 , commons };
-    Hallway[] neighborBus      = { hallway500 , track , parkingLotSenior };
-    Hallway[] neighborTrack    = { parkingLotBack , parkingLotBus };
     //Gordy
     int       gordyHP          = 100;
     int       gordyLevel       = 3;

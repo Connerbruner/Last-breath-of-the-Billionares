@@ -9,10 +9,19 @@ public class Lbop extends Game {
 
     public void game( ) {
         if ( missionNum == 0 ) {
-            nbes.sPrintln( "UNKNOWN_PERSON: send 1000 M.E.T.A s after them" );
+            nbes.sPrintln( "UNKNOWN_PERSON: send 100 M.E.T.A s after them" );
             nbes.sPrintln( "random person: YES SIR" );
             nbes.sPrintln( "UNKNOWN_PERSON: They will never live past this" );
-            missionNum += 1001;
+            missionNum += 100;
+        }
+        if( missionNum < 1) {
+            nbes.sPrintln( "random person: sir sir they lived past all the M.E.T.As" );
+            nbes.sPrintln( "UNKNOWN_PERSON: NO ISSUE HERE" );
+            nbes.sPrintln( "UNKNOWN_PERSON: they simply were made stall time" );
+            nbes.sPrintln( "UNKNOWN_PERSON: NOW ITS ALL MINE" );
+            nbes.sPrintln( "*UNKNOWN_PERSON pushes a lever*" );
+            nbes.sPrintln( "*A blackout sweeps the earth*" );
+            nbes.sPrintln( "THE END??????" );
         }
         nbes.sPrintln( "M.E.T.As remaining: " + missionNum );
         nbes.sPrint( "1) Explore the city" );
@@ -20,7 +29,12 @@ public class Lbop extends Game {
         int choice = nbes.inputInt( "What would you like to do?" );
         if(choice==1)
         {
-            missionNum-=battle(nbes.random( 1,5 ));
+            missionNum-=battle(nbes.random( 1,(missionNum%10)+1 ));
+            if(missionNum%10==0)
+            {
+                battle();
+                missionNum--;
+            }
         }
         if(choice==2)
         {
@@ -62,6 +76,7 @@ public class Lbop extends Game {
                         distance /= 1.5;
                     }
                 } else {
+
                     HP2069 -= group.get( nbes.random( 0 , group.size( ) - 1 ) ).attack( );
                     if ( HP2069 < 1 ) {
                         restart( );
@@ -89,6 +104,31 @@ public class Lbop extends Game {
             }
         }
         return deadTargets;
+    }
+    public void battle() {
+        Emmi emmi = new Emmi( level2069 );
+        nbes.sPrintln( "2069: We have a" + emmi.emmi_type + " on us" );
+        nbes.sPrintln( "2077: Soon its gonna be zero" );
+        int distance = nbes.random( 30 , 100 );
+        while ( emmi.emmi_HP>0) {
+            nbes.sPrintln( "2069: They are only " + distance + " Feet away" );
+            nbes.sPrintln( "2069 health " + HP2069 );
+            nbes.sPrintln( emmi.emmi_type + " health " + emmi.emmi_HP );
+            attack( );
+            emmi.emmi_HP -= choseAttack( );
+            distance -= attackTime;
+
+            if ( distance > 0 ) {
+                    distance += attackStun / 2;
+                    HP2069 -= emmi.attack();
+                    if ( HP2069 < 1 ) {
+                        restart( );
+                    }
+                } else {
+                nbes.sPrintln( "2069: The M.E.T.A's have caught up" );
+                restart( );
+            }
+        }
     }
 
     @Override

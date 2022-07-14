@@ -85,8 +85,6 @@ class Emmi extends FileRead {
         emmi_num     = emmi.emmi_num;
         emmi_attacks = emmi.emmi_attacks;
         curAttack    = null;
-
-
     }
 
     public Emmi( boolean isMeta , int level ) {
@@ -113,7 +111,6 @@ class Emmi extends FileRead {
             emmi_num     = emmi_index;
         }
         nbes.sPrintln( "2069: We have a " + emmi_type + " on us" );
-
     }
 
     /**
@@ -140,6 +137,10 @@ class Emmi extends FileRead {
     }
 
     public int attack( ) {
+        if(curAttack==null)
+        {
+            curAttack = emmi_attacks[ nbes.random( 0 , emmi_attacks.length - 1 ) ];
+        }
         return curAttack.attack( emmi_level );
     }
 
