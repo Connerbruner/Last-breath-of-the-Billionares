@@ -3,18 +3,22 @@ import java.util.ArrayList;
 
 public class Lbop extends Game {
 
-    public Lbop( String file , String name , int speed , int placement , Object[] arr ) {
-        super( file , name , speed , placement , arr );
+    public Lbop( String file, int placement , Object[] arr) {
+        super("Last breath of the People", file , placement ,arr);
     }
 
     public void game( ) {
+        HP2069=HPmax;
+        levelUp();
+        save();
         if ( missionNum == 0 ) {
             nbes.sPrintln( "UNKNOWN_PERSON: send 100 M.E.T.A s after them" );
             nbes.sPrintln( "random person: YES SIR" );
             nbes.sPrintln( "UNKNOWN_PERSON: They will never live past this" );
-            missionNum += 100;
+            missionNum += nbes.random(90,110);
+
         }
-        if( missionNum < 1) {
+        else if( missionNum < 10) {
             nbes.sPrintln( "random person: sir sir they lived past all the M.E.T.As" );
             nbes.sPrintln( "UNKNOWN_PERSON: NO ISSUE HERE" );
             nbes.sPrintln( "UNKNOWN_PERSON: they simply were made stall time" );
@@ -29,7 +33,7 @@ public class Lbop extends Game {
         int choice = nbes.inputInt( "What would you like to do?" );
         if(choice==1)
         {
-            missionNum-=battle(nbes.random( 1,(missionNum%10)+1 ));
+            missionNum-=battle(nbes.random( 1,3));
             if(missionNum%10==0)
             {
                 battle();
@@ -40,13 +44,14 @@ public class Lbop extends Game {
         {
             pull();
         }
+        game();
 
     }
 
     public int battle( int targets ) {
         nbes.sPrintln( "2069: We have " + targets + " M.E.T.As on us" );
         nbes.sPrintln( "2077: Soon its gonna be zero" );
-        int distance = nbes.random( 30 , 100 );
+        int distance = nbes.random( 100 , 200 );
 
         ArrayList < Emmi > group = new ArrayList <>( );
         for ( int i = 0 ; i < targets ; i++ ) {
@@ -54,30 +59,30 @@ public class Lbop extends Game {
         }
         int deadTargets = 0;
         while ( ! group.isEmpty( ) ) {
-            nbes.sPrintln( "2069: They are only " + distance + " Feet away" );
-            nbes.sPrint( "2069 health " + HP2069 );
-            nbes.sPrint( group.get( 0 ).emmi_type + " health " + group.get( 0 ).emmi_HP );
+            nbes.sPrintln( "2069: They("+group.size()+") are only " + distance + " Feet away" );
+            nbes.sPrintln( "2069 health " + HP2069+"\n"+group.get( 0 ).emmi_type + " health " + group.get( 0 ).emmi_HP );
             attack( );
             group.get( 0 ).emmi_HP -= choseAttack( );
-            distance -= attackTime;
-
+            distance -= attackTime/1.5;
             if ( distance > 0 ) {
                 distance += attackStun / 2;
                 if ( group.get( 0 ).emmi_HP < 1 ) {
                     nbes.sPrintln( "2069: good news: " + group.get( 0 ).emmi_type + " is down" );
                     group.remove( 0 );
                     deadTargets++;
-                } else if ( distance % 10 == 0 || distance > 100 ) {
+                } else if ( distance % 10 == 0 ) {
                     targets--;
                     nbes.sPrintln( "2069: good news: we lost the " + group.get( 0 ).emmi_type );
                     group.remove( 0 );
-                    if ( distance > 100 ) {
+                    if ( distance > 100 && !group.isEmpty( ) ) {
                         nbes.sPrintln( "2077: Watch out they are making a push to catch up" );
                         distance /= 1.5;
                     }
                 } else {
-
-                    HP2069 -= group.get( nbes.random( 0 , group.size( ) - 1 ) ).attack( );
+                    if(distance<group.size()*40 && nbes.random( 0,3 )==3)
+                    {
+                        HP2069 -= group.get( nbes.random( 0 , group.size( ) - 1 ) ).attack( );
+                    }
                     if ( HP2069 < 1 ) {
                         restart( );
                     }
@@ -88,7 +93,7 @@ public class Lbop extends Game {
                 String word = group.get( nbes.random( 0 , group.size( ) - 1 ) ).emmi_type;
                 int    i    = 0;
                 while ( ! group.isEmpty( ) && nbes.quickTime( word , group.size( ) * 1000 ) ) {
-                    i++;
+                    i+=maxHit/3;
                     if ( i > group.get( 0 ).emmi_num ) {
                         i = 0;
                         nbes.sPrintln( "2077: The " + group.get( 0 ).emmi_type + " is down" );
@@ -97,12 +102,13 @@ public class Lbop extends Game {
                     }
                     word = group.get( nbes.random( 0 , group.size( ) - 1 ) ).emmi_type;
                 }
-                if ( group.isEmpty( ) ) {
-                    return deadTargets;
+                if ( !group.isEmpty( ) ) {
+                    restart( );
                 }
-                restart( );
             }
         }
+        exp1+=((deadTargets*50)*level2069)/3;
+        nbes.sPrintln( "2069 gains "+((deadTargets*50)*level2069)/3+" exp" );
         return deadTargets;
     }
     public void battle() {
@@ -112,8 +118,7 @@ public class Lbop extends Game {
         int distance = nbes.random( 30 , 100 );
         while ( emmi.emmi_HP>0) {
             nbes.sPrintln( "2069: They are only " + distance + " Feet away" );
-            nbes.sPrintln( "2069 health " + HP2069 );
-            nbes.sPrintln( emmi.emmi_type + " health " + emmi.emmi_HP );
+            nbes.sPrintln( "2069 health " + HP2069+"\n"+emmi.emmi_type + " health " + emmi.emmi_HP );
             attack( );
             emmi.emmi_HP -= choseAttack( );
             distance -= attackTime;
@@ -125,10 +130,16 @@ public class Lbop extends Game {
                         restart( );
                     }
                 } else {
-                nbes.sPrintln( "2069: The M.E.T.A's have caught up" );
+                nbes.sPrintln( "2069: The M.E.T.A has caught up" );
+                nbes.sPrintln( "2077: Let me deal with them" );
+                while ( emmi.emmi_HP>0 && nbes.quickTime( emmi.emmi_type ,3000 ) ) {
+                    emmi.emmi_HP-=maxHit*2;
+                }
                 restart( );
             }
         }
+        exp1+=300;
+        nbes.sPrintln( "2069 gains 300 exp" );
     }
 
     @Override
@@ -140,7 +151,6 @@ public class Lbop extends Game {
             nbes.sPrintln( "*2048 has joined the team*" );
             is2048joined = true;
             writeTeam( is2051joined , true , Timeline );
-            sendToBot( "2048 just joined " + user + "'s party" );
         } else if ( ! is2051joined && nbes.random( missionNum * 2 , 30 ) == 30 ) {
             HP2069 = HPmax;
             nbes.sPrintln( "2051: Playtime is over" );
@@ -148,7 +158,6 @@ public class Lbop extends Game {
             nbes.sPrintln( "*2051 has joined the team*" );
             is2051joined = true;
             writeTeam( true , is2048joined , Timeline );
-            sendToBot( "2051 just joined " + user + "'s party" );
         } else {
             nbes.sPrintln( "The world around you begins to fade to black" );
             nbes.sPrintln( "???: Its just sad to see you fall" );
@@ -159,7 +168,6 @@ public class Lbop extends Game {
                 choice = nbes.inputString( "Type ¨START¨ to continue " );
             }
             System.out.println( );
-            sendToBot( user + " has fallen. Good thing ??? is here" );
             save( );
             game( );
         }
@@ -180,12 +188,12 @@ public class Lbop extends Game {
                 index=nbes.inputInt( "Which attack? A number (0-" + ( allAttacks.length - 1 ) + ")" );
                 choice = allAttacks[index];
             }
-            int power = nbes.inputInt( "What tier? A number (" + choice.attackTier + "-5 )" );
-            while ( power < 6 || power < choice.attackTier) {
-                power = nbes.inputInt( "What tier? A number (" + choice.attackTier + "-5 )" );
+            int power = nbes.inputInt( "What tier? A number (" + choice.attackTier+1 + "-5 )" );
+            while ( power > 6 || power < choice.attackTier) {
+                power = nbes.inputInt( "What tier? A number (" + choice.attackTier+1 + "-5 )" );
             }
-            int min = ((power-choice.attackTier)*power)*(power* nbes.random(20,30));
-            int offer = ((power-choice.attackTier)*power)*(power*50);
+            int min = ((power-choice.attackTier)^2)*nbes.random(20,30);
+            int offer = ((power-choice.attackTier)^2)*50;
             int yourOffer = nbes.inputInt("What is your offer? (max: "+exp1+")");
             if(yourOffer>exp1)
             {

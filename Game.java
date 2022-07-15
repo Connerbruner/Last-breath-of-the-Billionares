@@ -3,30 +3,30 @@ import java.util.ArrayList;
 class Game extends FileRead {
     public static final int MAX_EMMI = 8;
     String   savePath;
-    String   user;
-    int      HP2069;
     int      Timeline;
     Object[] resetArr;
+    String   name;
 
-    int      lastAttack   = 5;
-    int      attackNum    = 5;
-    boolean  attackType;
-    int      attackTime   = 0;
-    int      attackStun   = 0;
-    int      stars        = 0;
-    int      speed        = 0;
-    int      stun         = 0;
+    int     HP2069;
+    int     lastAttack = 5;
+    int     attackNum  = 5;
+    boolean attackType;
+    int     attackTime = 0;
+    int     attackStun = 0;
+    int     stars      = 0;
+    int     speed      = 0;
+    int     stun       = 0;
 
     // Array vars (placed in Lbob.txt)
-    int      missionNum   = 10;
-    int      HPmax        = 50;
-    int      cureTier     = 1;
-    int      level2069    = 1;
-    int      exp1         = 0;
-    int      levelR1      = 20;
-    int      maxHit       = 5;
-    boolean  is2051joined = false;
-    boolean  is2048joined = false;
+    int     missionNum   = 10;
+    int     HPmax        = 50;
+    int     cureTier     = 1;
+    int     level2069    = 1;
+    int     exp1         = 0;
+    int     levelR1      = 20;
+    int     maxHit       = 5;
+    boolean is2051joined = false;
+    boolean is2048joined = false;
 
 
     //Items
@@ -143,16 +143,11 @@ class Game extends FileRead {
     int      num        = 0;
 
     //Setup
-    public Game( String file , String name , int speed , int placement , Object[] arr ) {
+    public Game( String gameName , String file , int placement , Object[] arr ) {
         savePath = file;
-        user     = name;
-        tSpeed   = speed;
         Timeline = placement;
         resetArr = arr;
-        if ( resetArr != null ) {
-            grabSave( );
-        }
-
+        name     = gameName;
     }
 
 
@@ -178,7 +173,6 @@ class Game extends FileRead {
             num = nbes.random( mission * 10 , mission * 30 );
         }
         nbes.sPrintln( "2069 gains " + num + " exp" );
-        sendToBot( user + " Completed mission" + mission );
         exp1 += num;
         levelUp( );
         save( );
@@ -188,7 +182,6 @@ class Game extends FileRead {
     public void bossFight( Boss boss ) {
         if ( ! boss.differntPhases.isEmpty( ) ) {
             HP2069 = HPmax;
-            sendToBot( user + " begins to fight " + boss.differntPhases.get( 0 ).name );
             while ( ! boss.differntPhases.isEmpty( ) ) {
                 Phase current = boss.differntPhases.get( 0 );
                 nbes.sPrint( current.name + "'s Health " + current.getHP( ) );
@@ -207,7 +200,6 @@ class Game extends FileRead {
                 }
                 boss.checkArray( );
                 restart( );
-                sendToBot( user + "defeated a Boss" );
             }
             save( );
             exp1 += 100;
@@ -257,8 +249,7 @@ class Game extends FileRead {
         System.out.println( );
         //This while loop just
         long start_Time = System.currentTimeMillis( );
-
-        attackNum = nbes.inputInt( "Which attack? A number (0-" + ( allAttacks.length - 1 ) + ")" );
+        attackNum = nbes.inputInt( "Which attack? A number (0-" + allAttacks.length + ")" );
         System.out.println( );
         String  tackType;
         boolean typeDetermined = false;
@@ -346,7 +337,7 @@ class Game extends FileRead {
             cure( bonus );
             return 0;
         } else if ( backpack != null ) {
-            return backpack.useItem( bonus );
+            return useItem( bonus );
         }
         return 0;
     }
@@ -453,7 +444,6 @@ class Game extends FileRead {
             num = MAX_EMMI;
         }
         Emmi emmi = new Emmi( false , level2069 + stars );
-        sendToBot( user + " just found a " + emmi.emmi_type );
         while ( emmi.emmi_HP > 0 ) {
             nbes.sPrint( "2069 health " + HP2069 );
             nbes.sPrint( emmi.emmi_type + " health " + emmi.emmi_HP );
@@ -478,7 +468,6 @@ class Game extends FileRead {
         }
         exp1 += ( emmi.emmi_level * emmi.emmi_num ) * 2;
         nbes.sPrintln( "You gain " + ( emmi.emmi_level * emmi.emmi_num ) * 2 + " exp" );
-        sendToBot( user + " gains " + ( emmi.emmi_level * emmi.emmi_num ) * 2 + " exp" );
         levelUp( );
         save( );
     }
@@ -492,7 +481,6 @@ class Game extends FileRead {
         ArrayList < Emmi > group = new ArrayList <>( );
         for ( int i = 0 ; i < num ; i += nbes.random( 0 , 2 ) ) {
             group.add( new Emmi( false , 1 ) );
-            sendToBot( user + " just found a " + group.get( i ).emmi_type );
         }
 
         while ( ! group.isEmpty( ) ) {
@@ -523,7 +511,6 @@ class Game extends FileRead {
         }
         exp1 += 200;
         nbes.sPrintln( "You gain 200 exp" );
-        sendToBot( user + " gains 200 exp" );
         levelUp( );
         save( );
     }
@@ -554,7 +541,6 @@ class Game extends FileRead {
 
         exp1 += ( emmi.emmi_level * emmi.emmi_num ) * 2;
         nbes.sPrintln( "You gain " + ( emmi.emmi_level * emmi.emmi_num ) * 2 + " exp" );
-        sendToBot( user + " gains " + ( emmi.emmi_level * emmi.emmi_num ) * 2 + " exp" );
         levelUp( );
         save( );
     }
@@ -569,7 +555,6 @@ class Game extends FileRead {
             level2069++;
             levelR1 = 20 * ( level2069 * level2069 ) / 2;
             nbes.sPrintln( "2069 has " + ( levelR1 - exp1 ) + " exp till leveling up" );
-            sendToBot( user + " Just leveled up. They are now level " + level2069 + ". They got " + levelR1 + " till leveling up" );
             save( );
         }
 
@@ -586,7 +571,6 @@ class Game extends FileRead {
                 nbes.sPrintln( "*2048 has joined the team*" );
                 is2048joined = true;
                 writeTeam( is2051joined , true , Timeline );
-                sendToBot( "2048 just joined " + user + "'s party" );
             } else if ( ! is2051joined && nbes.random( missionNum * 2 , 30 ) == 30 ) {
                 HP2069 = HPmax;
                 nbes.sPrintln( "2051: Playtime is over" );
@@ -594,7 +578,6 @@ class Game extends FileRead {
                 nbes.sPrintln( "*2051 has joined the team*" );
                 is2051joined = true;
                 writeTeam( true , is2048joined , Timeline );
-                sendToBot( "2051 just joined " + user + "'s party" );
             } else {
                 nbes.sPrintln( "The world around you begins to fade to black" );
                 nbes.sPrintln( "???: Welcome back to this world of nothingness " );
@@ -607,7 +590,6 @@ class Game extends FileRead {
                     choice = nbes.inputString( "Type ¨START¨ to continue" );
                 }
                 System.out.println( );
-                sendToBot( user + " has fallen. Good thing ??? is here" );
                 save( );
                 game( );
             }
@@ -631,7 +613,6 @@ class Game extends FileRead {
             }
         }
         Object[] Save = FileRead.Read( savePath );
-        sendToBot( user + " Just loaded up the game using " + savePath );
         for ( int s = 0 ; s < Save.length ; s++ ) {
 
             if ( Save[ s ] != null ) {
@@ -697,7 +678,6 @@ class Game extends FileRead {
                 if ( tier == 1 ) {
                     HPmax += 2;
                     nbes.sPrintln( "2069's max Hp increased by 2" );
-                    sendToBot( user + "'s Max HP increased by 2" );
                 } else if ( tier < 6 ) {
                     num = nbes.random( 1 , 4 );
                     //Ember level up
@@ -705,7 +685,6 @@ class Game extends FileRead {
                         if ( tier > ember.attackTier ) {
                             nbes.sPrintln( "ember leveled up" );
                             nbes.sPrintln( ember.attackTier + " --> " + tier );
-                            sendToBot( user + "'s ember leveled up " + ember.attackTier + " --> " + tier );
                             ember.attackTier = tier;
                         }
                     }
@@ -714,7 +693,6 @@ class Game extends FileRead {
                         if ( tier > cureTier ) {
                             nbes.sPrintln( "Cure leveled up" );
                             nbes.sPrintln( cureTier + " -->" + tier );
-                            sendToBot( user + "'s Cure leveled up " + cureTier + " --> " + tier );
                             cureTier = tier;
                         }
 
@@ -724,7 +702,6 @@ class Game extends FileRead {
                         if ( tier > aqua.attackTier ) {
                             nbes.sPrintln( "Aqua leveled up" );
                             nbes.sPrintln( aqua.attackTier + " --> " + tier );
-                            sendToBot( user + "'s Aqua leveled up " + aqua.attackTier + " --> " + tier );
                             aqua.attackTier = tier;
                         }
                     }
@@ -733,7 +710,6 @@ class Game extends FileRead {
                         if ( tier > freeze.attackTier ) {
                             nbes.sPrintln( "Freeze leveled up" );
                             nbes.sPrintln( freeze.attackTier + " --> " + tier );
-                            sendToBot( user + "'s Laser leveled up " + freeze.attackTier + " --> " + tier );
                             freeze.attackTier = tier;
 
                         }
@@ -741,11 +717,9 @@ class Game extends FileRead {
                 } else if ( tier == 6 ) {
                     maxHit += 1;
                     nbes.sPrintln( "The power of supporting members increased by 1" );
-                    sendToBot( user + "'s power of supporting members increased by 1" );
                 } else {
                     maxHit += 2;
                     nbes.sPrintln( "The power of supporting members increased by 2" );
-                    sendToBot( user + "'s power of supporting members increased by 2" );
                 }
                 pull_num -= 1;
                 save( );
@@ -763,6 +737,17 @@ class Game extends FileRead {
                 return 0;
             } else {
                 return useItem( );
+            }
+        }
+        return 0;
+    }
+    public int useItem(int bonus ) {
+        if ( backpack.dur > 0 ) {
+            if ( backpack.isHeal ) {
+                HP2069 += useItem( bonus/2 );
+                return 0;
+            } else {
+                return useItem( bonus );
             }
         }
         return 0;

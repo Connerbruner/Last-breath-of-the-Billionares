@@ -93,7 +93,7 @@ class Emmi extends FileRead {
         if ( num > METAS.length - 1 ) {
             num = METAS.length - 1;
         }
-        if ( isMeta || nbes.random( 0 , METAS.length-emmi_level ) == 0 ) {
+        if ( isMeta || nbes.random( 0 , METAS.length-(num-1) ) == 0 ) {
 
             int emmi_index = nbes.random( 0 , num );
             emmi_type    = METAS[ emmi_index ].emmi_type;

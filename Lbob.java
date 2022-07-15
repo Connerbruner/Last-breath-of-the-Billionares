@@ -5,8 +5,8 @@ class Lbob extends Game {
     //obj
 
 
-    public Lbob( String file , String name , int speed , int placement,Object[] arr ) {
-        super( file , name , speed , placement,arr);
+    public Lbob( String file, int placement , Object[] arr) {
+        super("Last breath of the Billionaires", file , placement ,arr);
     }
 
 

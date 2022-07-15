@@ -1,25 +1,25 @@
 import java.io.*;
 import java.util.ArrayList;
 
-class Speedrun extends Lbob {
+class Speedrun extends Game {
     int    time;
     Race[] allRaces = {
-            new Race( "VS random emmi" , new Emmi( false , 5 ) ) ,
-            new Race( "VS Random boss" , new Emmi( 5 ) ) ,
+            new Race( "VS random emmi" , new Emmi( Emmi.OTHERS[ 0 ] ) ) ,
+            new Race( "VS Random boss" , new Emmi( Emmi.MINI_BOSSES[ 0 ] ) ) ,
             new Race( "Underground subway" , subway ) ,
             new Race( "VS Bill gates" , gates ) ,
     };
 
 
-    public Speedrun( String file , String name , int speed , int placement ) {
-        super( file , name , speed , placement ,null);
+    public Speedrun( ) {
+        super( "Speedruning",null  , 0 ,null);
         HPmax        = 60;
         maxHit       = 7;
         is2051joined = true;
         is2048joined = true;
     }
 
-    public void menu( ) {
+    public void game( ) {
         for ( int i = 0 ; i < allRaces.length ; i++ ) {
             nbes.sPrint( i + ") " + allRaces[ i ].mission + " Current record: " + readTime( i ) + " sec" );
         }
@@ -50,7 +50,7 @@ class Speedrun extends Lbob {
                 if ( HP2069 <= 0 ) {
                     nbes.sPrintln( "You have fallen" );
                     nbes.sPrintln( "Returning to menu" );
-                    menu( );
+                    game();
                 }
             }
 
@@ -78,7 +78,7 @@ class Speedrun extends Lbob {
                 }
             } else {
                 nbes.sPrintln( "Boss not available" );
-                menu( );
+                game( );
             }
         }
         if ( race.isDungeon ) {
@@ -96,14 +96,11 @@ class Speedrun extends Lbob {
         time = (int) ( System.currentTimeMillis( ) - startTime ) / 1000;
         if ( time < readTime( index ) ) {
             writeScores( index );
-            String msg = "NEW RECORD: " + race.mission + " by " + user + " with a time of " + time;
-            nbes.sPrintln( msg );
-            sendToBot( msg );
         } else {
             nbes.sPrintln( "RUN COMPLETE TIME: " + time );
         }
         if ( nbes.inputBool( "continue?" ) ) {
-            menu( );
+            game( );
         }
 
 
@@ -117,7 +114,7 @@ class Speedrun extends Lbob {
             ArrayList < String > arr      = new ArrayList <>( );
             for ( int i = 0 ; i < 4 ; i++ ) {
                 if ( i == line ) {
-                    arr.add( user + " ; " + time );
+                    arr.add(  " ; " + time );
                     reader.readLine( );
                 } else {
                     arr.add( reader.readLine( ) );
@@ -182,7 +179,7 @@ class Speedrun extends Lbob {
             if ( HP2069 <= 0 ) {
                 nbes.sPrintln( "You have fallen" );
                 nbes.sPrintln( "Returning to menu" );
-                menu( );
+                game( );
             }
         }
 

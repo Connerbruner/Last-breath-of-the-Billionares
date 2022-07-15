@@ -26,8 +26,8 @@ class Lbog extends Game {
     int     HPM      = 50;
     int     story    = 0;
 
-    public Lbog( String file , String name , int speed , int placement) {
-        super( file , name , speed , placement ,null);
+    public Lbog() {
+        super( "Last breath of Gordy",null , 6 ,null);
     }
 
     public void game( ) {
@@ -81,7 +81,6 @@ class Lbog extends Game {
                 gordy = new Gordy( field , gordyHP , gordyLevel );
                 lootBackpack( 3 , current );
                 score += gordyLevel * 1000;
-                sendToBot( "???: FOOL GORDY NEVER FALLS" );
             }
             if ( gordy.hallway.hallwayName.equals( current.hallwayName ) ) {
                 HP -= gordy.Attack( );
@@ -97,7 +96,6 @@ class Lbog extends Game {
 
             if ( story == 0 && allGoals[ 0 ].check( current ) ) {
                 robotics.hallUnlocked = true;
-                sendToBot( user + " just got the robotics key" );
                 score += 100;
                 story++;
             }
@@ -113,7 +111,6 @@ class Lbog extends Game {
                 parkingLotBus.hallUnlocked    = true;
                 parkingLotSenior.hallUnlocked = true;
                 parkingLotBack.hallUnlocked   = true;
-                sendToBot( user + " unlocked the parking lots" );
                 score += 1000;
                 lootBackpack( 3 , hallway200 );
                 story++;
@@ -122,7 +119,6 @@ class Lbog extends Game {
             score++;
 
         }
-        sendToBot( user + " has fallen" );
         nbes.sPrintln( "GAME OVER" );
         run.exit( 69420 );
 
@@ -144,7 +140,6 @@ class Lbog extends Game {
         if ( nbes.inputBool( "Want this item" ) ) {
             backpack[ nbes.inputInt( "What slot 0-2" ) ] = temp;
             score++;
-            sendToBot( user + " Just found " + temp );
         }
     }
 

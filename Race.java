@@ -8,7 +8,7 @@ public class Race {
     boolean isDungeon = false;
 
     public Race( String name , Emmi emmi ) {
-        vsEmmi  = emmi;
+        vsEmmi  = new Emmi( emmi );
         mission = name;
         isEmmi  = true;
     }

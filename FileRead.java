@@ -65,17 +65,7 @@ class FileRead {
         }
     }
 
-    public void sendToBot( String str ) {
-        File       fileToBeModified = new File( "Files/bot.txt" );
-        FileWriter wr;
-        try {
-            wr = new FileWriter( fileToBeModified );
-            wr.write( str );
-            wr.close( );
-        } catch ( IOException e ) {
-            e.printStackTrace( );
-        }
-    }
+
 
     public int[] readTeam( ) {
         try {

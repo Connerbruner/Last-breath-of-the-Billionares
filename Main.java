@@ -1,35 +1,28 @@
 class Main {
+    static Game[] games = {
+            new Lbob( "Files/Lbob.txt"  , 9 , new Object[] { 1 , 50 , 1 , 20 , 0 , 1 , 1 , 1 , 1 , 5 }),
+            new Lbop( "Files/Lbop.txt",8, new Object[] { 0 , 50 , 1 , 20 , 0 , 1 , 1 , 1 , 1 , 5 }),
+            new Lbog(),
+            new Speedrun()
+    };
     public static void main( String[] args ) {
         FileRead.nbes.tSpeed = 10;
         FileRead.nbes.sPrintln( "???: Hello, Welcome to Last breath of the Billionaires" );
         FileRead.nbes.sPrintln( "The text is currently at a speed of 10, if you lower that number it will speed up the text, if you raise the number it will move slower" );
         FileRead.nbes.tSpeed = FileRead.nbes.inputInt( "what should the text speed be?" );
-        String user = FileRead.nbes.inputString( "Please enter a username that will be shown to the server" );
-
-        System.out.println( );
-
-        //cheat code end
-        FileRead.nbes.sPrintln( "???: Quick warnings" );
         FileRead.nbes.sPrintln( "This game does not condone any violence. This is a work of fiction, and any resemblance to characters, real or fictional, is a coincidence." );
-        FileRead.nbes.sPrintln( "Your gameplay is being reported to a disord server" );
 
-        FileRead.nbes.sPrint( "1) Last breath of the Billionaires" );
-        FileRead.nbes.sPrint( "2) Last Breath of Gordy" );
-        FileRead.nbes.sPrint( "3) Speedrunning" );
-        int choice = FileRead.nbes.inputInt( "???: Which game do you want to play?" );
-        while ( choice > 3 ) {
-            choice = FileRead.nbes.inputInt( "???: Which game do you want to play?" );
+        for(int i=0; i< games.length; i++)
+        {
+            FileRead.nbes.sPrint(i+") "+games[i].name);
         }
-        System.out.println( "testing" );
-        if ( choice == 1 ) {
-            Lbob game = new Lbob( "Files/Lbob.txt" , user , FileRead.nbes.tSpeed , 9 ,new Object[] { 0 , 50 , 1 , 20 , 0 , 1 , 1 , 1 , 1 , 5 });
-            game.game( );
-        } else if ( choice == 2 ) {
-            Lbog game = new Lbog( null , user , FileRead.nbes.tSpeed , - 3 );
-            game.game( );
-        } else {
-            Speedrun game = new Speedrun( null , user , FileRead.nbes.tSpeed , 9 );
-            game.menu( );
+        int choice = FileRead.nbes.inputInt( "???: Which game? (0-"+(games.length-1)+")" );
+        while ( choice > games.length-1 ) {
+            choice = FileRead.nbes.inputInt( "???: Which game? (0-"+(games.length-1) );
         }
+        if ( games[choice].resetArr != null && games[choice].savePath != null ) {
+            games[choice].grabSave( );
+        }
+        games[choice].game();
     }
 }

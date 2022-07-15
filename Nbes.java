@@ -21,11 +21,12 @@ public class Nbes extends JFrame {
     static final JTextPane  TEXT1        = new JTextPane( );
     static final JTextField INPUT        = new JTextField( 10 );
     static final JFrame     SYSTEM       = new JFrame( "NBES (Non Binary Entertainment System)" );
-    volatile     boolean    keyButton    = false;
-    static final int        PLATERGB     = JColorChooser.showDialog( SYSTEM , "What color would you like the system?" , SYSTEM.getBackground( ) ).getRGB( );
+    static final Color      PLATE_COLOR  = JColorChooser.showDialog( SYSTEM , "What color would you like the system?" , SYSTEM.getBackground( ) );
     static final Color      SCREEN_COLOR = JColorChooser.showDialog( SYSTEM , "What color would you like the screen?" , SYSTEM.getBackground( ) );
 
-    String        lastsPrint    = "";
+    static final Color GREEN = new Color( 0 , 102 , 0 );
+    static final Color CYAN  = new Color( 102 , 153 , 255 );
+    static final Color PURPLE = new Color( 102 , 0 , 102 );
     MouseListener mouseListener = new MouseListener( ) {
         @Override
         public void mouseClicked( MouseEvent e ) {
@@ -53,7 +54,8 @@ public class Nbes extends JFrame {
         }
     };
 
-
+    String lastsPrint = "";
+    volatile boolean keyButton = false;
     int tSpeed = 20;
 
     public Nbes( ) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
@@ -101,7 +103,7 @@ public class Nbes extends JFrame {
                     plate.setRGB( j , i , SCREEN_COLOR.getRGB( ) );
 
                 } else {
-                    plate.setRGB( j , i , PLATERGB );
+                    plate.setRGB( j , i , PLATE_COLOR.getRGB( ) );
                 }
 
             }
@@ -114,7 +116,7 @@ public class Nbes extends JFrame {
         sPrint( "(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
-        INPUT.requestFocus();
+        INPUT.requestFocus( );
         while ( INPUT.getText( ).equals( "" ) || ! keyButton ) ;
         SYSTEM.requestFocusInWindow( );
         INPUT.setEditable( false );
@@ -128,7 +130,7 @@ public class Nbes extends JFrame {
         sPrint( "(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
-        INPUT.requestFocus();
+        INPUT.requestFocus( );
         while ( INPUT.getText( ).equals( "" ) || ! keyButton ) ;
         SYSTEM.requestFocusInWindow( );
         INPUT.setEditable( false );
@@ -145,7 +147,7 @@ public class Nbes extends JFrame {
         sPrint( "(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
-        INPUT.requestFocus();
+        INPUT.requestFocus( );
         while ( INPUT.getText( ).equals( "" ) || ! keyButton ) ;
         SYSTEM.requestFocusInWindow( );
         INPUT.setEditable( false );
@@ -160,9 +162,9 @@ public class Nbes extends JFrame {
         String text = "";
         for ( int i = 0 ; i < str.length( ) ; i++ ) {
             text += str.charAt( i );
-            setText1( text );
+            setText1( textFormat( text ) );
         }
-        setText1( text + "\n>Click<" );
+        setText1( textFormat( text ) + "\n>Click<" );
         while ( ! keyButton ) {
             SYSTEM.requestFocusInWindow( );
         }
@@ -172,48 +174,26 @@ public class Nbes extends JFrame {
     }
 
     public void sPrint( String str ) {
-        String text     = "";
-        String starting = lastsPrint;
+        String text = "";
         for ( int i = 0 ; i < str.length( ) ; i++ ) {
             text += str.charAt( i );
-            addText1( starting , text );
+            setText1( lastsPrint + textFormat( text ) );
         }
-        lastsPrint += str + "\n";
-
+        lastsPrint += textFormat( str ) + "\n";
     }
 
     public void wait( int time ) {
         long startTime = System.currentTimeMillis( );
         while ( startTime + time > System.currentTimeMillis( ) ) ;
+        System.gc();
         SYSTEM.requestFocusInWindow( );
     }
 
     public void setText1( String str ) {
-        StringBuilder text    = new StringBuilder( "\n\n\n\n\n" );
-        char[]        charArr = str.toCharArray( );
-        for ( int i = 0 ; i < charArr.length ; i++ ) {
-            if ( i % MAX_CHAR == 0 && i > MAX_CHAR - 1 ) {
-                text.append( "\n" );
-            }
-            text.append( charArr[ i ] );
-        }
-        TEXT1.setText( text.toString( ) );
+        TEXT1.setText( "\n\n\n\n\n" + str );
         wait( tSpeed * 5 );
     }
 
-    public void addText1( String Starting , String str ) {
-
-        StringBuilder text    = new StringBuilder( "\n\n\n\n\n" + Starting );
-        char[]        charArr = str.toCharArray( );
-        for ( int i = 0 ; i < charArr.length ; i++ ) {
-            if ( i % MAX_CHAR == 0 && i > MAX_CHAR - 1 ) {
-                text.append( "\n" );
-            }
-            text.append( charArr[ i ] );
-        }
-        TEXT1.setText( text.toString( ) );
-        wait( tSpeed * 5 );
-    }
 
     public boolean strIsInt( String string ) {
         try {
@@ -234,11 +214,36 @@ public class Nbes extends JFrame {
         INPUT.setText( "" );
         sPrint( "Type " + word );
         INPUT.setEditable( true );
-        INPUT.requestFocus();
+        INPUT.requestFocus( );
         while ( ! INPUT.getText( ).equals( word ) && startTime + millis > System.currentTimeMillis( ) ) ;
         TEXT1.setText( "" );
         INPUT.setEditable( false );
         return INPUT.getText( ).equals( word );
+    }
+
+    public String textFormat( String str ) {
+        StringBuilder string  = new StringBuilder( );
+        char[]        charArr = str.toCharArray( );
+        for ( int i = 0 ; i < charArr.length ; i++ ) {
+            if ( i % MAX_CHAR == 0 && i > MAX_CHAR - 1 ) {
+                string.append( "\n" );
+            }
+            string.append( charArr[ i ] );
+        }
+        if ( str.contains( "2069" ) ) {
+            TEXT1.setForeground( Color.blue );
+        } else if ( str.contains( "2077" ) ) {
+            TEXT1.setForeground( CYAN );
+        } else if ( str.contains( "*" ) ) {
+            TEXT1.setForeground( GREEN );
+        } else if ( str.contains( "???" ) ) {
+            TEXT1.setForeground( PURPLE );
+        } else if ( str.contains( "Bill Gates" ) || str.contains( "Elon musk" ) || str.contains( "Jeff bezos" ) || str.contains( "Mark Zuckerberg" ) || str.contains( "UNKNOWN_PERSON" ) || str.contains( "Gordy" ) ) {
+            TEXT1.setForeground( Color.red );
+        } else {
+            TEXT1.setForeground( Color.black );
+        }
+        return string.toString( );
     }
 
 
