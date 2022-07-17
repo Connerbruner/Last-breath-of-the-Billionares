@@ -49,16 +49,22 @@ class Attack extends FileRead {
     }
 
     public int attack( double power , boolean style ) {
+
+        num = low + nbes.quickTime( (int) ( 20000 * (0.5 +  (attackTier / 2)) ) , attackName );
+        if ( num > high ) {
+            num = high;
+            if ( style )
+            {
+                num = (int) ( high * (0.5 +  (attackTier / 2)) );
+            }
+        }
         if ( style ) {
             nbes.sPrint( "Fast " + attackName );
-            num = (int) ( ( nbes.random( low , high ) * ( ( attackTier / 2 ) + 0.5 ) ) * power );
         } else {
             nbes.sPrint( "Powerful " + attackName );
-            num = (int) ( ( ( nbes.random( low , high ) * ( ( attackTier / 2 ) + 0.5 ) ) * 1.5 ) * power );
-
         }
-        nbes.sPrintln( "2069 deals " + num + " damage" );
-        return num;
+        nbes.sPrintln( "2069 deals " + (int) ( num * power ) + " damage" );
+        return (int) ( num * power );
     }
 
     public int attack( ) {
@@ -67,11 +73,13 @@ class Attack extends FileRead {
         nbes.sPrintln( attackUser + " deals " + num + " damage" );
         return num;
     }
-    public int attack(int level) {
+
+    public int attack( int level ) {
         nbes.sPrint( attackName );
-        num = nbes.random( low , high )+level;
+        num = nbes.random( low , high ) + level;
         nbes.sPrintln( attackUser + " deals " + num + " damage" );
         return num;
     }
+
 }
 

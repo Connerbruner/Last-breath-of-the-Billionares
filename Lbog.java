@@ -79,7 +79,7 @@ class Lbog extends Game {
                 gordyHP *= 1.5;
                 gordyLevel *= 1.5;
                 gordy = new Gordy( field , gordyHP , gordyLevel );
-                lootBackpack( 3 , current );
+                lootBackpack( 3 );
                 score += gordyLevel * 1000;
             }
             if ( gordy.hallway.hallwayName.equals( current.hallwayName ) ) {
@@ -101,7 +101,7 @@ class Lbog extends Game {
             }
             if ( story == 1 && allGoals[ 1 ].check( current ) ) {
                 swim.hallUnlocked = true;
-                lootBackpack( 2 , robotics );
+                lootBackpack( 2 );
                 score += 300;
                 story++;
             }
@@ -112,7 +112,7 @@ class Lbog extends Game {
                 parkingLotSenior.hallUnlocked = true;
                 parkingLotBack.hallUnlocked   = true;
                 score += 1000;
-                lootBackpack( 3 , hallway200 );
+                lootBackpack( 3 );
                 story++;
 
             }
@@ -124,7 +124,7 @@ class Lbog extends Game {
 
     }
 
-    public void lootBackpack( int size , Hallway lootTable ) {
+    public void lootBackpack( int size ) {
         nbes.sPrintln( "You find a Backpack Size: " + size );
         for ( ; size > 0 ; size-- ) {
             find( );

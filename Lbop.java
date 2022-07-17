@@ -33,7 +33,12 @@ public class Lbop extends Game {
         int choice = nbes.inputInt( "What would you like to do?" );
         if(choice==1)
         {
-            missionNum-=battle(nbes.random( 1,3));
+            num=(level2069/3)+1;
+            if(num>5)
+            {
+                num=5;
+            }
+            missionNum-=battle(nbes.random( 1,num));
             if(missionNum%10==0)
             {
                 battle();
@@ -51,7 +56,7 @@ public class Lbop extends Game {
     public int battle( int targets ) {
         nbes.sPrintln( "2069: We have " + targets + " M.E.T.As on us" );
         nbes.sPrintln( "2077: Soon its gonna be zero" );
-        int distance = nbes.random( 100 , 200 );
+        int distance = nbes.random( 75 , 150 );
 
         ArrayList < Emmi > group = new ArrayList <>( );
         for ( int i = 0 ; i < targets ; i++ ) {

@@ -136,7 +136,7 @@ class Game extends FileRead {
     Item     backpack   = allItems[ nbes.random( 0 , allItems.length - 1 ) ].createRandomItem( );
     //2069 attacks
     Attack   aqua       = new Attack( "Aqua" , 5 , 10 , 6 , 5 );
-    Attack   freeze     = new Attack( "freeze" , 17 , 30 , 15 , 10 );
+    Attack   freeze     = new Attack( "Freeze" , 13 , 30 , 15 , 10 );
     Attack   ember      = new Attack( "Ember" , 10 , 20 , 7 , 4 );
     Attack[] allAttacks = { aqua , freeze , ember };
     //misc
@@ -650,13 +650,11 @@ class Game extends FileRead {
                 if ( s == 9 ) {
                     maxHit = val;
                 }
-                int[] team = readTeam( );
-                is2051joined = team[ 0 ] <= Timeline;
-                is2048joined = team[ 1 ] <= Timeline;
             }
-
         }
-        System.out.flush( );
+        int[] team = readTeam( );
+        is2051joined = team[ 0 ] <= Timeline;
+        is2048joined = team[ 1 ] <= Timeline;
     }
 
     //gotcha

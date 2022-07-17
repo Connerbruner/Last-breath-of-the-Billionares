@@ -1,5 +1,3 @@
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -58,7 +56,7 @@ public class Nbes extends JFrame {
     volatile boolean keyButton = false;
     int tSpeed = 20;
 
-    public Nbes( ) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    public Nbes( ) {
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
             ge.registerFont( Font.createFont( Font.TRUETYPE_FONT , new File( "Files/Retro Gaming.ttf" ) ) );
@@ -219,6 +217,25 @@ public class Nbes extends JFrame {
         TEXT1.setText( "" );
         INPUT.setEditable( false );
         return INPUT.getText( ).equals( word );
+    }
+    public int quickTime( int millis,String word )
+    {
+        long startTime = System.currentTimeMillis( );
+        int hits=0;
+        sPrint( "Keeping Typing " + word +" until time is up" );
+        INPUT.setText( "" );
+        INPUT.setEditable( true );
+        INPUT.requestFocus( );
+        while ( startTime+millis>System.currentTimeMillis() )
+        {
+            if( INPUT.getText( ).equals( word ))
+            {
+                INPUT.setText( "" );
+                hits++;
+            }
+        }
+        INPUT.setEditable( false );
+        return hits*2;
     }
 
     public String textFormat( String str ) {
