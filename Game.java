@@ -152,7 +152,7 @@ class Game extends FileRead {
 
 
     //fights giga mech
-    public void fightMech( ) {
+    public void miniBossFight( ) {
         Emmi giga = new Emmi( level2069 + 5 );
         battle( giga );
     }
@@ -180,11 +180,11 @@ class Game extends FileRead {
 
     //boss fight
     public void bossFight( Boss boss ) {
-        if ( ! boss.differntPhases.isEmpty( ) ) {
+        if ( ! boss.differentPhases.isEmpty( ) ) {
             HP2069 = HPmax;
-            while ( ! boss.differntPhases.isEmpty( ) ) {
-                Phase current = boss.differntPhases.get( 0 );
-                nbes.sPrint( current.name + "'s Health " + current.getHP( ) );
+            while ( ! boss.differentPhases.isEmpty( ) ) {
+                Phase current = boss.differentPhases.get( 0 );
+                nbes.sPrint( current.name + "'s Health " + current.HP );
                 nbes.sPrintln( "2069's Health " + HP2069 );
 
                 current.pickAttack( );
@@ -246,11 +246,10 @@ class Game extends FileRead {
             nbes.sPrint( i + "( " + allAttacks[ i ] );
         }
         nbes.sPrint( allAttacks.length + ") Fusion charm with Item (Speed: 3)" );
-        System.out.println( );
         //This while loop just
         long start_Time = System.currentTimeMillis( );
         attackNum = nbes.inputInt( "Which attack? A number (0-" + allAttacks.length + ")" );
-        System.out.println( );
+        
         String  tackType;
         boolean typeDetermined = false;
         //loop that determines the type without making you want to break a .jar
@@ -263,7 +262,7 @@ class Game extends FileRead {
                 attackType     = true;
                 typeDetermined = true;
             }
-            System.out.println( );
+            
         }
 
 
@@ -280,7 +279,7 @@ class Game extends FileRead {
         }
 
         attackStun += stun;
-        attackTime -= speed + ( tSpeed * 10 );
+        attackTime -= speed + ( nbes.tSpeed * 10 );
         stun  = 0;
         speed = 0;
         save( );
@@ -447,7 +446,7 @@ class Game extends FileRead {
         while ( emmi.emmi_HP > 0 ) {
             nbes.sPrint( "2069 health " + HP2069 );
             nbes.sPrint( emmi.emmi_type + " health " + emmi.emmi_HP );
-            System.out.println( );
+            
             emmi.emmi_prep( );
             attack( );
             if ( attackTime < emmi.curAttack.speed ) {
@@ -487,7 +486,7 @@ class Game extends FileRead {
             Emmi cur = group.get( 0 );
             nbes.sPrint( "2069 health " + HP2069 );
             nbes.sPrint( cur.emmi_type + " health " + cur.emmi_HP );
-            System.out.println( );
+            
             cur.emmi_prep( );
             attack( );
             if ( attackTime < cur.curAttack.speed ) {
@@ -520,7 +519,7 @@ class Game extends FileRead {
         while ( emmi.emmi_HP > 0 ) {
             nbes.sPrint( "2069 health " + HP2069 );
             nbes.sPrint( emmi.emmi_type + " health " + emmi.emmi_HP );
-            System.out.println( );
+            
             emmi.emmi_prep( );
             attack( );
             if ( attackTime < emmi.curAttack.speed ) {
@@ -589,7 +588,6 @@ class Game extends FileRead {
                 while ( ! choice.equals( "START" ) ) {
                     choice = nbes.inputString( "Type ¨START¨ to continue" );
                 }
-                System.out.println( );
                 save( );
                 game( );
             }
@@ -652,9 +650,7 @@ class Game extends FileRead {
                 }
             }
         }
-        int[] team = readTeam( );
-        is2051joined = team[ 0 ] <= Timeline;
-        is2048joined = team[ 1 ] <= Timeline;
+
     }
 
     //gotcha
@@ -742,10 +738,10 @@ class Game extends FileRead {
     public int useItem(int bonus ) {
         if ( backpack.dur > 0 ) {
             if ( backpack.isHeal ) {
-                HP2069 += useItem( bonus/2 );
+                HP2069 += backpack.useItem( bonus/2 );
                 return 0;
             } else {
-                return useItem( bonus );
+                return backpack.useItem( bonus );
             }
         }
         return 0;

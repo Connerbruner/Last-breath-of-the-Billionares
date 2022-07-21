@@ -1,15 +1,14 @@
 class Lbog extends Game {
 
-    String    user;
+    String user;
     //items in loot tables
 
 
-
     //Gordy
-    int       gordyHP          = 100;
-    int       gordyLevel       = 3;
-    Gordy     gordy            = new Gordy( field , gordyHP , gordyLevel );
-    int       score            = 0;
+    int   gordyHP    = 100;
+    int   gordyLevel = 3;
+    Gordy gordy      = new Gordy( field , gordyHP , gordyLevel );
+    int   score      = 0;
 
     //Goal[]
     Goal[] allGoals = {
@@ -26,8 +25,8 @@ class Lbog extends Game {
     int     HPM      = 50;
     int     story    = 0;
 
-    public Lbog() {
-        super( "Last breath of Gordy",null , 6 ,null);
+    public Lbog( ) {
+        super( "Last breath of Gordy" , null , 6 , null );
     }
 
     public void game( ) {

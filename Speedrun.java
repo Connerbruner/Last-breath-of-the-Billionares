@@ -12,7 +12,7 @@ class Speedrun extends Game {
 
 
     public Speedrun( ) {
-        super( "Speedruning",null  , 0 ,null);
+        super( "Speedruning" , null , 0 , null );
         HPmax        = 60;
         maxHit       = 7;
         is2051joined = true;
@@ -43,24 +43,24 @@ class Speedrun extends Game {
                     }
                 }
                 if ( emmi.emmi_HP > 1 && ( attackTime > emmi.curAttack.speed || attackStun < ( emmi.emmi_num + 5 ) ) ) {
-                    HP2069 -= emmi.attack();
-                } else if ( ( attackStun < emmi.emmi_num + 2 )) {
+                    HP2069 -= emmi.attack( );
+                } else if ( ( attackStun < emmi.emmi_num + 2 ) ) {
                     emmi.emmi_HP -= chainAttack( emmi.emmi_HP );
                 }
                 if ( HP2069 <= 0 ) {
                     nbes.sPrintln( "You have fallen" );
                     nbes.sPrintln( "Returning to menu" );
-                    game();
+                    game( );
                 }
             }
 
         }
         if ( race.isBoss ) {
             Boss boss = race.vsBoss;
-            if ( ! boss.differntPhases.isEmpty( ) ) {
-                while ( ! boss.differntPhases.isEmpty( ) ) {
-                    Phase current = boss.differntPhases.get( 0 );
-                    nbes.sPrint( current.name + "'s Health " + current.getHP( ) );
+            if ( ! boss.differentPhases.isEmpty( ) ) {
+                while ( ! boss.differentPhases.isEmpty( ) ) {
+                    Phase current = boss.differentPhases.get( 0 );
+                    nbes.sPrint( current.name + "'s Health " + current.HP );
                     nbes.sPrintln( "2069's Health " + HP2069 );
 
                     current.pickAttack( );
@@ -114,7 +114,7 @@ class Speedrun extends Game {
             ArrayList < String > arr      = new ArrayList <>( );
             for ( int i = 0 ; i < 4 ; i++ ) {
                 if ( i == line ) {
-                    arr.add(  " ; " + time );
+                    arr.add( " ; " + time );
                     reader.readLine( );
                 } else {
                     arr.add( reader.readLine( ) );
@@ -172,8 +172,8 @@ class Speedrun extends Game {
 
             }
             if ( emmi.emmi_HP > 1 && ( attackTime > emmi.curAttack.speed || attackStun < ( emmi.emmi_num + 5 ) ) ) {
-                HP2069 -= emmi.attack();
-            } else if ( is2051joined &&  ( attackStun < emmi.emmi_num + 2 ) ) {
+                HP2069 -= emmi.attack( );
+            } else if ( is2051joined && ( attackStun < emmi.emmi_num + 2 ) ) {
                 emmi.emmi_HP -= chainAttack( emmi.emmi_HP );
             }
             if ( HP2069 <= 0 ) {
@@ -186,3 +186,34 @@ class Speedrun extends Game {
     }
 
 }
+
+class Race {
+    Emmi    vsEmmi;
+    Boss    vsBoss;
+    Dungeon vsDungeon;
+    String  mission;
+    boolean isEmmi    = false;
+    boolean isBoss    = false;
+    boolean isDungeon = false;
+
+    public Race( String name , Emmi emmi ) {
+        vsEmmi  = new Emmi( emmi );
+        mission = name;
+        isEmmi  = true;
+    }
+
+    public Race( String name , Boss boss ) {
+        vsBoss  = boss;
+        mission = name;
+        isBoss  = true;
+    }
+
+    public Race( String name , Dungeon dungeon ) {
+        vsDungeon = dungeon;
+        mission   = name;
+        isDungeon = true;
+    }
+
+
+}
+

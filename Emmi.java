@@ -5,7 +5,7 @@ class Emmi extends FileRead {
     int      emmi_num;
     Attack[] emmi_attacks;
     Attack   curAttack;
-    final static Emmi[] METAS       = {
+    static Emmi[] METAS       = {
             new Emmi( "Sword bot" , 25 , new Attack[] {
                     new Attack( "Sword bot" , "TRIPLE SLASH" , 5 , 15 , 17 ) ,
                     new Attack( "Sword bot" , "BLADE OF DESTRUCTION" , 1 , 20 , 30 ) ,
@@ -28,7 +28,7 @@ class Emmi extends FileRead {
             } ) ,
 
     };
-    final static Emmi[] MINI_BOSSES = {
+    static Emmi[] MINI_BOSSES = {
             new Emmi( "GIGA MECH" , 200 , new Attack[] {
                     new Attack( "GIGA MECH" , "LASER RAIN" , 10 , 25 , 15 ) ,
                     new Attack( "GIGA MECH" , "POWER BURST" , 15 , 30 , 17 ) ,
@@ -43,14 +43,14 @@ class Emmi extends FileRead {
                     new Attack( "Mech" , "LASER RAIN" , 5 , 25 , 20 ) ,
                     new Attack( "Mech" , "POWER BURST" , 10 , 30 , 20 ) ,
                     new Attack( "Mech" , "ULTIMATE RUSH" , 1 , 50 , 30 )
-            } ),
+            } ) ,
             new Emmi( "Tesla" , 150 , new Attack[] {
                     new Attack( "Tesla" , "SPEED RUSH" , 5 , 10 , 5 ) ,
                     new Attack( "Tesla" , "POWER BURST" , 10 , 20 , 15 ) ,
-                    new Attack( "Tesla" , "DUMP TRUCK SLAM" , 20 , 30 , 35)
-            } ),
+                    new Attack( "Tesla" , "DUMP TRUCK SLAM" , 20 , 30 , 35 )
+            } ) ,
     };
-    final static Emmi[] OTHERS      = {
+    static Emmi[] OTHERS      = {
             new Emmi( "Roomba" , 35 , new Attack[] {
                     new Attack( "Roomba" , "ROOMBA RUSH" , 10 , 30 , 30 ) ,
                     new Attack( "Roomba" , "DARK RUSH" , 1 , 10 , 15 )
@@ -93,7 +93,7 @@ class Emmi extends FileRead {
         if ( num > METAS.length - 1 ) {
             num = METAS.length - 1;
         }
-        if ( isMeta || nbes.random( 0 , METAS.length-(num-1) ) == 0 ) {
+        if ( isMeta || nbes.random( 0 , METAS.length - ( num - 1 ) ) == 0 ) {
 
             int emmi_index = nbes.random( 0 , num );
             emmi_type    = METAS[ emmi_index ].emmi_type;
@@ -137,8 +137,7 @@ class Emmi extends FileRead {
     }
 
     public int attack( ) {
-        if(curAttack==null)
-        {
+        if ( curAttack == null ) {
             curAttack = emmi_attacks[ nbes.random( 0 , emmi_attacks.length - 1 ) ];
         }
         return curAttack.attack( emmi_level );

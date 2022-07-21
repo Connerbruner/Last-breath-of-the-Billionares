@@ -5,8 +5,8 @@ class Lbob extends Game {
     //obj
 
 
-    public Lbob( String file, int placement , Object[] arr) {
-        super("Last breath of the Billionaires", file , placement ,arr);
+    public Lbob( String file , int placement , Object[] arr ) {
+        super( "Last breath of the Billionaires" , file , placement , arr );
     }
 
 
@@ -59,7 +59,7 @@ class Lbob extends Game {
                 dungeon( subway );
                 if ( stars > 5 ) {
                     dungeon( local6_11 );
-                    fightMech( );
+                    miniBossFight( );
                 }
                 missionComplete( 1 );
             }

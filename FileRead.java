@@ -1,10 +1,11 @@
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 
 
 class FileRead {
     final static Nbes nbes = new Nbes( );
     Runtime run = Runtime.getRuntime( );
-    int     tSpeed;
 
     public static void Edit( String filePath , Object[] arr ) {
         File       fileToBeModified = new File( filePath );
@@ -12,8 +13,7 @@ class FileRead {
         try {
             writer = new FileWriter( fileToBeModified );
             for ( Object o : arr ) {
-                if(o!=null)
-                {
+                if ( o != null ) {
                     String print = o + "\n";
                     writer.write( print );
                 }
@@ -62,8 +62,8 @@ class FileRead {
             File           txt      = new File( "Files/Team.txt" );
             FileReader     fileRead = new FileReader( txt );
             BufferedReader reader   = new BufferedReader( fileRead );
-            int[] arr = new int[] { Integer.parseInt( reader.readLine( ) ) , Integer.parseInt( reader.readLine( ) ) };
-            reader.close();
+            int[]          arr      = new int[] { Integer.parseInt( reader.readLine( ) ) , Integer.parseInt( reader.readLine( ) ) };
+            reader.close( );
             return arr;
         } catch ( IOException e ) {
             e.printStackTrace( );
@@ -77,20 +77,128 @@ class FileRead {
             File       fileToBeModified = new File( "Files/Team.txt" );
             FileWriter writer           = new FileWriter( fileToBeModified );
             if ( b2051 ) {
-                writer.write( Timeline+"\n" );
+                writer.write( Timeline + "\n" );
             } else {
-                writer.write( team[ 0 ]+"\n" );
+                writer.write( team[ 0 ] + "\n" );
             }
             if ( b2048 ) {
-                writer.write( Timeline+"\n" );
+                writer.write( Timeline + "\n" );
             } else {
-                writer.write( team[ 1 ]+"\n" );
+                writer.write( team[ 1 ] + "\n" );
             }
-            writer.close();
+            writer.close( );
         } catch ( IOException e ) {
             e.printStackTrace( );
         }
     }
 
+
+    public long getUsedMem( ) {
+        return run.maxMemory( ) - run.freeMemory( );
+    }
+
+    public long getFreeMem( ) {
+        return run.freeMemory( );
+    }
+
+    public long getMaxMem( ) {
+        return run.maxMemory( );
+    }
+
+}
+
+class Cheat {
+    String cheatCode;
+    String filePath;
+    String txtOverride;
+
+    boolean isOn;
+    Emmi    emmiOverride;
+    Color[] systemColors;
+    static Cheat[] cheats;
+
+    static {
+        try {
+            cheats = new Cheat[] {
+                    new Cheat( "the whole squad" , "Files/Team.txt" , "0\n0" ) ,
+                    new Cheat( "overplayed dev version" , Emmi.OTHERS[ 0 ] ) ,
+                    new Cheat( "ha ha giga mech" , Emmi.MINI_BOSSES[ 0 ] ) ,
+                    new Cheat( "ace" , new Color[] {
+                            new Color( 0 , 0 , 0 ) ,
+                            new Color( 163 , 163 , 163 ) ,
+                            new Color( 255 , 255 , 255 ) ,
+                            new Color( 128 , 0 , 128 ) , } ) ,
+                    new Cheat( "pride" , new Color[] {
+                            new Color( 209 , 34 , 41 ) ,
+                            new Color( 246 , 138 , 30 ) ,
+                            new Color( 253 , 224 , 26 ) ,
+                            new Color( 0 , 121 , 64 ) ,
+                            new Color( 36 , 64 , 142 ) ,
+                            new Color( 115 , 41 , 130 ) ,
+                    } ) ,
+
+            };
+        } catch ( IOException e ) {
+            throw new RuntimeException( e );
+        }
+    }
+
+
+    private Cheat( String name , Emmi emmi ) throws IOException {
+        cheatCode    = name;
+        emmiOverride = emmi;
+        useCode( );
+    }
+
+    private Cheat( String name , Color[] colors ) throws IOException {
+        cheatCode    = name;
+        systemColors = colors;
+        useCode( );
+    }
+
+    private Cheat( String name , String file , String txt ) throws IOException {
+        cheatCode   = name;
+        filePath    = file;
+        txtOverride = txt;
+        useCode( );
+    }
+
+    public static boolean checkCode( Cheat code ) throws IOException {
+
+        code.isOn = getCodeString( ).contains( code.cheatCode );
+        return code.isOn;
+    }
+
+    public static String getCodeString( ) throws IOException {
+        File           txt        = new File( "Files/Cheats.txt" );
+        FileReader     fileRead   = new FileReader( txt );
+        BufferedReader reader     = new BufferedReader( fileRead );
+        String         file;
+        StringBuilder  cheatCodes = new StringBuilder( );
+        while ( ( file = reader.readLine( ) ) != null ) {
+            cheatCodes.append( file );
+        }
+        reader.close( );
+        return cheatCodes.toString( );
+    }
+
+    public void useCode( ) throws IOException {
+        if ( checkCode( this ) ) {
+            FileRead.nbes.sPrintln( "Added Cheat: " + this.cheatCode );
+            if ( emmiOverride != null ) {
+                Emmi.MINI_BOSSES = new Emmi[] { emmiOverride };
+                Emmi.OTHERS      = new Emmi[] { emmiOverride };
+                Emmi.METAS       = new Emmi[] { emmiOverride };
+            } else if ( systemColors != null ) {
+                Nbes.LABEL.setIcon( new ImageIcon( Nbes.createPlate( systemColors ) ) );
+            } else if ( filePath != null ) {
+                File       fileToBeModified = new File( filePath );
+                FileWriter writer           = new FileWriter( fileToBeModified );
+                writer.write( txtOverride );
+                writer.close( );
+            }
+        }
+
+    }
 
 }

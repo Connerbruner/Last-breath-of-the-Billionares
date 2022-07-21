@@ -16,6 +16,7 @@ class Attack extends FileRead {
         speed      = spd;
         stun       = stn;
         attackTier = 1;
+        attackUser = "2069";
     }
 
     public Attack( String user , String name , int l , int h , int spd ) {
@@ -50,35 +51,40 @@ class Attack extends FileRead {
 
     public int attack( double power , boolean style ) {
 
-        num = low + nbes.quickTime( (int) ( 20000 * (0.5 +  (attackTier / 2)) ) , attackName );
+        num = low + nbes.quickTime( (int) ( 20000 * ( 0.5 + ( attackTier / 2 ) ) ) , attackName );
         if ( num > high ) {
             num = high;
-            if ( style )
-            {
-                num = (int) ( high * (0.5 +  (attackTier / 2)) );
+            if ( style ) {
+                num = (int) ( high * ( 0.5 + ( attackTier / 2 ) ) );
             }
         }
-        if ( style ) {
-            nbes.sPrint( "Fast " + attackName );
-        } else {
-            nbes.sPrint( "Powerful " + attackName );
-        }
-        nbes.sPrintln( "2069 deals " + (int) ( num * power ) + " damage" );
+        nbes.sPrintln( attackName + "\n" + attackUser + " deals " + num + " damage" );
         return (int) ( num * power );
     }
 
     public int attack( ) {
-        nbes.sPrint( attackName );
         num = nbes.random( low , high );
-        nbes.sPrintln( attackUser + " deals " + num + " damage" );
+        nbes.sPrintln( attackName + "\n" + attackUser + " deals " + num + " damage" );
         return num;
     }
 
+    public int attackTextFree( ) {
+        return nbes.random( low , high );
+    }
+
     public int attack( int level ) {
-        nbes.sPrint( attackName );
         num = nbes.random( low , high ) + level;
-        nbes.sPrintln( attackUser + " deals " + num + " damage" );
+        nbes.sPrintln( attackName + "\n" + attackUser + " deals " + num + " damage" );
         return num;
+    }
+    public static Attack[] copyToNewUser(Attack[] attacks,String user)
+    {
+        Attack[] arr = new Attack[attacks.length];
+        for(int i=0; i< attacks.length; i++)
+        {
+            arr[i] = new Attack( user,attacks[i].attackName,attacks[i].low,attacks[i].high,attacks[i].speed );
+        }
+        return arr;
     }
 
 }
