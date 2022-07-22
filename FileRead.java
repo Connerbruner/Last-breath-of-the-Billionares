@@ -1,6 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.util.Arrays;
 
 
 class FileRead {
@@ -184,13 +184,12 @@ class Cheat {
 
     public void useCode( ) throws IOException {
         if ( checkCode( this ) ) {
-            FileRead.nbes.sPrintln( "Added Cheat: " + this.cheatCode );
             if ( emmiOverride != null ) {
                 Emmi.MINI_BOSSES = new Emmi[] { emmiOverride };
                 Emmi.OTHERS      = new Emmi[] { emmiOverride };
                 Emmi.METAS       = new Emmi[] { emmiOverride };
             } else if ( systemColors != null ) {
-                Nbes.LABEL.setIcon( new ImageIcon( Nbes.createPlate( systemColors ) ) );
+                Nbes.PLATE_COLORS.addAll( Arrays.asList( systemColors ) );
             } else if ( filePath != null ) {
                 File       fileToBeModified = new File( filePath );
                 FileWriter writer           = new FileWriter( fileToBeModified );
