@@ -17,7 +17,6 @@ class FileRead {
                     String print = o + "\n";
                     writer.write( print );
                 }
-
             }
 
         } catch ( IOException e ) {
@@ -164,7 +163,6 @@ class Cheat {
     }
 
     public static boolean checkCode( Cheat code ) throws IOException {
-
         code.isOn = getCodeString( ).contains( code.cheatCode );
         return code.isOn;
     }

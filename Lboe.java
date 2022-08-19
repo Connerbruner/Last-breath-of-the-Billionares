@@ -49,7 +49,6 @@ public class Lboe extends Game {
 
     public void game( ) {
         if ( is2051joined && is2048joined ) {
-            /*
             nbes.sPrintln( "The world around you begins to fade to black" );
             nbes.sPrintln( "???: Welcome back to this world of nothingness " );
             nbes.sPrintln( "2069: no..." );
@@ -62,16 +61,16 @@ public class Lboe extends Game {
             nbes.sPrintln( "???: 4 of you and an army of Phantom warriors" );
             nbes.sPrintln( "???: You challenge anyone you want" );
             nbes.sPrintln( "???: Good luck" );
-             */
+
             tournament.add( boss2077 );
             tournament.add( boss2069 );
             tournament.add( boss2048 );
             tournament.add( boss2051 );
             for ( int i = 4 ; i > 0 ; i-- ) {
                 tournament.add( new Boss( new Phase[] {
-                        new Phase( generateAttacks( ) , nbes.random( 0 , 50 ) , "Phantom warrior" ) ,
-                        new Phase( generateAttacks( ) , nbes.random( 0 , 50 ) , "Phantom warrior" ) ,
-                        new Phase( generateAttacks( ) , nbes.random( 0 , 50 ) , "Phantom warrior (Last breath)" )
+                        new Phase( generateAttacks( ) , Nbes.random( 0 , 50 ) , "Phantom warrior" ) ,
+                        new Phase( generateAttacks( ) , Nbes.random( 0 , 50 ) , "Phantom warrior" ) ,
+                        new Phase( generateAttacks( ) , Nbes.random( 0 , 50 ) , "Phantom warrior (Last breath)" )
                 } ) );
             }
             for ( int i = 0 ; i < playable.length ; i++ ) {
@@ -156,9 +155,9 @@ public class Lboe extends Game {
     @Override
     public void restart( ) {
         nbes.sPrint( "???: Looks like its " );
-        nbes.wait( 1000 );
+        Nbes.wait( 1000 );
         nbes.sPrint( "GAME OVER" );
-        nbes.wait( 2000 );
+        Nbes.wait( 2000 );
         nbes.sPrintln( "???: You see I may have been dishonest about the tournament" );
         nbes.sPrint( "???: ITS GAME OVER" );
         nbes.sPrint( "FOR EVERYTHING" );
@@ -167,7 +166,7 @@ public class Lboe extends Game {
         nbes.sPrintln( "???: Goodbye" );
         StringBuilder str = new StringBuilder( );
         for ( int i = Nbes.MAX_CHAR * 500 ; i > 0 ; i-- ) {
-            str.append( (char) ( nbes.random( 0 , 256 ) ) );
+            str.append( (char) ( Nbes.random( 0 , 256 ) ) );
         }
         nbes.sPrintln( str.toString( ) );
         System.exit( - 1 );
@@ -180,7 +179,7 @@ public class Lboe extends Game {
         long start_Time = System.currentTimeMillis( );
         attackNum = nbes.inputInt( "Which attack? A number (0-" + ( phase.attacks.length - 1 ) + ")" );
         long end_Time = System.currentTimeMillis( );
-        attackTime = (int) ( ( end_Time - start_Time ) / 1000 + phase.attacks[ attackNum ].speed ) - nbes.tSpeed;
+        attackTime = (int) ( ( end_Time - start_Time ) / 1000 + phase.attacks[ attackNum ].speed ) - Nbes.tSpeed;
 
     }
 
@@ -189,11 +188,12 @@ public class Lboe extends Game {
     }
 
     public Attack[] generateAttacks( ) {
-        if ( nbes.random( 0 , 4 ) == 4 ) {
+        if ( Nbes.random( 0 , 4 ) == 4 ) {
             return attacks2048;
-        } else if ( nbes.random( 0 , 4 ) == 4 ) {
+        } else if ( Nbes.random( 0 , 4 ) == 4 ) {
             return attacks2051;
-        } else if ( nbes.random( 0 , 4 ) == 4 ) {
+        } else if (
+                Nbes.random( 0 , 4 ) == 4 ) {
             return attacks2077;
         } else {
             return allAttacks;
@@ -212,17 +212,17 @@ public class Lboe extends Game {
 
     public void randomBattles( ) {
         int i;
-        for ( i = 3; i > 0 ; i -= nbes.random( 0 , 2 ) ) {
+        for ( i = 3; i > 0 ; i -= Nbes.random( 0 , 2 ) ) {
             int skip = findInTournament( player.name );
 
-            int indexA = nbes.random( 0 , tournament.size( ) - 1 );
+            int indexA = Nbes.random( 0 , tournament.size( ) - 1 );
             while ( indexA == skip ) {
-                indexA = nbes.random( 0 , tournament.size( ) - 1 );
+                indexA = Nbes.random( 0 , tournament.size( ) - 1 );
             }
 
-            int indexB = nbes.random( 0 , tournament.size( ) - 1 );
+            int indexB = Nbes.random( 0 , tournament.size( ) - 1 );
             while ( indexB == skip || indexB == indexA ) {
-                indexB = nbes.random( 0 , tournament.size( ) - 1 );
+                indexB = Nbes.random( 0 , tournament.size( ) - 1 );
             }
 
             battle( tournament.get( indexA ) , tournament.get( indexB ) );
