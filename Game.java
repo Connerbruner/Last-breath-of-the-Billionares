@@ -42,11 +42,7 @@ class Game extends FileRead {
     Boss     gates       = new Boss( Gates );
     Boss     gatesP      = new Boss( GatesP );
     Boss     Zuckerberg  = new Boss( mark );
-
-    Area city = new Area( "Huge City",new Hallway[]{
-        new Hallway( "Huge Skysraper" )
-    } );
-
+    
     //2051 attacks
     static Attack   stab       = new Attack( "Quick Stab" , 3 , 7 , 2 ) {
         @Override

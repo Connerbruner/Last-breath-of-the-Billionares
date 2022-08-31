@@ -24,7 +24,37 @@ public class Lbob extends Game {
             Nbes.tSpeed = speed;
             while ( Nbes.wavFile.isOpen( ) );
             battle( Emmi.OTHERS[ 0 ] );
+            if(HP==HPmax)
+            {
+                nbes.sPrintln("???: Wow\n\nZero damage taken\n\nMakes me look a loser");
+                nbes.sPrintln("???: Have 100xp\n\nYou will need it");
+                exp1+=100;
+            }
+            else {
+                nbes.sPrintln("???: Seems like you are overrated");
+                nbes.sPrintln("???: Roombas are not that strong");
+            }
             missionNum++;
+        }
+        if(missionNum==1)
+        {
+            nbes.sPrintln("???: Hey wish I could stay and chat but I got a meeting at the top of that Tower");
+            nbes.sPrintln("2051: Just because I have nothing to do I'll chase you");
+            nbes.sPrintln("???: Sounds fun\n\nRace Your there");
+            nbes.sPrintln("2051: I know that tower like the back off my hand");
+            int move=0;
+            while(AreaStroage.skyscraper.current!=AreaStroage.floor10) {
+                AreaStroage.skyscraper.move();
+                move++;
+                battle(new Emmi(false,level2051+stars));
+            }
+            if(move<5) {
+                nbes.sPrintln("???: I see my minions did not stop you at all");
+            } else {
+                nbes.sPrintln("2051: Geez\n\nYour Fast. I am a little rusty");
+                nbes.sPrintln("???: Thats obvious");
+            }
+            nbes.sPrintln("???: W");
         }
     }
 

@@ -80,16 +80,21 @@ class Goal extends FileRead {
 
 class Area extends FileRead {
     String    areaName;
+    Hallway current;
     Hallway[] areaHallways;
 
     public Area( String name , Hallway[] hallways ) {
         areaName     = name;
         areaHallways = hallways;
+        current = hallways[0];
     }
 
     public void setAreaNeighbors( Hallway[][] neighbors ) {
         for ( int i = 0 ; i < areaHallways.length ; i++ ) {
             areaHallways[ i ].setNeighbors( neighbors[ i ] );
         }
+    }
+    public void move() {
+        current.move();
     }
 }
