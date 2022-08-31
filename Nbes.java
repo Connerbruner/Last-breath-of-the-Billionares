@@ -1,4 +1,4 @@
-import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -10,19 +10,32 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static java.lang.Thread.sleep;
 
 public class Nbes {
 
-    static   int     tSpeed    = 5;
-    public static Tone       tone          = new Tone( 1000 - ( tSpeed * 100 ) , 10 );
-    static final  int        SYSTEM_WIDTH  = 400;
-    static final  int        SYSTEM_HEIGHT = 640;
-    static final  int        SYSTEM_BORDER = SYSTEM_WIDTH / 10;
-    static final  int        MAX_CHAR      = SYSTEM_WIDTH / 10;
-    static final  JLabel     LABEL         = new JLabel( );
-    static final  JTextPane  TEXT1         = new JTextPane( );
-    static final  JTextField INPUT         = new JTextField( 10 );
-    static final  JFrame     SYSTEM        = new JFrame( "NBES (Non Binary Entertainment System)" );
+    static Clip wavFile;
+
+    static {
+        try {
+            wavFile = (Clip) AudioSystem.getLine( new Line.Info( Clip.class ) );
+        } catch ( LineUnavailableException e ) {
+            throw new RuntimeException( e );
+        }
+    }
+
+    static       int        tSpeed          = 5;
+    static       double     musicMultiplier = 1;
+    static final int        SYSTEM_WIDTH    = 400;
+    static final int        SYSTEM_HEIGHT   = 640;
+    static final int        SYSTEM_BORDER   = SYSTEM_WIDTH / 10;
+    static final int        MAX_CHAR        = SYSTEM_WIDTH / 10;
+    static final JLabel     LABEL           = new JLabel( );
+    static final JTextPane  TEXT1           = new JTextPane( );
+    static final JTextField INPUT           = new JTextField( 10 );
+    static final JFrame     SYSTEM          = new JFrame( "NBES (Non Binary Entertainment System)" );
 
     static ArrayList < Color > PLATE_COLORS = new ArrayList <>( );
     static Color               SCREEN_COLOR = Color.WHITE;
@@ -63,7 +76,7 @@ public class Nbes {
             TEXT1.setFont( new Font( "Retro Gaming" , Font.BOLD , 12 ) );
         } catch ( IOException | FontFormatException ignored ) {
         }
-
+        for ( Cheat cheat : Cheat.cheats ) ;
         LABEL.setLayout( new FlowLayout( FlowLayout.CENTER ) );
         StyledDocument     style = TEXT1.getStyledDocument( );
         SimpleAttributeSet align = new SimpleAttributeSet( );
@@ -90,19 +103,19 @@ public class Nbes {
 
 
     public BufferedImage createPlate( ) {
-        for ( Cheat ignored : Cheat.cheats )
-            if ( PLATE_COLORS.isEmpty( ) ) {
-                Color color;
-                if ( inputBool( "Would you like a multi color system?" ) ) {
 
-                    while ( ( color = JColorChooser.showDialog( SYSTEM , "Chose a color to add to the system (Close stop choosing colors)" , SYSTEM.getBackground( ) ) ) != null )
-                        PLATE_COLORS.add( color );
-                } else {
-                    while ( ( color = JColorChooser.showDialog( SYSTEM , "What color should the system be" , SYSTEM.getBackground( ) ) ) == null )
-                        ;
+        if ( PLATE_COLORS.isEmpty( ) ) {
+            Color color;
+            if ( inputBool( "Would you like a multi color system?" ) ) {
+
+                while ( ( color = JColorChooser.showDialog( SYSTEM , "Chose a color to add to the system (Close stop choosing colors)" , SYSTEM.getBackground( ) ) ) != null )
                     PLATE_COLORS.add( color );
-                }
+            } else {
+                while ( ( color = JColorChooser.showDialog( SYSTEM , "What color should the system be" , SYSTEM.getBackground( ) ) ) == null )
+                    ;
+                PLATE_COLORS.add( color );
             }
+        }
         while ( ( SCREEN_COLOR = JColorChooser.showDialog( SYSTEM , "What color should the screen be" , SYSTEM.getBackground( ) ) ) == null )
             ;
         BufferedImage plate = new BufferedImage( SYSTEM_WIDTH , SYSTEM_HEIGHT , BufferedImage.TYPE_INT_ARGB );
@@ -121,17 +134,23 @@ public class Nbes {
 
     public void sPrintln( String str ) {
         TEXT1.setText( "" );
-        String text = "";
+        AtomicReference < String > text = new AtomicReference <>( "" );
         str = textFormat( str );
-        for ( int i = 0 ; i < str.length( ) ; i++ ) {
-            text += str.charAt( i );
-            setText1( text );
-        }
-        setText1( text + "\n>Click<" );
+        String finalStr = str;
+        Thread print = new Thread( ( ) -> {
+            for ( int i = 0 ; i < finalStr.length( ) ; i++ ) {
+                int finalI = i;
+                text.updateAndGet( v -> v + finalStr.charAt( finalI ) );
+                setText1( text.get( ) );
+            }
+            setText1( text + "\n>Click<" );
+        } );
+        print.start( );
         SYSTEM.requestFocusInWindow( );
         keyButton = false;
         wait( 100 );
         while ( ! keyButton ) ;
+        print.stop( );
         keyButton = false;
         TEXT1.setText( "" );
         lastsPrint = "";
@@ -147,7 +166,8 @@ public class Nbes {
         lastsPrint += str + "\n";
     }
 
-    public boolean strIsInt( String string ) {
+
+    public static boolean strIsInt( String string ) {
         try {
             Integer.parseInt( string );
             return true;
@@ -167,8 +187,8 @@ public class Nbes {
         sPrint( "Type " + word );
         INPUT.setEditable( true );
         INPUT.requestFocus( );
-
-        while ( ! INPUT.getText( ).equals( word ) && startTime + millis > System.currentTimeMillis( ) ) ;
+        while ( ! INPUT.getText( ).equals( word ) && startTime + millis > System.currentTimeMillis( ) && wavFile.isOpen( ) )
+            ;
         TEXT1.setText( "" );
         INPUT.setEditable( false );
         return INPUT.getText( ).equals( word );
@@ -181,7 +201,7 @@ public class Nbes {
         INPUT.setText( "" );
         INPUT.setEditable( true );
         INPUT.requestFocus( );
-        while ( startTime + millis > System.currentTimeMillis( ) ) {
+        while ( startTime + millis > System.currentTimeMillis( ) && wavFile.isOpen( ) ) {
             if ( INPUT.getText( ).equals( word ) ) {
                 INPUT.setText( "" );
                 hits++;
@@ -222,14 +242,18 @@ public class Nbes {
     }
 
     public String inputString( String str ) {
-        sPrint( str );
-        sPrint( "(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
         INPUT.requestFocus( );
         keyButton = false;
-        wait( 100 );
+        Thread print = new Thread( ( ) -> {
+            sPrint( str );
+            wait( 100 );
+            sPrint( "(Type in the text box then click)" );
+        } );
+        print.start( );
         while ( INPUT.getText( ).equals( "" ) || ! keyButton ) ;
+        print.stop( );
         SYSTEM.requestFocusInWindow( );
         INPUT.setEditable( false );
         lastsPrint = "";
@@ -238,14 +262,18 @@ public class Nbes {
     }
 
     public int inputInt( String str ) {
-        sPrint( str );
-        sPrint( "(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
         INPUT.requestFocus( );
         keyButton = false;
-        wait( 100 );
+        Thread print = new Thread( ( ) -> {
+            sPrint( str );
+            wait( 100 );
+            sPrint( "(Type in the text box then click)" );
+        } );
+        print.start( );
         while ( INPUT.getText( ).equals( "" ) || ! keyButton ) ;
+        print.stop( );
         SYSTEM.requestFocusInWindow( );
         INPUT.setEditable( false );
         lastsPrint = "";
@@ -257,14 +285,18 @@ public class Nbes {
     }
 
     public boolean inputBool( String str ) {
-        sPrint( str );
-        sPrint( "(Type in the text box then click)" );
         INPUT.setText( "" );
         INPUT.setEditable( true );
         INPUT.requestFocus( );
         keyButton = false;
-        wait( 100 );
+        Thread print = new Thread( ( ) -> {
+            sPrint( str );
+            wait( 100 );
+            sPrint( "(Type in the text box then click)" );
+        } );
+        print.start( );
         while ( INPUT.getText( ).equals( "" ) || ! keyButton ) ;
+        print.stop( );
         SYSTEM.requestFocusInWindow( );
         INPUT.setEditable( false );
         String input = INPUT.getText( ).toLowerCase( );
@@ -276,32 +308,66 @@ public class Nbes {
     public static void wait( int time ) {
         long startTime = System.currentTimeMillis( );
         while ( startTime + time > System.currentTimeMillis( ) ) ;
-        System.gc( );
-        SYSTEM.requestFocusInWindow( );
     }
+
 
     public void setText1( String str ) {
         TEXT1.setText( "\n\n\n\n\n" + str );
         try {
-            tone.hz     = 1500 - ( tSpeed * 100 );
-            tone.millis = tSpeed;
-            tone.play( );
+            if ( ! wavFile.isOpen( ) ) {
+                new Tone( tSpeed * random( 100 , 500 ) , tSpeed ).play( );
+            } else {
+                new Tone( 0 , tSpeed ).play( );
+            }
         } catch ( LineUnavailableException ignored ) {
         }
-
     }
 
-    public void setText1( String str , boolean sound ) {
-        TEXT1.setText( "\n\n\n\n\n" + str );
-        if ( sound ) {
-            try {
-                tone.hz     = 1000 - ( tSpeed * 100 );
-                tone.millis = tSpeed*5;
-                tone.play( );
-            } catch ( LineUnavailableException e ) {
-            }
-        }
+    public static void playSound( String file ) {
+        try {
+            wavFile.close( );
+            wavFile.addLineListener( event -> {
+                if ( event.getType( ) == LineEvent.Type.STOP )
+                    wavFile.close( );
 
+            } );
+            wavFile.open( AudioSystem.getAudioInputStream( new File( file ) ) );
+            wavFile.start( );
+
+        } catch ( Exception exc ) {
+            exc.printStackTrace( System.out );
+        }
+    }
+
+    public static Thread overcomeMe( ) {
+        return new Thread( ( ) -> {
+            try {
+                playSound( "Files/OvercomeMe.wav" );
+                musicMultiplier = 0.5;
+                sleep( 15000 );
+                musicMultiplier = 1;
+                sleep( 10000 );
+                musicMultiplier = 1.25;
+                sleep( 9000 );
+                musicMultiplier = 1.4;
+                sleep( 16000 );
+                musicMultiplier = 1;
+                sleep( 7000 );
+                musicMultiplier = 1.25;
+                sleep( 9000 );
+                musicMultiplier = 1.5;
+                sleep( 15000 );
+                musicMultiplier = 1.75;
+                sleep( 24000 );
+                musicMultiplier = 0.5;
+                sleep( 10000 );
+                musicMultiplier = 1;
+                sleep( 18000 );
+                musicMultiplier = 1.5;
+            } catch ( InterruptedException e ) {
+                throw new RuntimeException( e );
+            }
+        } );
 
     }
 

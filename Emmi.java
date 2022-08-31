@@ -93,9 +93,9 @@ class Emmi extends FileRead {
         if ( num > METAS.length - 1 ) {
             num = METAS.length - 1;
         }
-        if ( isMeta || nbes.random( 0 , METAS.length - ( num - 1 ) ) == 0 ) {
+        if ( isMeta || Nbes.random( 0 , METAS.length - ( num - 1 ) ) == 0 ) {
 
-            int emmi_index = nbes.random( 0 , num );
+            int emmi_index = Nbes.random( 0 , num );
             emmi_type    = METAS[ emmi_index ].emmi_type;
             emmi_HP      = METAS[ emmi_index ].emmi_HP + emmi_level * 3;
             emmi_attacks = METAS[ emmi_index ].emmi_attacks;
@@ -104,13 +104,13 @@ class Emmi extends FileRead {
             if ( num > OTHERS.length - 1 ) {
                 num = OTHERS.length - 1;
             }
-            int emmi_index = nbes.random( 0 , num );
+            int emmi_index = Nbes.random( 0 , num );
             emmi_type    = OTHERS[ emmi_index ].emmi_type;
             emmi_HP      = OTHERS[ emmi_index ].emmi_HP + emmi_level * 2;
             emmi_attacks = OTHERS[ emmi_index ].emmi_attacks;
             emmi_num     = emmi_index;
         }
-        nbes.sPrintln( "2069: We have a " + emmi_type + " on us" );
+        nbes.sPrintln( "2051: " + emmi_type +"!" );
     }
 
     /**
@@ -122,12 +122,12 @@ class Emmi extends FileRead {
         if ( num > MINI_BOSSES.length - 1 ) {
             num = MINI_BOSSES.length - 1;
         }
-        int emmi_index = nbes.random( 0 , num );
+        int emmi_index = Nbes.random( 0 , num );
         emmi_type    = MINI_BOSSES[ emmi_index ].emmi_type;
         emmi_HP      = MINI_BOSSES[ emmi_index ].emmi_HP + level * 5;
         emmi_attacks = MINI_BOSSES[ emmi_index ].emmi_attacks;
         emmi_num     = emmi_index;
-        nbes.sPrintln( "2069: MAJOR ISSUE WE HAVE A " + emmi_type + " ON US" );
+        nbes.sPrintln( "2051: " + emmi_type +"!" );
     }
 
     private Emmi( String name , int base_HP , Attack[] attacks ) {
@@ -137,14 +137,7 @@ class Emmi extends FileRead {
     }
 
     public int attack( ) {
-        if ( curAttack == null ) {
-            curAttack = emmi_attacks[ nbes.random( 0 , emmi_attacks.length - 1 ) ];
-        }
-        return curAttack.attack( emmi_level );
+        return emmi_attacks[Nbes.random( 0 , emmi_attacks.length - 1 )].attack( new Object[] { emmi_level , } );
     }
 
-    public void emmi_prep( ) {
-        curAttack = emmi_attacks[ nbes.random( 0 , emmi_attacks.length - 1 ) ];
-        nbes.sPrintln( curAttack.attackName );
-    }
 }

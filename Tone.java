@@ -4,20 +4,22 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
 public class Tone {
-    public static float SAMPLE_RATE = 8000f;
-    public static double VOLUME = 0.8;
-    int    hz;
-    int    millis = 100;
+    public static float  SAMPLE_RATE = 8000f;
+    public static double VOLUME      = 0.8;
+    int hz;
+    int millis = 100;
 
-    public Tone( int HZ , int msecs  ) {
+    public Tone( int HZ , int msecs ) {
         hz     = HZ;
         millis = msecs;
     }
-    public Tone( int HZ  ) {
-        hz     = HZ;
+
+    public Tone( int HZ ) {
+        hz = HZ;
     }
-    public Tone(   ) {
-        hz     = Nbes.random( 0,1000 );
+
+    public Tone( ) {
+        hz = Nbes.random( 0 , 1000 );
     }
 
 
@@ -44,21 +46,19 @@ public class Tone {
     }
 
     public static void playAll( Tone[] arr ) throws LineUnavailableException {
-        for ( Tone tone : arr )
-        {
-            tone.play();
+        for ( Tone tone : arr ) {
+            tone.play( );
         }
     }
-    public static void playAll(int count) throws LineUnavailableException {
-        for ( ; count>0; count--)
-        {
-            new Tone().play();
+
+    public static void playAll( int count ) throws LineUnavailableException {
+        for ( ; count > 0 ; count-- ) {
+            new Tone( ).play( );
         }
     }
 
 
     public static void main( String[] args ) {
-
 
     }
 

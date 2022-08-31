@@ -1,15 +1,16 @@
+import java.io.IOException;
+
 class Main extends FileRead {
     static Game[] games = {
-            new Lbop( "Files/Lbop.txt" , 8 , new Object[] { 0 , 50 , 1 , 20 , 0 , 1 , 1 , 1 , 1 , 5 } ) ,
-            new Lbob( "Files/Lbob.txt" , 9 , new Object[] { 1 , 50 , 1 , 20 , 0 , 1 , 1 , 1 , 1 , 5 } ) ,
-            new Lboe( 10 ) ,
+            new Lbob("Files/player.txt"),
             new Lbog( ) ,
             new Speedrun( ) ,
             new Sucp( ) ,
-            new NB(  )
+            new NG(  ) ,
     };
 
-    public static void main( String[] args ) {
+
+    public static void main( String[] args )  {
 
         for ( int i = 0 ; i < games.length - 1 ; i++ ) {
             if ( games[ i ].savePath != null && games[ i + 1 ].savePath != null ) {
@@ -25,9 +26,10 @@ class Main extends FileRead {
                 Edit( games[ i ].savePath , save1 );
                 Edit( games[ i + 1 ].savePath , save2 );
             }
-        }        nbes.sPrintln( "???: Hello, Welcome to C1nner's game collection" );
-        nbes.sPrintln( "The text is currently at a speed of " + Nbes.tSpeed + ", if you lower that number it will speed up the text, if you raise the number it will move slower" );
-        Nbes.tSpeed = nbes.inputInt( "what should the text speed be?" );
+        }
+        nbes.sPrintln( "???: Hello, Welcome to C1nner's game collection" );
+        nbes.sPrintln( "The text is currently at a speed of " + nbes.tSpeed + ", if you lower that number it will speed up the text, if you raise the number it will move slower" );
+        nbes.tSpeed = nbes.inputInt( "what should the text speed be?" );
         nbes.sPrintln( "This game does not condone any violence. This is a work of fiction, and any resemblance to characters, real or fictional, is a coincidence." );
         while (true)
         {
@@ -42,9 +44,7 @@ class Main extends FileRead {
                 games[ choice ].grabSave( );
             }
 
-            int[] team = readTeam( );
-            games[ choice ].is2051joined = team[ 0 ] <= games[ choice ].Timeline;
-            games[ choice ].is2048joined = team[ 1 ] <= games[ choice ].Timeline;
+
             games[ choice ].game( );
         }
     }

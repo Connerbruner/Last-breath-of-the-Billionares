@@ -15,13 +15,16 @@ class Hallway extends FileRead {
         hallwayItems = items;
         hallUnlocked = unlocked;
     }
+    public Hallway( String name ) {
+        hallwayName  = name;
+    }
 
     public void setNeighbors( Hallway[] hallway ) {
         neighbors = hallway;
     }
 
     public Item loot( ) {
-        return hallwayItems[ nbes.random( 0 , hallwayItems.length - 1 ) ].createRandomItem( );
+        return hallwayItems[ Nbes.random( 0 , hallwayItems.length - 1 ) ].createRandomItem( );
     }
 
     public Hallway move( ) {
@@ -40,6 +43,7 @@ class Hallway extends FileRead {
         return null;
     }
 }
+
 class Goal extends FileRead {
 
     String  goal;
@@ -71,5 +75,21 @@ class Goal extends FileRead {
             }
         }
         return false;
+    }
+}
+
+class Area extends FileRead {
+    String    areaName;
+    Hallway[] areaHallways;
+
+    public Area( String name , Hallway[] hallways ) {
+        areaName     = name;
+        areaHallways = hallways;
+    }
+
+    public void setAreaNeighbors( Hallway[][] neighbors ) {
+        for ( int i = 0 ; i < areaHallways.length ; i++ ) {
+            areaHallways[ i ].setNeighbors( neighbors[ i ] );
+        }
     }
 }
