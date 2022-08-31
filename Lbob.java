@@ -5,6 +5,7 @@ public class Lbob extends Game {
 
     @Override
     public void game( ) {
+        stars=nbes.inputInt("Add stars to Make the game harder (1 star = 1 extra enemy level");
         if ( missionNum == 0 ) {
             Nbes.playSound( "Files/DROPOUT.wav" );
             int speed = Nbes.tSpeed;
@@ -22,7 +23,6 @@ public class Lbob extends Game {
             chatText( "???: Lets see how you hold up against a roomba" , 1000 );
             chatText( "2051: Easy as pie" , 0 );
             Nbes.tSpeed = speed;
-            while ( Nbes.wavFile.isOpen( ) );
             battle( Emmi.OTHERS[ 0 ] );
             if(HP==HPmax)
             {
@@ -54,7 +54,20 @@ public class Lbob extends Game {
                 nbes.sPrintln("2051: Geez\n\nYour Fast. I am a little rusty");
                 nbes.sPrintln("???: Thats obvious");
             }
-            nbes.sPrintln("???: W");
+            missionNum++;
+
+        }
+        if(missionNum==2) {
+            nbes.sPrintln("???: Sorry to leave you but\n\nHopefully this will be FUN");
+            nbes.sPrintln("*A MECH CRASHES DOWN*");
+            nbes.sPrintln("???: This SHOULD BE FUN");
+            nbes.sPrintln("2051: It Should");
+            battle(new Emmi(Emmi.MINI_BOSSES[1]));
+            nbes.sPrintln("???: I see you are done\n\nGood Good");
+            nbes.sPrintln("2051: Was not that bad\n\nBattled worse");
+            nbes.sPrintln("2051: You done playing with me?");
+            nbes.sPrintln("???: NOPE never");
+            nbes.sPrintln("2051: ");
         }
     }
 

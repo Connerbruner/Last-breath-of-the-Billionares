@@ -1,4 +1,3 @@
-import java.io.IOException;
 
 class Main extends FileRead {
     static Game[] games = {
