@@ -60,7 +60,7 @@ class Attack extends FileRead {
     }
 
     public int calcDamage( ) {
-        return (int) ( ( Nbes.random( low , high ) + comboBonus( ) ) * Nbes.musicMultiplier );
+        return (int) ( ( Nbes.random( low , high ) + comboBonus( ) ) * Nbes.musicMultiplier * attackTierBuff( ) );
     }
 
     public static Attack[] copyToNewUser( Attack[] attacks , String user ) {
@@ -69,6 +69,10 @@ class Attack extends FileRead {
             arr[ i ] = new Attack( user , attacks[ i ].attackName , attacks[ i ].low , attacks[ i ].high , attacks[ i ].speed );
         }
         return arr;
+    }
+
+    public double attackTierBuff( ) {
+        return ( 9 + attackTier ) / 10;
     }
 
     public int comboBonus( ) {
@@ -82,9 +86,12 @@ class Attack extends FileRead {
             } else if ( this.equals( Game.stab ) && combo.size( ) == 1 ) {
                 nbes.sPrintln( "COMBO BONUS: 10" );
                 return 10;
-            } else if ( this.equals( Game.potion ) && combo.get( 0 ).equals( Game.potion ) ) {
-                nbes.sPrintln( "COMBO BONUS: 5" );
-                return 5;
+            } else if ( this.equals( Game.potion ) ) {
+                if ( combo.size( ) / 3 == 1 ) {
+                    nbes.sPrintln( "COMBO BONUS: COMBO ITEMS +"+combo.size()/3 );
+                    for ( int i=combo.size()/3; i>0; i-- ) combo.add( this );
+                }
+
             }
         }
         return 0;

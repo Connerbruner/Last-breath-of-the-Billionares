@@ -67,7 +67,6 @@ public class Lbob extends Game {
             nbes.sPrintln("2051: Was not that bad\n\nBattled worse");
             nbes.sPrintln("2051: You done playing with me?");
             nbes.sPrintln("???: NOPE never");
-            nbes.sPrintln("2051: ");
         }
     }
 
