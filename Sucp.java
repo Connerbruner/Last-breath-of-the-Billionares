@@ -8,7 +8,7 @@ class Sucp extends Game {
     int roundPoints = 0;
 
     public Sucp( ) {
-        super( "SUPER ULTRA COLOR PICKER" , null , 0 , null );
+        super( "SUPER ULTRA COLOR PICKER" , null , null );
     }
 
     public void game( ) {

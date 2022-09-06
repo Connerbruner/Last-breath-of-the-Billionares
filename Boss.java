@@ -46,6 +46,11 @@ class Phase extends FileRead {
         HP      = health;
         name    = n;
     }
+    public Phase( ArrayList<Attack> arr , int health , String n ) {
+        attacks = Attack.copyToNewUser( (Attack[]) arr.toArray(  ) , n );
+        HP      = health;
+        name    = n;
+    }
 
     public void loseHP( int HP ) {
         this.HP -= HP;
