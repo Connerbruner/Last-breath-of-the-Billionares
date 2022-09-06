@@ -48,11 +48,13 @@ public class Lbob extends Game {
     @Override
     public void restart( ) {
         HP=HPmax;
-        Boss per1 = playable[Nbes.random( 0,playable.length-1 )];
+        Boss per1 = playable[Nbes.random( 0,playable.length-1 )].clone();
         Boss per2;
-        while ( (per2=playable[Nbes.random( 0,playable.length-1 )])!=null );
+        while ( (per2=playable[Nbes.random( 0,playable.length-1 )]).clone()!=per1 );
 
-        nbes.sPrintln( per1.name+":" );
-        nbes.sPrintln( per2.name+":" );
+        nbes.sPrintln( per1.name+": Hey, "+per2.name+" mind picking some slack" );
+        nbes.sPrintln( per2.name+": Naw seems like you need to" );
+        nbes.sPrintln(per1.name+": SHUT UP *slaps "+per2.name+"*");
+        nbes.sPrintln(per2.name+":");
     }
 }
