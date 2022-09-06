@@ -11,7 +11,7 @@ class Speedrun extends Game {
 
 
     public Speedrun( ) {
-        super( "Speedruning" , null , 0 , null );
+        super( "Speedruning" , null , null );
         HPmax        = 60;
         supportPower = 7;
 

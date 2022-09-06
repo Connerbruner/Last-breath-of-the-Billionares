@@ -76,7 +76,7 @@ class Lbog extends Game {
 
 
     public Lbog( ) {
-        super( "Last breath of Gordy" , null , 6 , null );
+        super( "Last breath of Gordy" , null , null );
     }
 
     public void game( ) {

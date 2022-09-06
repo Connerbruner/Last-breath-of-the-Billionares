@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
 class Game extends FileRead {
     String   savePath;
     int      Timeline;
@@ -7,6 +10,7 @@ class Game extends FileRead {
     // Array vars (placed in Lbob.txt)
     int HPmax        = 50;
     int missionNum   = 10;
+    int metaleft = 100;
     int level2051    = 1;
     int exp1         = 0;
     int levelR1      = 20;
@@ -16,7 +20,7 @@ class Game extends FileRead {
     int lastAttack = 5;
     int HP         = HPmax;
     int attackNum  = 5;
-    int stars      = 0;
+
     static Hero[] unlocked = new Hero[ Hero.allHeros.length ];
 
 
@@ -58,17 +62,21 @@ class Game extends FileRead {
     };
     static Attack   potion     = new Attack( "Potion" , 1 , 10 , 5 );
     static Attack   shot       = new Attack( "Sniper Shot" , 15 , 40 , 20 );
-    static Attack[] allAttacks = { stab , potion , shot };
+    static ArrayList<Attack> allAttacks = new ArrayList<>( 3);
+    static {
+        allAttacks.add( shot );
+        allAttacks.add( stab );
+        allAttacks.add( potion );
+    }
 
 
     //Setup
-    public Game( String gameName , String file , int placement , Object[] arr ) {
+    public Game( String gameName , String file , Object[] arr ) {
         savePath = file;
-        Timeline = placement;
         resetArr = arr;
         name     = gameName;
         for ( int i = 0 ; i < unlocked.length ; i++ ) {
-            if ( Hero.allHeros[ i ].isUnlocked( placement ) ) {
+            if ( Hero.allHeros[ i ].isUnlocked( missionNum ) ) {
                 unlocked[ i ] = Hero.allHeros[ i ];
             }
         }
@@ -90,15 +98,15 @@ class Game extends FileRead {
             Nbes.INPUT.setEditable( true );
             Nbes.INPUT.requestFocus( );
 
-            attackNum = allAttacks.length;
+            attackNum = allAttacks.size();
             nbes.sPrint( "Multiplier: " + Nbes.musicMultiplier + "\n" );
-            for ( int i = 0 ; i < allAttacks.length ; i++ ) {
-                nbes.sPrint( i + "( " + allAttacks[ i ].toString( ) );
+            for ( int i = 0 ; i < allAttacks.size() ; i++ ) {
+                nbes.sPrint( i + "( " + allAttacks.get( i ).toString( ) );
             }
             nbes.sPrint( "Which attack" );
             Nbes.tSpeed = speed;
 
-            while ( attackNum >= allAttacks.length ) {
+            while ( attackNum >= allAttacks.size() ) {
                 if ( Nbes.strIsInt( Nbes.INPUT.getText( ) ) ) {
                     attackNum = Integer.parseInt( Nbes.INPUT.getText( ) );
                 }
@@ -107,7 +115,7 @@ class Game extends FileRead {
             if ( attackNum == lastAttack ) {
                 power = 0.5;
             }
-            return allAttacks[ attackNum ].attack( new Object[] { power , Math.abs( power - 1 ) } );
+            return allAttacks.get( attackNum ).attack( new Object[] { power , Math.abs( power - 1 ) } );
         }
         return 0;
 
@@ -119,7 +127,8 @@ class Game extends FileRead {
     public int attackSupport( ) {
         int total = 0;
         for ( Hero hero : unlocked ) {
-            if ( hero != null && Nbes.wavFile.isOpen() ) {
+            if ( hero != null && Nbes.wavFile.isOpen() && Nbes.random( 0,1 )==1) {
+                nbes.sPrintln( hero.heroName+"'s Turn" );
                 int attack = hero.attack( ) * supportPower / 2;
                 if ( hero.isHealing ) {
                     HP += attack;
@@ -140,12 +149,9 @@ class Game extends FileRead {
             nbes.sPrintln( emmi.emmi_type + " health " + emmi.emmi_HP );
             nbes.sPrintln( "2051 health " + HP );
             emmi.emmi_HP -= ( attack( ) + attackSupport( ) );
-            if ( Nbes.random( 0 , emmi.emmi_HP / 10 ) == emmi.emmi_HP / 10 && emmi.emmi_HP > 0 ) {
-                nbes.sPrintln( emmi.emmi_type + " Is going for a attack" );
-                if ( ! nbes.quickTime( "Counter" , 7500 - emmi.emmi_HP * 50 ) ) {
-                    HP -= emmi.attack( );
-                }
-            }
+            nbes.sPrintln( emmi.emmi_type + " Is going for a attack" );
+            HP -= emmi.attack( );
+            
         }
         if ( ! Nbes.wavFile.isOpen() || HP < 0 ) {
             restart( );
@@ -153,6 +159,7 @@ class Game extends FileRead {
         Nbes.wavFile.close();
         exp1 += (( emmi.emmi_level+1) * emmi.emmi_num ) * 2;
         nbes.sPrintln( "You gain " + ( emmi.emmi_level * emmi.emmi_num ) * 2 + " exp" );
+        metaleft--;
         levelUp( );
         save( );
     }
@@ -165,12 +172,10 @@ class Game extends FileRead {
             nbes.sPrint( boss.name + " health " + boss.differentPhases.get( 0 ).HP );
             boss.differentPhases.get( 0 ).HP -= attack( ) + attackSupport( );
             boss.checkArray( );
-            if ( Nbes.random( 0 , boss.differentPhases.get( 0 ).HP / 10 ) == boss.differentPhases.get( 0 ).HP / 10 && boss.differentPhases.get( 0 ).HP > 0 ) {
                 nbes.sPrintln( boss.name + " Is going for a attack" );
-                if ( ! nbes.quickTime( "Counter" , 2000 ) ) {
+                if ( ! nbes.quickTime( "CounterAttack" , 2000 ) ) {
                     HP -= boss.differentPhases.get( 0 ).attack( );
                 }
-            }
         }
         if ( !Nbes.wavFile.isOpen() || HP < 0 ) {
             restart( );
@@ -181,6 +186,17 @@ class Game extends FileRead {
         levelUp( );
         save( );
     }
+    public int battle(int bouns) {
+        nbes.sPrintln("Combo This enemy till the song is up");
+        int damage=0;
+        while( Nbes.wavFile.isOpen() )  {
+            damage+=attack( ) + attackSupport( );
+        }
+        double ratio = (damage+bouns)/100;
+        nbes.sPrintln("TOTAL DAMAGE: "+damage);
+        nbes.sPrintln("TOTAL POINTS: "+(damage+bouns)*ratio);
+        return (int) ((damage+bouns)*ratio);
+    }
 
 
     //level up
@@ -189,6 +205,7 @@ class Game extends FileRead {
             nbes.sPrintln( "LEVEL UP" );
             nbes.sPrintln( level2051 + " --> " + ( level2051 + 1 ) );
             nbes.sPrintln( "2051: max health +1" );
+            HPmax++;
             level2051++;
             levelR1 = 20 * ( level2051 * level2051 ) / 2;
             nbes.sPrintln( "2051 has " + ( levelR1 - exp1 ) + " exp till leveling up" );
@@ -200,34 +217,13 @@ class Game extends FileRead {
 
     //Game Over
     public void restart( ) {
-        HP = HPmax;
-        while ( Nbes.random( 0 , 10 ) == 10 ) {
-            int i = Nbes.random( 0 , Hero.allHeros.length );
-            if ( ! Hero.allHeros[ i ].isUnlocked ) {
-                Hero.allHeros[ i ].isUnlocked = true;
-                Hero.writeTeam( Timeline );
-                nbes.sPrintln( Hero.allHeros[ i ].heroName + " is here to save you" );
-                return;
-            }
-        }
-        nbes.sPrintln( "The world around you begins to fade to black" );
-        nbes.sPrintln( "???: Hello friend its been a bit " );
-        nbes.sPrintln( "2051: You Gotta be kidding\n\nYou showing up at my death bed" );
-        nbes.sPrintln( "???: HA I would be the type to taunt you before you die" );
-        nbes.sPrintln( "???: I wish\n\nNaw I want to see you suffer more" );
-        nbes.sPrintln( "???: Have fun..." );
-        String choice = "How are you doing";
-        while ( ! choice.equals( "START" ) ) {
-            choice = nbes.inputString( "Type ¨START¨ to continue" );
-        }
-        save( );
-        game( );
+
     }
 
 
     //Saves
     public void save( ) {
-        Object[] arrList = new Object[] { missionNum , HPmax , level2051 , levelR1 , exp1 , stab.attackTier , potion.attackTier , shot.attackTier , supportPower };
+        Object[] arrList = new Object[] { missionNum ,metaleft, HPmax , level2051 , levelR1 , exp1 , stab.attackTier , potion.attackTier , shot.attackTier , supportPower };
         FileRead.Edit( savePath , arrList );
         System.gc( );
     }
@@ -251,30 +247,34 @@ class Game extends FileRead {
                 if ( s == 0 ) {
                     missionNum = val;
                 }
-                if ( s == 1 ) {
-                    HPmax = val;
+                if( s == 1 ) {
+                    metaleft= val;
                 }
                 if ( s == 2 ) {
-                    level2051 = val;
+                    HPmax = val;
                 }
                 if ( s == 3 ) {
-                    levelR1 = val;
+                    level2051 = val;
                 }
                 if ( s == 4 ) {
-                    exp1 = val;
+                    levelR1 = val;
                 }
                 if ( s == 5 ) {
-                    stab.attackTier = val;
+                    exp1 = val;
                 }
                 if ( s == 6 ) {
-                    potion.attackTier = val;
+                    stab.attackTier = val;
                 }
                 if ( s == 7 ) {
-                    shot.attackTier = val;
+                    potion.attackTier = val;
                 }
                 if ( s == 8 ) {
+                    shot.attackTier = val;
+                }
+                if ( s == 9 ) {
                     supportPower = val;
                 }
+
 
             }
         }

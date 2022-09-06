@@ -1,7 +1,7 @@
 public class NG extends Game {
 
     public NG() {
-        super( "Number guesser" , null , - 1 , null );
+        super( "Number guesser" , null  , null );
     }
 
     @Override

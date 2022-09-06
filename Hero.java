@@ -8,7 +8,6 @@ public class Hero extends FileRead{
             new Hero( "2077" , false ) {
                 @Override
                 public int attack( ) {
-                    nbes.sPrintln( "2077's turn" );
                     long startTime = System.currentTimeMillis( );
                     int  i         = 0;
                     while ( startTime + 10000 > System.currentTimeMillis( ) ) {
@@ -27,25 +26,22 @@ public class Hero extends FileRead{
             new Hero( "2069" , true ) {
                 @Override
                 public int attack( ) {
-                        nbes.sPrintln( "2069's turn" );
-                        int num = Nbes.random( 0 , 20 );
-                        nbes.sPrintln( "2051 heals " + num + " damage" );
-                        return num;
-                    
+                    return allHeros[Nbes.random( 0,allHeros.length  )].attack();
                 }
             } ,
             new Hero( "2048" , false ) {
                 @Override
                 public int attack( ) {
-                    nbes.sPrintln( "2048's turn" );
                     if ( nbes.inputBool( "Go for a rush attack?" ) ) {
-                        this.isHealing = true;
+
                         if ( Nbes.random( 0 , 1 ) == 1 ) {
                             this.isHealing = false;
                             nbes.sPrintln( "2048 deals 10 damage" );
                             return 10;
                         } else {
-                            nbes.sPrintln( "2048 hits 2069 for 10 damage" );
+                            this.isHealing = true;
+                            nbes.sPrintln( "2048 hits 2051 for 10 damage" );
+                             nbes.sPrintln( "2051: WHAT THE HECK 2051" );
                             return - 10;
                         }
                     }
