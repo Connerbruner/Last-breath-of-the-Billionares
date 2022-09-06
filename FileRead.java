@@ -86,7 +86,6 @@ class Cheat {
     static {
         try {
             cheats = new Cheat[] {
-                    new Cheat( "the whole squad" , "Files/Team.txt" , "0\n0" ) ,
                     new Cheat( "overplayed dev version" , Emmi.OTHERS[ 0 ] ) ,
                     new Cheat( "ha ha giga mech" , Emmi.MINI_BOSSES[ 0 ] ) ,
                     new Cheat( "ace" , new Color[] {

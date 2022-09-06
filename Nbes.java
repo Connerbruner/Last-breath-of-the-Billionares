@@ -380,7 +380,7 @@ public class Nbes {
 
 }
 
-public class Tone {
+ class Tone {
     public static float  SAMPLE_RATE = 8000f;
     public static double VOLUME      = 0.8;
     int hz;

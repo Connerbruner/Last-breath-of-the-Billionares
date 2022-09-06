@@ -48,13 +48,22 @@ public class Lbob extends Game {
     @Override
     public void restart( ) {
         HP=HPmax;
-        Boss per1 = playable[Nbes.random( 0,playable.length-1 )].clone();
+        Boss per1 =  playable[Nbes.random( 0,playable.length-1 )];
         Boss per2;
-        while ( (per2=playable[Nbes.random( 0,playable.length-1 )]).clone()!=per1 );
+        while ( (per2=playable[Nbes.random( 0,playable.length-1 )])!=per1 );
+        per2.resetPhases();
+        per1.resetPhases();
 
         nbes.sPrintln( per1.name+": Hey, "+per2.name+" mind picking some slack" );
         nbes.sPrintln( per2.name+": Naw seems like you need to" );
         nbes.sPrintln(per1.name+": SHUT UP *slaps "+per2.name+"*");
         nbes.sPrintln(per2.name+":");
+    }
+
+    public void vist(Area area) {
+        while (area.current!=area.areaHallways[area.areaHallways.length-1]) {
+            area.move();
+            battle(new Emmi(false,level2051));
+        }
     }
 }

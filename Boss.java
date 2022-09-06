@@ -19,6 +19,7 @@ class Boss {
     }
 
 
+
     public void checkArray( ) {
         if ( ! differentPhases.isEmpty( ) ) {
             if ( differentPhases.get( 0 ).HP <= 0 ) {
@@ -47,7 +48,7 @@ class Phase extends FileRead {
         name    = n;
     }
     public Phase( ArrayList<Attack> arr , int health , String n ) {
-        attacks = Attack.copyToNewUser( (Attack[]) arr.toArray(  ) , n );
+        attacks = Attack.copyToNewUser(  arr.toArray(Attack[]::new) , n );
         HP      = health;
         name    = n;
     }

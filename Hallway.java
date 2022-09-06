@@ -110,44 +110,44 @@ class AreaStroage {
     static Hallway floor9 = new Hallway("Floor 9");
     static Hallway floor10 = new Hallway("Floor 10");
     static Hallway floorBase = new Hallway("Base Floor");
-    static Area skyscraper = new Area("Skyscraper", {
+    static Area skyscraper = new Area("Skyscraper", new Hallway[]{
             floorBase, floor1, floor2, floor3, floor4, floor5, floor6, floor7, floor8, floor9, floor10
     });
 
     static {
         skyscraper.setAreaNeighbors(
-                []{
-                        {//base
+                new Hallway[][]{
+                        new Hallway[] {//base
                                 floor1
                         },
-                        {//1
+                        new Hallway[] {//1
                                 floorBase, floor2, floor3
                         },
-                        {//2
+                        new Hallway[] {//2
                                 floor1, floor3, floor5
                         },
-                        {//3
+                        new Hallway[] {//3
                                 floor2, floor6, floor4
                         },
-                        {//4
+                        new Hallway[] {//4
                                 floor3, floor7, floor5
                         },
-                        {//5
+                        new Hallway[] {//5
                                 floor4, floor9, floor3
                         },
-                        {//6
+                        new Hallway[] {//6
                                 floor5, floor7, floor9
                         },
-                        {//7
+                        new Hallway[] {//7
                                 floor6, floor9, floor2
                         },
-                        {//8
+                        new Hallway[] {//8
                                 floor7, floor10, floor3
                         },
-                        {//9
+                        new Hallway[] {//9
                                 floor8, floor1, floor4
                         },
-                        {//10
+                        new Hallway[] {//10
                                 floor9, floor1, floor7
                         },
                 }
@@ -164,38 +164,38 @@ class AreaStroage {
     static Hallway foodCourtA = new Hallway("Food court A");
     static Hallway foodCourtB = new Hallway("Food court B");
     
-    static Area mall =  new Area("MEGA MALL", {
-        foodCourtA,store1,store2,store3,store4,store5,store6,store7,store8,foodCourtB
+    static Area mall =  new Area("MEGA MALL", new Hallway[]{
+        foodCourtA, store1, store2, store3, store4, store5, store6, store7, store8, foodCourtB
     });
 
     static {
         mall.setAreaNeighbors(
-                [] {
-                    {//food A
+                new Hallway[][] {
+                    new Hallway[] {//food A
                         store2,store1,store6
                     },
-                     {// store1
+                     new Hallway[] {// store1
                         foodCourtA,store2
                     },
-                    {// store2
+                    new Hallway[] {// store2
                         store1,store3
                     },
-                    {// store3
-                      store2,store4 
+                    new Hallway[] {// store3
+                      store2,store4
                     },
-                    {// store4
+                    new Hallway[] {// store4
                         store3,store5
                     },
-                    {// store5
-                        strote4
+                    new Hallway[] {// store5
+                        store4
                     },
-                    {// store6
+                    new Hallway[] {// store6
                         store7,store1
                     },
-                    {// store7
+                    new Hallway[] {// store7
                         store6,store8
                     },
-                    {// store8
+                    new Hallway[] {// store8
                       store7,foodCourtB 
                     },
                 }
