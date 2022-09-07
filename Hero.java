@@ -59,7 +59,7 @@ public class Hero extends FileRead {
                     }
                 }
                 return 0;
-            } )
+            } ),
     };
 
     private Hero( String name , boolean healing , int unlocked , HeroAttack heroAttack ) {
@@ -72,7 +72,10 @@ public class Hero extends FileRead {
 
 
     public boolean isUnlocked( int Timeline ) {
-        return isUnlocked = levelUnlocked > Timeline;
+        if(!this.isUnlocked && levelUnlocked <= Timeline) {
+            Game.unlocked.add(this);
+        }
+        return isUnlocked = levelUnlocked <= Timeline;
     }
 
 }

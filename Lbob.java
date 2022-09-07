@@ -16,7 +16,10 @@ public class Lbob extends Game {
                 missionNum++;
             } ,
             ( ) -> {
-
+                nbes.sPrintln("Mission 2: Double Trouble ");
+                battle(elon);
+                battle(jeff);
+                missionNum++;
             } ,
             ( ) -> {
 
@@ -36,6 +39,13 @@ public class Lbob extends Game {
             ( ) -> {
 
             } ,
+    };
+    Attack[] allUnlock = new Attack[] {
+        new Attack( "2051" , "Kick" , 10 , 20 , 10 ) ,
+        new Attack( "2051" , "Punch" , 5 , 15 , 7 ) ,
+        new Attack( "2051" , "RUSH" , 0 , 1 , 1 ) ,
+        new Attack( "2051" , "METEOR PORTAL" , 15 , 40 , 40 ) ,
+        new Attack( "2051" , "TIME WARP" , - 5 , 10 , - 5 ) ,
     };
     Attack[]  attacks2077 = new Attack[] {
             new Attack( "2077" , "Kick" , 10 , 20 , 10 ) ,
@@ -75,21 +85,52 @@ public class Lbob extends Game {
             save( );
         }
         while ( true ) {
-
+            for ( int i = 0 ; i < unlocked.length ; i++ ) {
+            Hero.allHeros[ i ].isUnlocked( missionNum );
+            }
+        }
+    }
+    @Override
+    public void grabSave() {
+        super.grabSave();
+        for(int i=0; i<missionNum && i<allUnlock.length; i++) {
+            allAttacks.add(allUnlock[i])
         }
     }
 
     @Override
     public void restart( ) {
+        nbes.sPrintln("GAME OVER");
+        game();
+    }
+    public void train() {
         HP = HPmax;
         Boss per1 = playable[ Nbes.random( 0 , playable.length - 1 ) ];
         Boss per2;
         while ( ( per2 = playable[ Nbes.random( 0 , playable.length - 1 ) ] ) != per1 ) ;
-
-        nbes.sPrintln( per1.name + ": Hey, " + per2.name + " mind picking some slack" );
-        nbes.sPrintln( per2.name + ": Naw seems like you need to" );
-        nbes.sPrintln( per1.name + ": SHUT UP *slaps " + per2.name + "*" );
-        nbes.sPrintln( per2.name + ": PUT YOUR HANDS UP" );
+        nbes.sPrintln( "2051: TRAINING TIME" );
+        nbes.sPrintln( per1.name + ": You ready?" );
+        nbes.sPrintln( per2.name + ": Yup, Lets go" );
+        battle(per1,per2);
+        for(int i=per1.size(); i>-1; i--) {
+            if(Nbes.random(0,3)==3) {
+                for(int j=0; j<allAttacks.size(); j+=nbes.random(1,3)) {
+                    nbes.sPrintln(allAttacks.get(j).attackName+" Tier +1");
+                    allAttacks.get(j).attackTier++;
+                }
+            } else if(Nbes.random(0,3)==3) {
+                nbes.sPrintln("support power +3");
+                nbes.sPrintln("Max HP +3");
+                supportPower+=3;
+                HPmax+=3;
+            } else if(Nbes.random(0,3)==3) {
+                nbes.sPrintln("support power +1");
+                supportPower++;
+            } else {
+                nbes.sPrintln("Max HP +1");
+                HPmax++;
+            }
+        }
     }
 
     public void vist( Area area ) {

@@ -19,7 +19,7 @@ class Game extends FileRead {
     int      lastAttack   = 5;
     int      HP           = HPmax;
     int      attackNum    = 5;
-    static Hero[] unlocked = new Hero[ Hero.allHeros.length ];
+    static ArrayList<Hero> unlocked = new ArrayList<Hero>();
 
 
     Attack[] attackGates = { new Attack( "Bill Gates" , "TRIPLE SLASH" , 10 , 12 , 15 ) , new Attack( "Bill Gates" , "ULTRA SLASH" , 7 , 15 , 20 ) , new Attack( "Bill Gates" , "LASER BLAST" , 5 , 20 , 30 ) };
@@ -61,7 +61,7 @@ class Game extends FileRead {
     };
     static Attack               potion     = new Attack( "Potion" , 1 , 10 , 5 );
     static Attack               shot       = new Attack( "Sniper Shot" , 15 , 40 , 20 );
-    static ArrayList < Attack > allAttacks = new ArrayList <>( 3 );
+    static ArrayList < Attack > allAttacks = new ArrayList <>();
 
     static {
         allAttacks.add( shot );
@@ -140,7 +140,7 @@ class Game extends FileRead {
     //fight enemies
     public void battle( Emmi emmi ) {
         Nbes.overcomeMe( ).start( );
-        while ( Nbes.wavFile.isOpen( ) && emmi.emmi_HP > 0 ) {
+        while ( Nbes.wavFile.isOpen( ) && emmi.emmi_HP > 0 && HP > 0 ) {
             nbes.sPrintln( emmi.emmi_type + " health " + emmi.emmi_HP );
             nbes.sPrintln( "2051 health " + HP );
             emmi.emmi_HP -= ( attack( ) + attackSupport( ) );
@@ -163,7 +163,7 @@ class Game extends FileRead {
         boss.resetPhases( );
         Nbes.overcomeMe( ).start( );
 
-        while ( Nbes.wavFile.isOpen( ) && ! boss.differentPhases.isEmpty( ) ) {
+        while ( Nbes.wavFile.isOpen( ) && ! boss.differentPhases.isEmpty( ) && HP > 0 ) {
             nbes.sPrint( boss.name + " health " + boss.differentPhases.get( 0 ).HP );
             boss.differentPhases.get( 0 ).HP -= attack( ) + attackSupport( );
             boss.checkArray( );
@@ -281,15 +281,9 @@ class Game extends FileRead {
 
             }
         }
-        for ( int i = 0 ; i < unlocked.length ; i++ ) {
-            if ( Hero.allHeros[ i ].isUnlocked( missionNum ) ) {
-                unlocked[ i ] = Hero.allHeros[ i ];
-            }
-        }
 
     }
 }
-
 interface Mission {
     void go( );
 }
