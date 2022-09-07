@@ -40,7 +40,6 @@ class Phase extends FileRead {
     int      HP;
     Attack[] attacks;
     String   name;
-    int      curAttack;
 
     public Phase( Attack[] arr , int health , String n ) {
         attacks = Attack.copyToNewUser( arr , n );

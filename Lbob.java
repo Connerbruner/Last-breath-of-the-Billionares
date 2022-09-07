@@ -3,16 +3,50 @@ public class Lbob extends Game {
         super( "Last breath of the Billionaires" , file , new Object[] { 0 , 100 , 50 , 1 , 20 , 0 , 1 , 1 , 1 , 5 } );
     }
 
-    Attack[] attacks2077 = new Attack[] {
+    Mission[] missions    = new Mission[] {
+            ( ) -> {
+                nbes.sPrintln("Mission 0: The beginning");
+                vist( AreaStorage.allAreas[0]);
+                missionNum++;
+            } ,
+            ( ) -> {
+                nbes.sPrintln("Mission 1: First Encounter");
+                vist( AreaStorage.allAreas[1]);
+                battle( gates );
+                missionNum++;
+            } ,
+            ( ) -> {
+
+            } ,
+            ( ) -> {
+
+            } ,
+            ( ) -> {
+
+            } ,
+            ( ) -> {
+
+            } ,
+            ( ) -> {
+
+            } ,
+            ( ) -> {
+
+            } ,
+            ( ) -> {
+
+            } ,
+    };
+    Attack[]  attacks2077 = new Attack[] {
             new Attack( "2077" , "Kick" , 10 , 20 , 10 ) ,
             new Attack( "2077" , "Punch" , 5 , 15 , 7 ) ,
     };
-    Attack[] attacks2048 = {
+    Attack[]  attacks2048 = {
             new Attack( "2048" , "RUSH" , 0 , 1 , 1 ) ,
             new Attack( "2048" , "METEOR PORTAL" , 15 , 40 , 40 ) ,
             new Attack( "2048" , "TIME WARP" , - 5 , 10 , - 5 )
     };
-    Boss[]   playable    = {
+    Boss[]    playable    = {
             new Boss( new Phase[] {
                     new Phase( attacks2048 , 20 , "2048" ) ,
                     new Phase( attacks2048 , 80 , "2048" ) ,
@@ -47,23 +81,21 @@ public class Lbob extends Game {
 
     @Override
     public void restart( ) {
-        HP=HPmax;
-        Boss per1 =  playable[Nbes.random( 0,playable.length-1 )];
+        HP = HPmax;
+        Boss per1 = playable[ Nbes.random( 0 , playable.length - 1 ) ];
         Boss per2;
-        while ( (per2=playable[Nbes.random( 0,playable.length-1 )])!=per1 );
-        per2.resetPhases();
-        per1.resetPhases();
+        while ( ( per2 = playable[ Nbes.random( 0 , playable.length - 1 ) ] ) != per1 ) ;
 
-        nbes.sPrintln( per1.name+": Hey, "+per2.name+" mind picking some slack" );
-        nbes.sPrintln( per2.name+": Naw seems like you need to" );
-        nbes.sPrintln(per1.name+": SHUT UP *slaps "+per2.name+"*");
-        nbes.sPrintln(per2.name+":");
+        nbes.sPrintln( per1.name + ": Hey, " + per2.name + " mind picking some slack" );
+        nbes.sPrintln( per2.name + ": Naw seems like you need to" );
+        nbes.sPrintln( per1.name + ": SHUT UP *slaps " + per2.name + "*" );
+        nbes.sPrintln( per2.name + ": PUT YOUR HANDS UP" );
     }
 
-    public void vist(Area area) {
-        while (area.current!=area.areaHallways[area.areaHallways.length-1]) {
-            area.move();
-            battle(new Emmi(false,level2051));
+    public void vist( Area area ) {
+        while ( area.current != area.areaHallways[ area.areaHallways.length - 1 ] ) {
+            area.move( );
+            battle( new Emmi( false , level2051 ) );
         }
     }
 }
