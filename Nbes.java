@@ -11,10 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
+
 import static java.lang.Thread.sleep;
 
 public class Nbes {
@@ -28,7 +25,7 @@ public class Nbes {
             throw new RuntimeException(e);
         }
     }
-
+     Thread print;
     static int tSpeed = 5;
     static double musicMultiplier = 1;
     static final int SYSTEM_WIDTH = 400;
@@ -143,7 +140,7 @@ public class Nbes {
         AtomicReference<String> text = new AtomicReference<>("");
         str = textFormat(str);
         String finalStr = str;
-        Thread print = new Thread(() -> {
+        print = new Thread(() -> {
             for (int i = 0; i < finalStr.length(); i++) {
                 int finalI = i;
                 text.updateAndGet(v -> v + finalStr.charAt(finalI));
@@ -151,12 +148,13 @@ public class Nbes {
             }
             setText1(text + "\n>Click<");
         });
-        print.start();
+
         SYSTEM.requestFocusInWindow();
         keyButton = false;
-        wait(100);
+        print.start();
         while (!keyButton) ;
         print.stop();
+
         keyButton = false;
         TEXT1.setText("");
         lastsPrint = "";
@@ -252,14 +250,15 @@ public class Nbes {
         INPUT.setEditable(true);
         INPUT.requestFocus();
         keyButton = false;
-        Thread print = new Thread(() -> {
+        print = new Thread(() -> {
             sPrint(str);
-            wait(100);
             sPrint("(Type in the text box then click)");
         });
+
         print.start();
         while (INPUT.getText().equals("") || !keyButton) ;
         print.stop();
+
         SYSTEM.requestFocusInWindow();
         INPUT.setEditable(false);
         lastsPrint = "";
@@ -272,14 +271,15 @@ public class Nbes {
         INPUT.setEditable(true);
         INPUT.requestFocus();
         keyButton = false;
-        Thread print = new Thread(() -> {
+        print = new Thread(() -> {
             sPrint(str);
-            wait(100);
             sPrint("(Type in the text box then click)");
         });
+
         print.start();
         while (INPUT.getText().equals("") || !keyButton) ;
         print.stop();
+
         SYSTEM.requestFocusInWindow();
         INPUT.setEditable(false);
         lastsPrint = "";
@@ -295,20 +295,20 @@ public class Nbes {
         INPUT.setEditable(true);
         INPUT.requestFocus();
         keyButton = false;
-        Thread print = new Thread(() -> {
+        print = new Thread(() -> {
             sPrint(str);
-            wait(100);
             sPrint("(Type in the text box then click)");
         });
+
         print.start();
         while (INPUT.getText().equals("") || !keyButton) ;
         print.stop();
+
         SYSTEM.requestFocusInWindow();
         INPUT.setEditable(false);
-        String input = INPUT.getText().toLowerCase();
         lastsPrint = "";
         keyButton = false;
-        return input.equals("yes") || input.equals("y");
+        return INPUT.getText().equalsIgnoreCase("yes") || INPUT.getText().equalsIgnoreCase("y");
     }
 
     public static void wait(int time) {
@@ -376,61 +376,60 @@ public class Nbes {
         });
 
     }
-
-
 }
 
- class Tone {
-    public static float  SAMPLE_RATE = 8000f;
-    public static double VOLUME      = 0.8;
+
+class Tone {
+    public static float SAMPLE_RATE = 8000f;
+    public static double VOLUME = 0.8;
     int hz;
     int millis = 100;
 
-    public Tone( int HZ , int msecs ) {
-        hz     = HZ;
+    public Tone(int HZ, int msecs) {
+        hz = HZ;
         millis = msecs;
     }
 
-    public Tone( int HZ ) {
+    public Tone(int HZ) {
         hz = HZ;
     }
 
-    public Tone( ) {
-        hz = Nbes.random( 0 , 1000 );
+    public Tone() {
+        hz = Nbes.random(0, 1000);
     }
 
 
-    public void play( ) throws LineUnavailableException {
+    public void play() throws LineUnavailableException {
 
-        byte[] buf = new byte[ (int) SAMPLE_RATE * millis / 1000 ];
-        for ( int i = 0 ; i < buf.length ; i++ ) {
-            double angle = i / ( SAMPLE_RATE / hz ) * 2.0 * Math.PI;
-            buf[ i ] = (byte) ( Math.sin( angle ) * 127.0 * VOLUME );
+        byte[] buf = new byte[(int) SAMPLE_RATE * millis / 1000];
+        for (int i = 0; i < buf.length; i++) {
+            double angle = i / (SAMPLE_RATE / hz) * 2.0 * Math.PI;
+            buf[i] = (byte) (Math.sin(angle) * 127.0 * VOLUME);
         }
 // shape the front and back 10ms of the wave form
-        for ( int i = 0 ; i < SAMPLE_RATE / 100.0 && i < buf.length / 2 ; i++ ) {
-            buf[ i ]                  = (byte) ( buf[ i ] * i / ( SAMPLE_RATE / 100.0 ) );
-            buf[ buf.length - 1 - i ] = (byte) ( buf[ buf.length - 1 - i ] * i / ( SAMPLE_RATE / 100.0 ) );
+        for (int i = 0; i < SAMPLE_RATE / 100.0 && i < buf.length / 2; i++) {
+            buf[i] = (byte) (buf[i] * i / (SAMPLE_RATE / 100.0));
+            buf[buf.length - 1 - i] = (byte) (buf[buf.length - 1 - i] * i / (SAMPLE_RATE / 100.0));
         }
 
-        AudioFormat    af  = new AudioFormat( SAMPLE_RATE , 8 , 1 , true , false );
-        SourceDataLine sdl = AudioSystem.getSourceDataLine( af );
-        sdl.open( af );
-        sdl.start( );
-        sdl.write( buf , 0 , buf.length );
-        sdl.drain( );
-        sdl.close( );
+        AudioFormat af = new AudioFormat(SAMPLE_RATE, 8, 1, true, false);
+        SourceDataLine sdl = AudioSystem.getSourceDataLine(af);
+        sdl.open(af);
+        sdl.start();
+        sdl.write(buf, 0, buf.length);
+        sdl.drain();
+        sdl.close();
     }
 
-    public static void playAll( Tone[] arr ) throws LineUnavailableException {
-        for ( Tone tone : arr ) {
-            tone.play( );
+    public static void playAll(Tone[] arr) throws LineUnavailableException {
+        for (Tone tone : arr) {
+            tone.play();
         }
     }
 
-    public static void playAll( int count ) throws LineUnavailableException {
-        for ( ; count > 0 ; count-- ) {
-            new Tone( ).play( );
+    public static void playAll(int count) throws LineUnavailableException {
+        for (; count > 0; count--) {
+            new Tone().play();
         }
     }
 }
