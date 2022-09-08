@@ -10,7 +10,7 @@ class Main extends FileRead {
 
 
     public static void main( String[] args )  {
-
+        Nbes.tSpeed=5;
         for ( int i = 0 ; i < games.length - 1 ; i++ ) {
             if ( games[ i ].savePath != null && games[ i + 1 ].savePath != null ) {
                 Object[] save1 = Read( games[ i ].savePath );
@@ -42,8 +42,6 @@ class Main extends FileRead {
             if ( games[ choice ].resetArr != null && games[ choice ].savePath != null ) {
                 games[ choice ].grabSave( );
             }
-
-
             games[ choice ].game( );
         }
     }

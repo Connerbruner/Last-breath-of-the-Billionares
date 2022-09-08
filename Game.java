@@ -3,6 +3,8 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
+
 class Game extends FileRead {
     String   savePath;
     Object[] resetArr;
@@ -19,7 +21,8 @@ class Game extends FileRead {
     int      lastAttack   = 5;
     int      HP           = HPmax;
     int      attackNum    = 5;
-    static ArrayList<Hero> unlocked = new ArrayList<Hero>();
+    static ArrayList<Hero> unlocked = new ArrayList <>( );
+    static double musicMultiplier = 1;
 
 
     Attack[] attackGates = { new Attack( "Bill Gates" , "TRIPLE SLASH" , 10 , 12 , 15 ) , new Attack( "Bill Gates" , "ULTRA SLASH" , 7 , 15 , 20 ) , new Attack( "Bill Gates" , "LASER BLAST" , 5 , 20 , 30 ) };
@@ -94,7 +97,7 @@ class Game extends FileRead {
             Nbes.INPUT.requestFocus( );
 
             attackNum = allAttacks.size( );
-            nbes.sPrint( "Multiplier: " + Nbes.musicMultiplier + "\n" );
+            nbes.sPrint( "Multiplier: " + musicMultiplier + "\n" );
             for ( int i = 0 ; i < allAttacks.size( ) ; i++ ) {
                 nbes.sPrint( i + "( " + allAttacks.get( i ).toString( ) );
             }
@@ -139,7 +142,7 @@ class Game extends FileRead {
 
     //fight enemies
     public void battle( Emmi emmi ) {
-        Nbes.overcomeMe( ).start( );
+        overcomeMe( ).start( );
         while ( Nbes.wavFile.isOpen( ) && emmi.emmi_HP > 0 && HP > 0 ) {
             nbes.sPrintln( emmi.emmi_type + " health " + emmi.emmi_HP );
             nbes.sPrintln( "2051 health " + HP );
@@ -161,8 +164,7 @@ class Game extends FileRead {
 
     public void battle( Boss boss ) {
         boss.resetPhases( );
-        Nbes.overcomeMe( ).start( );
-
+        overcomeMe( ).start( );
         while ( Nbes.wavFile.isOpen( ) && ! boss.differentPhases.isEmpty( ) && HP > 0 ) {
             nbes.sPrint( boss.name + " health " + boss.differentPhases.get( 0 ).HP );
             boss.differentPhases.get( 0 ).HP -= attack( ) + attackSupport( );
@@ -186,7 +188,7 @@ class Game extends FileRead {
     public void battle( Boss player , Boss boss ) {
         boss.resetPhases( );
         player.resetPhases( );
-        Nbes.overcomeMe( ).start( );
+        overcomeMe( ).start( );
 
         while ( Nbes.wavFile.isOpen( ) && ! boss.differentPhases.isEmpty( ) ) {
             nbes.sPrint( boss.name + " health " + boss.differentPhases.get( 0 ).HP );
@@ -203,6 +205,36 @@ class Game extends FileRead {
         }
         Nbes.wavFile.close( );
 
+    }
+    public static Thread overcomeMe() {
+        return new Thread(() -> {
+            try {
+                Nbes.playSound("Files/OvercomeMe.wav");
+                musicMultiplier = 0.5;
+                sleep(15000);
+                musicMultiplier = 1;
+                sleep(10000);
+                musicMultiplier = 1.25;
+                sleep(9000);
+                musicMultiplier = 1.4;
+                sleep(16000);
+                musicMultiplier = 1;
+                sleep(7000);
+                musicMultiplier = 1.25;
+                sleep(9000);
+                musicMultiplier = 1.5;
+                sleep(15000);
+                musicMultiplier = 1.75;
+                sleep(24000);
+                musicMultiplier = 0.5;
+                sleep(10000);
+                musicMultiplier = 1;
+                sleep(18000);
+                musicMultiplier = 1.5;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
 
@@ -233,7 +265,6 @@ class Game extends FileRead {
 
     //Grabs Data
     public void grabSave( ) {
-
         if ( nbes.inputBool( "Would you like to overwrite a save file? (Returns the file to the start of the game)" ) ) {
             if ( nbes.inputBool( "Are you sure?" ) ) {
                 FileRead.Edit( savePath , resetArr );
@@ -277,8 +308,6 @@ class Game extends FileRead {
                 if ( s == 9 ) {
                     supportPower = val;
                 }
-
-
             }
         }
 

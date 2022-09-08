@@ -25,9 +25,8 @@ public class Nbes {
             throw new RuntimeException(e);
         }
     }
-     Thread print;
-    static int tSpeed = 5;
-    static double musicMultiplier = 1;
+    Thread print;
+    static int tSpeed;
     static final int SYSTEM_WIDTH = 400;
     static final int SYSTEM_HEIGHT = 640;
     static final int SYSTEM_BORDER = SYSTEM_WIDTH / 10;
@@ -345,37 +344,7 @@ public class Nbes {
         }
     }
 
-    public static Thread overcomeMe() {
-        return new Thread(() -> {
-            try {
-                playSound("Files/OvercomeMe.wav");
-                musicMultiplier = 0.5;
-                sleep(15000);
-                musicMultiplier = 1;
-                sleep(10000);
-                musicMultiplier = 1.25;
-                sleep(9000);
-                musicMultiplier = 1.4;
-                sleep(16000);
-                musicMultiplier = 1;
-                sleep(7000);
-                musicMultiplier = 1.25;
-                sleep(9000);
-                musicMultiplier = 1.5;
-                sleep(15000);
-                musicMultiplier = 1.75;
-                sleep(24000);
-                musicMultiplier = 0.5;
-                sleep(10000);
-                musicMultiplier = 1;
-                sleep(18000);
-                musicMultiplier = 1.5;
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
 
-    }
 }
 
 

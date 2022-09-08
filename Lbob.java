@@ -85,7 +85,7 @@ public class Lbob extends Game {
             save();
         }
         while (true) {
-            for (int i = 0; i < unlocked.size(); i++) {
+            for (int i = 0; i < Hero.allHeros.length; i++) {
                 Hero.allHeros[i].isUnlocked(missionNum);
             }
         }
