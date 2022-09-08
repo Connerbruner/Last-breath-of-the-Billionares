@@ -211,25 +211,25 @@ class Game extends FileRead {
             try {
                 Nbes.playSound("Files/Music/OvercomeMe.wav");
                 musicMultiplier = 0.5;
-                sleep(15000);
+                sleep(15000);//15
                 musicMultiplier = 1;
-                sleep(10000);
+                sleep(10000);//25
                 musicMultiplier = 1.25;
-                sleep(9000);
+                sleep(9000);//36
                 musicMultiplier = 1.4;
-                sleep(16000);
+                sleep(16000);//56
                 musicMultiplier = 1;
-                sleep(7000);
+                sleep(7000);//1:03
                 musicMultiplier = 1.25;
-                sleep(9000);
+                sleep(9000);//1:23
                 musicMultiplier = 1.5;
-                sleep(15000);
+                sleep(15000);//1:37
                 musicMultiplier = 1.75;
-                sleep(24000);
+                sleep(24000);//2:01
                 musicMultiplier = 0.5;
-                sleep(10000);
+                sleep(10000);//2:11
                 musicMultiplier = 1;
-                sleep(18000);
+                sleep(18000);//2:29
                 musicMultiplier = 1.5;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -259,9 +259,9 @@ class Game extends FileRead {
                 musicMultiplier = 15;
                 sleep(190000);//2:13
                 musicMultiplier = 7.5;
-                sleep(7000);
+                sleep(7000);//2:20
                 musicMultiplier = 3;
-                sleep(11000);//2:31
+                sleep(11000);//2:38
                 musicMultiplier= 10;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
