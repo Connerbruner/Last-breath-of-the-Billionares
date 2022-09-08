@@ -209,7 +209,7 @@ class Game extends FileRead {
     public static Thread overcomeMe() {
         return new Thread(() -> {
             try {
-                Nbes.playSound("Files/OvercomeMe.wav");
+                Nbes.playSound("Files/Music/OvercomeMe.wav");
                 musicMultiplier = 0.5;
                 sleep(15000);
                 musicMultiplier = 1;
@@ -236,6 +236,73 @@ class Game extends FileRead {
             }
         });
     }
+    public static Thread frenzy() {
+        return new Thread(() -> {
+            try {
+                Nbes.playSound("Files/Music/Frenzy.wav");
+                musicMultiplier = 1;
+                sleep(12000);//12
+                musicMultiplier = 2;
+                sleep(8000);//20
+                musicMultiplier = 15;
+                sleep(4000);//24
+                musicMultiplier = 7;
+                sleep(9000);//36
+                musicMultiplier = 10;
+                sleep(30000);//1:03
+                musicMultiplier = 5;
+                sleep(19000);//1:22
+                musicMultiplier = 10;
+                sleep(12000);//1:34
+                musicMultiplier = 7.5;
+                sleep(10000);//1:44
+                musicMultiplier = 15;
+                sleep(190000);//2:13
+                musicMultiplier = 7.5;
+                sleep(7000);
+                musicMultiplier = 3;
+                sleep(11000);//2:31
+                musicMultiplier= 10;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+    public static Thread hoshikuzu() {
+        return new Thread(() -> {
+            try {
+                Nbes.playSound("Files/Music/Hoshikuzu.wav");
+                musicMultiplier = 0.5;
+                sleep(15000);//15
+                musicMultiplier = 0.75;
+                sleep(25000);//40
+                musicMultiplier = 1;
+                sleep(15000);//55
+                musicMultiplier = 1.5;
+                sleep(20000);//1:15
+                musicMultiplier = 0.75;
+                sleep(30000);//1:30
+                musicMultiplier = 1;
+                sleep(20000);//1:50
+                musicMultiplier = 2;
+                sleep(15000);//2:05
+                musicMultiplier = 1;
+                sleep(5000);//1:10
+                musicMultiplier = 0.75;
+                sleep(5000);//2:15
+                musicMultiplier = 1.25;
+                sleep(10000);//2:25
+                musicMultiplier = 1;
+                sleep(35000);//3:00
+                musicMultiplier= 0.75;
+                sleep(7000);//3:07
+                musicMultiplier= 1.5;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
 
 
     //level up
