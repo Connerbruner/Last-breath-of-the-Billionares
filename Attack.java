@@ -9,6 +9,7 @@ class Attack extends FileRead {
     int    attackTier;
     int    num;
     String attackUser;
+    AttackVoid attackVoid;
     static ArrayList < Attack > combo = new ArrayList <>( );
 
     public Attack( String name , int lo , int hi , int spd ) {
@@ -27,6 +28,24 @@ class Attack extends FileRead {
         speed      = spd;
         attackUser = user;
         attackTier = 1;
+    }
+    public Attack( String user , String name , int l , int h , int spd,AttackVoid attack ) {
+        attackName = name;
+        low        = l;
+        high       = h;
+        speed      = spd;
+        attackUser = user;
+        attackTier = 1;
+        attackVoid=attack;
+    }
+    public Attack(String name , int l , int h , int spd,AttackVoid attack ) {
+        attackName = name;
+        low        = l;
+        high       = h;
+        speed      = spd;
+        attackUser = "2051";
+        attackTier = 1;
+        attackVoid=attack;
     }
 
     public String toString( ) {
@@ -97,5 +116,8 @@ class Attack extends FileRead {
         return 0;
     }
 
+}
+interface AttackVoid {
+    int attack();
 }
 

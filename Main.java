@@ -28,7 +28,7 @@ class Main extends FileRead {
         }
         nbes.sPrintln( "???: Hello, Welcome to C1nner's game collection ");
         nbes.sPrintln( "The text is currently at a speed of " + nbes.tSpeed + ", if you lower that number it will speed up the text, if you raise the number it will move slower" );
-        nbes.tSpeed = nbes.inputInt( "what should the text speed be?" )+1;
+        nbes.tSpeed = nbes.inputInt( "what should the text speed be?" );
         nbes.sPrintln( "This game does not condone any violence. This is a work of fiction, and any resemblance to characters, real or fictional, is a coincidence." );
         while (true)
         {

@@ -160,11 +160,13 @@ public class Nbes {
     }
 
     public void sPrint(String str) {
-        StringBuilder text = new StringBuilder();
+        AtomicReference<String> text = new AtomicReference<>("");
         str = textFormat(str);
-        for (int i = 0; i < str.length(); i++) {
-            text.append(str.charAt(i));
-            setText1(lastsPrint + text);
+        String finalStr = str;
+        for (int i = 0; i < finalStr.length(); i++) {
+                int finalI = i;
+                text.updateAndGet(v -> v + finalStr.charAt(finalI));
+                setText1(text.get());
         }
         lastsPrint += str + "\n";
     }
