@@ -54,8 +54,8 @@ class Attack extends FileRead {
 
 
     public int attack( Object[] args ) {
-        nbes.lastsPrint = "";
-        if ( args == null ) {
+        if(attackVoid==null) {
+            if ( args == null ) {
             return calcDamage( );
         } else if ( args.length == 0 ) {
             num = calcDamage( );
@@ -75,6 +75,10 @@ class Attack extends FileRead {
             nbes.sPrintln( attackName + "\n" + attackUser + " deals " + num + " damage" );
             return num;
         }
+        } else {
+         return attackVoid.attack();   
+        }
+        nbes.lastsPrint = "";
         return 0;
     }
 

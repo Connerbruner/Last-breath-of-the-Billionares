@@ -151,7 +151,7 @@ public class Nbes {
         SYSTEM.requestFocusInWindow();
         keyButton = false;
         print.start();
-        while (!keyButton) ;
+        while (!keyButton && !EmmiTraining.isTraining) ;
         print.stop();
 
         keyButton = false;
