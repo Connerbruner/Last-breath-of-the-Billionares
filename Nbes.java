@@ -16,15 +16,6 @@ import static java.lang.Thread.sleep;
 
 public class Nbes {
 
-    static Clip wavFile;
-
-    static {
-        try {
-            wavFile = (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
-        } catch (LineUnavailableException e) {
-            throw new RuntimeException(e);
-        }
-    }
     Thread print;
     static int tSpeed;
     static final int SYSTEM_WIDTH = 400;
@@ -192,7 +183,7 @@ public class Nbes {
         sPrint("Type " + word);
         INPUT.setEditable(true);
         INPUT.requestFocus();
-        while (!INPUT.getText().equals(word) && startTime + millis > System.currentTimeMillis() && wavFile.isOpen())
+        while (!INPUT.getText().equals(word) && startTime + millis > System.currentTimeMillis() )
             ;
         TEXT1.setText("");
         INPUT.setEditable(false);
@@ -206,7 +197,7 @@ public class Nbes {
         INPUT.setText("");
         INPUT.setEditable(true);
         INPUT.requestFocus();
-        while (startTime + millis > System.currentTimeMillis() && wavFile.isOpen()) {
+        while (startTime + millis > System.currentTimeMillis()) {
             if (INPUT.getText().equals(word)) {
                 INPUT.setText("");
                 hits++;
@@ -321,30 +312,11 @@ public class Nbes {
     public void setText1(String str) {
         TEXT1.setText("\n\n\n\n\n" + str);
         try {
-            if (!wavFile.isOpen()) {
-                new Tone(tSpeed * random(100, 500), tSpeed).play();
-            } else {
-                new Tone(0, tSpeed).play();
-            }
+            new Tone(tSpeed * random(100, 500), tSpeed).play();
         } catch (LineUnavailableException ignored) {
         }
     }
 
-    public static void playSound(String file) {
-        try {
-            wavFile.close();
-            wavFile.addLineListener(event -> {
-                if (event.getType() == LineEvent.Type.STOP)
-                    wavFile.close();
-
-            });
-            wavFile.open(AudioSystem.getAudioInputStream(new File(file)));
-            wavFile.start();
-
-        } catch (Exception exc) {
-            exc.printStackTrace(System.out);
-        }
-    }
 
 
 }

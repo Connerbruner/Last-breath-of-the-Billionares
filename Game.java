@@ -3,9 +3,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
-import static java.lang.Thread.sleep;
-
-class Game extends FileRead {
+abstract class Game extends FileRead {
     String   savePath;
     Object[] resetArr;
     String   name;
@@ -21,6 +19,7 @@ class Game extends FileRead {
     int      lastAttack   = 5;
     int      HP           = HPmax;
     int      attackNum    = 5;
+    static final int BATTLE_TIME = 180;
     static ArrayList < Hero > unlocked        = new ArrayList <>( );
     static double             musicMultiplier = 1;
 
@@ -82,13 +81,10 @@ class Game extends FileRead {
     }
 
     //placeHolder for other games
-    public void game( ) {
-        nbes.sPrintln( "NOTHING" );
-    }
+    abstract void game( );
 
     //shows you what attacks you can use
     public int attack( ) {
-        if ( Nbes.wavFile.isOpen( ) ) {
             lastAttack = attackNum;
             int speed = Nbes.tSpeed;
             Nbes.tSpeed = 1;
@@ -114,8 +110,6 @@ class Game extends FileRead {
                 power = 0.5;
             }
             return allAttacks.get( attackNum ).attack( new Object[] { power , Math.abs( power - 1 ) } );
-        }
-        return 0;
 
 
     }
@@ -125,7 +119,7 @@ class Game extends FileRead {
     public int attackSupport( ) {
         int total = 0;
         for ( Hero hero : unlocked ) {
-            if ( hero != null && Nbes.wavFile.isOpen( ) && Nbes.random( 0 , 1 ) == 1 ) {
+            if ( hero != null && Nbes.random( 0 , 1 ) == 1 ) {
                 nbes.sPrintln( hero.heroName + "'s Turn" );
                 int attack = hero.attack.attack( ) * supportPower / 2;
                 if ( hero.isHealing ) {
@@ -142,19 +136,20 @@ class Game extends FileRead {
 
     //fight enemies
     public void battle( Emmi emmi ) {
-        overcomeMe( ).start( );
-        while ( Nbes.wavFile.isOpen( ) && emmi.emmi_HP > 0 && HP > 0 ) {
+        long startTime = System.currentTimeMillis();
+        while ( startTime+BATTLE_TIME*1000>System.currentTimeMillis() && emmi.emmi_HP > 0 && HP > 0 ) {
             nbes.sPrintln( emmi.emmi_type + " health " + emmi.emmi_HP );
             nbes.sPrintln( "2051 health " + HP );
+            nbes.sPrintln("TIME LEFT "+(startTime+BATTLE_TIME*1000-System.currentTimeMillis())/1000);
+
             emmi.emmi_HP -= ( attack( ) + attackSupport( ) );
             nbes.sPrintln( emmi.emmi_type + " Is going for a attack" );
             HP -= emmi.attack( );
 
         }
-        if ( ! Nbes.wavFile.isOpen( ) || HP < 0 ) {
+        if ( startTime+BATTLE_TIME*1000<System.currentTimeMillis() || HP < 0 ) {
             restart( );
         }
-        Nbes.wavFile.close( );
         exp1 += ( ( emmi.emmi_level + 1 ) * emmi.emmi_num ) * 2;
         nbes.sPrintln( "You gain " + ( emmi.emmi_level * emmi.emmi_num ) * 2 + " exp" );
         metaleft--;
@@ -164,10 +159,13 @@ class Game extends FileRead {
 
     public void battle( Boss boss ) {
         boss.resetPhases( );
-        overcomeMe( ).start( );
+        long startTime = System.currentTimeMillis();
+        while ( startTime+BATTLE_TIME*1000>System.currentTimeMillis() && ! boss.differentPhases.isEmpty( ) && HP > 0 ) {
 
-        while ( Nbes.wavFile.isOpen( ) && ! boss.differentPhases.isEmpty( ) && HP > 0 ) {
             nbes.sPrint( boss.name + " health " + boss.differentPhases.get( 0 ).HP );
+            nbes.sPrintln( "2051 health " + HP );
+            nbes.sPrintln("TIME LEFT "+(startTime+BATTLE_TIME*1000-System.currentTimeMillis())/1000);
+
             boss.differentPhases.get( 0 ).HP -= attack( ) + attackSupport( );
             boss.checkArray( );
             nbes.sPrintln( boss.name + " Is going for a attack" );
@@ -176,10 +174,9 @@ class Game extends FileRead {
             }
             boss.checkArray( );
         }
-        if ( ! Nbes.wavFile.isOpen( ) || HP < 0 ) {
+        if ( startTime+BATTLE_TIME*1000<System.currentTimeMillis() || HP < 0 ) {
             restart( );
         }
-        Nbes.wavFile.close( );
         exp1 += 500;
         nbes.sPrintln( "You gain 500 exp" );
         levelUp( );
@@ -189,11 +186,14 @@ class Game extends FileRead {
     public void battle( Boss player , Boss boss ) {
         boss.resetPhases( );
         player.resetPhases( );
-        hoshikuzu( ).start( );
+        long startTime = System.currentTimeMillis();
 
-        while ( Nbes.wavFile.isOpen( ) && ! boss.differentPhases.isEmpty( ) ) {
+        while ( startTime+BATTLE_TIME*1000>System.currentTimeMillis() && ! boss.differentPhases.isEmpty( ) ) {
+
             nbes.sPrint( boss.name + " health " + boss.differentPhases.get( 0 ).HP );
             nbes.sPrint( player.name + " health " + player.differentPhases.get( 0 ).HP );
+            nbes.sPrintln("TIME LEFT "+(startTime+BATTLE_TIME*1000-System.currentTimeMillis())/1000);
+
             boss.differentPhases.get( 0 ).HP -= player.differentPhases.get( 0 ).attack( );
             boss.checkArray( );
             nbes.sPrintln( boss.name + " Is going for a attack" );
@@ -201,169 +201,13 @@ class Game extends FileRead {
                 player.differentPhases.get( 0 ).HP -= boss.differentPhases.get( 0 ).attack( );
             }
         }
-        if ( ! Nbes.wavFile.isOpen( ) || HP < 0 ) {
+        if ( startTime+BATTLE_TIME*1000<System.currentTimeMillis() || HP < 0 ) {
             restart( );
         }
-        Nbes.wavFile.close( );
 
     }
 
-    public static Thread overcomeMe( ) {
-        return new Thread( ( ) -> {
-            try {
-                Nbes.playSound( "Files/Music/OvercomeMe.wav" );
-                musicMultiplier = 0.5;
-                sleep( 15000 );//15
-                musicMultiplier = 1;
-                sleep( 10000 );//25
-                musicMultiplier = 1.25;
-                sleep( 9000 );//36
-                musicMultiplier = 1.4;
-                sleep( 16000 );//56
-                musicMultiplier = 1;
-                sleep( 7000 );//1:03
-                musicMultiplier = 1.25;
-                sleep( 9000 );//1:23
-                musicMultiplier = 1.5;
-                sleep( 15000 );//1:37
-                musicMultiplier = 1.75;
-                sleep( 24000 );//2:01
-                musicMultiplier = 0.5;
-                sleep( 10000 );//2:11
-                musicMultiplier = 1;
-                sleep( 18000 );//2:29
-                musicMultiplier = 1.5;
-            } catch ( InterruptedException e ) {
-                throw new RuntimeException( e );
-            }
-        } );
-    }
 
-    public static Thread frenzy( ) {
-        return new Thread( ( ) -> {
-            try {
-                Nbes.playSound( "Files/Music/Frenzy.wav" );
-                musicMultiplier = 1;
-                sleep( 12000 );//12
-                musicMultiplier = 2;
-                sleep( 8000 );//20
-                musicMultiplier = 15;
-                sleep( 4000 );//24
-                musicMultiplier = 7;
-                sleep( 9000 );//36
-                musicMultiplier = 10;
-                sleep( 30000 );//1:03
-                musicMultiplier = 5;
-                sleep( 19000 );//1:22
-                musicMultiplier = 10;
-                sleep( 12000 );//1:34
-                musicMultiplier = 7.5;
-                sleep( 10000 );//1:44
-                musicMultiplier = 15;
-                sleep( 190000 );//2:13
-                musicMultiplier = 7.5;
-                sleep( 7000 );//2:20
-                musicMultiplier = 3;
-                sleep( 11000 );//2:38
-                musicMultiplier = 10;
-            } catch ( InterruptedException e ) {
-                throw new RuntimeException( e );
-            }
-        } );
-    }
-
-    public static Thread hoshikuzu( ) {
-        return new Thread( ( ) -> {
-            try {
-                Nbes.playSound( "Files/Music/Hoshikuzu.wav" );
-                musicMultiplier = 0.5;
-                sleep( 15000 );//15
-                musicMultiplier = 0.75;
-                sleep( 25000 );//40
-                musicMultiplier = 1;
-                sleep( 15000 );//55
-                musicMultiplier = 1.5;
-                sleep( 20000 );//1:15
-                musicMultiplier = 0.75;
-                sleep( 30000 );//1:30
-                musicMultiplier = 1;
-                sleep( 20000 );//1:50
-                musicMultiplier = 2;
-                sleep( 15000 );//2:05
-                musicMultiplier = 1;
-                sleep( 5000 );//1:10
-                musicMultiplier = 0.75;
-                sleep( 5000 );//2:15
-                musicMultiplier = 1.25;
-                sleep( 10000 );//2:25
-                musicMultiplier = 1;
-                sleep( 35000 );//3:00
-                musicMultiplier = 0.75;
-                sleep( 7000 );//3:07
-                musicMultiplier = 1.5;
-            } catch ( InterruptedException e ) {
-                throw new RuntimeException( e );
-            }
-        } );
-    }
-    public static Thread yurushite( ) {
-        Nbes.playSound( "Files/Music/YURUSHITE.wav" );
-        Nbes.tSpeed=50;
-        nbes.sPrint( "???: EVERY TONE IS TRICKLE OF YOU\nEVERY BEAT A SHADOW" );
-        Nbes.wait(2000);
-        nbes.lastsPrint="";
-        Nbes.tSpeed=5;
-        nbes.sPrint( "???: YOU READY?" );
-        Nbes.wait(5000);
-        nbes.sPrint( "???: TO DIE");
-        Nbes.wait(5000);
-        nbes.sPrint( "???: GOOD LUCK" );
-        Nbes.wait(2000);
-        nbes.lastsPrint="";
-        Nbes.tSpeed=5;
-        nbes.sPrint( "HAHAHAHAHAHAHAHAHAHAHAHA" );
-        nbes.lastsPrint="";
-        Nbes.tSpeed=1;
-        for(int i=12; i>0; i--) {
-            nbes.sPrint( "HERE WE GO" );
-            Nbes.wait( 100 );
-        }
-        System.out.println( "0" );
-        nbes.lastsPrint="";
-        //28
-        return new Thread( ( ) -> {
-            try {
-
-                musicMultiplier = 1.5;
-                sleep( 15000 );//15
-                musicMultiplier = 0.75;
-                sleep( 25000 );//40
-                musicMultiplier = 1;
-                sleep( 15000 );//55
-                musicMultiplier = 1.5;
-                sleep( 20000 );//1:15
-                musicMultiplier = 0.75;
-                sleep( 30000 );//1:30
-                musicMultiplier = 1;
-                sleep( 20000 );//1:50
-                musicMultiplier = 2;
-                sleep( 15000 );//2:05
-                musicMultiplier = 1;
-                sleep( 5000 );//1:10
-                musicMultiplier = 0.75;
-                sleep( 5000 );//2:15
-                musicMultiplier = 1.25;
-                sleep( 10000 );//2:25
-                musicMultiplier = 1;
-                sleep( 35000 );//3:00
-                musicMultiplier = 0.75;
-                sleep( 7000 );//3:07
-                musicMultiplier = 1.5;
-            } catch ( InterruptedException e ) {
-                throw new RuntimeException( e );
-            }
-        } );
-    }
 
     //level up
     public void levelUp( ) {
