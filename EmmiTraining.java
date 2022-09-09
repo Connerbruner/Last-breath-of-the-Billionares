@@ -69,12 +69,14 @@ public class EmmiTraining extends Game {
         int j=0;
         for (int i = 0; i < data.length(); i++) {
             if (data.charAt(i)==59) {
-                for(int k=i; data.charAt(i)!=59; k++) {
-                    arr[j] = Double.parseDouble(data.)
-                }
+                int k=i;
+                for(; data.charAt(i)!=59; k++);
+                arr[j] = Double.parseDouble(data.substring(i,k));
+                i=k;
                 j++;
             }
         }
+        return arr;
     }
 }
 /**
