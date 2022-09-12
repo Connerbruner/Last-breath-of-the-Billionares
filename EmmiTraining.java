@@ -33,6 +33,11 @@ public class EmmiTraining extends Game {
         isTraining = false;
     }
 
+    @Override
+    public int attack() {
+        return allAttacks.get(Nbes.random(0,allAttacks.size()-1)).attack(null);
+    }
+
     public ArrayList<Integer> battle() {
         HP = 50;
         Emmi emmi = new Emmi(false, 0);
@@ -57,18 +62,18 @@ public class EmmiTraining extends Game {
         return attacks;
     }
 
-    public void writeWeights(int index, double[] arr) {
-        Object[] saveData = FileRead.Read(savePath);
+    public static void writeWeights(int index,String file, double[] arr) {
+        Object[] saveData = FileRead.Read(file);
         String data = "";
         for (int i = 0; i < arr.length; i++) {
             data += ";" + arr[i];
         }
         saveData[index] = data;
-        FileRead.Edit(savePath, saveData);
+        FileRead.Edit(file, saveData);
     }
 
-    public double[] readWeights(int index) {
-        String data = Read(savePath)[index].toString();
+    public static double[] readWeights(int index,String file) {
+        String data = Read(file)[index].toString();
         double[] arr = new double[data.length()];
         int j=0;
         for (int i = 0; i < data.length(); i++) {
