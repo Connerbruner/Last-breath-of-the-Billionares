@@ -7,20 +7,22 @@ class Emmi extends FileRead {
     Attack[] emmi_attacks;
     Attack curAttack;
 
-    static final Attack[] BASE_ATTACKS = {
+    final Attack[] BASE_ATTACKS = {
         new Attack("","CHARGE UP",0,0,0, ()->{
                 emmi_HP-=15;
-                damageBoost=10+level;
+                damageBoost=10+emmi_level;
                 nbes.sPrintln("CHARGE UP");
                 nbes.sPrintln(emmi_type+" Loses 15 health");
                 nbes.sPrintln(emmi_type+" Will do "+damageBoost+" extra damage");
+                return 0;
         }),
         new Attack("","RECHARGE",0,0,0, ()->{
                 int num = Nbes.random(0,10)+emmi_level+damageBoost;
                 emmi_HP+=num;
                 nbes.sPrintln(emmi_type+" gains "+num+" HP");
-        }),
-    }
+                return 0;
+        })
+    };
     static Emmi[] METAS = {
             new Emmi("Sword bot", 25, new Attack[]{
                     new Attack("Sword bot", "TRIPLE SLASH", 5, 15, 17),
@@ -147,7 +149,7 @@ class Emmi extends FileRead {
     private Emmi(String name, int base_HP, Attack[] attacks) {
         emmi_type = name;
         emmi_HP = base_HP;
-        emmi_attacks = Nbes.combineArray(attacks,Attack.copyToNewUser(BASE_ATTACKS));
+        emmi_attacks = Nbes.combineArray(attacks,Attack.copyToNewUser(BASE_ATTACKS,name));
     }
 
     public int attack() {

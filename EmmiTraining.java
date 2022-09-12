@@ -41,9 +41,11 @@ public class EmmiTraining extends Game {
         while (emmi.emmi_HP > 0 && HP > 0) {
             emmi.emmi_HP -= attack();
             attacks.add(1);//Weighted attack
-            Attack attack = emmi.emmi_attacks[attacks.get(attacks.size() - 1)]
-            if(Nbes.random(-(attack.speed/2),attack.speed)==0)
-            HP -= attack.attack(new Object[]{emmi.emmi_level+emmi.damageBoost,});
+            Attack attack = emmi.emmi_attacks[attacks.get(attacks.size() - 1)];
+            if(Nbes.random(-(attack.speed/2),attack.speed)<=0) {
+                HP -= attack.attack(new Object[]{emmi.emmi_level+emmi.damageBoost,});     
+            }
+           
         }
         if (emmi.emmi_HP < 0) {
             return new ArrayList<>();
