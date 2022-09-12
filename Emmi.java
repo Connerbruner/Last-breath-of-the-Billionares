@@ -3,8 +3,24 @@ class Emmi extends FileRead {
     int emmi_HP;
     int emmi_level;
     int emmi_num;
+    int damageBoost=0;
     Attack[] emmi_attacks;
     Attack curAttack;
+
+    static final Attack[] BASE_ATTACKS = {
+        new Attack("","CHARGE UP",0,0,0, ()->{
+                emmi_HP-=15;
+                damageBoost=10+level;
+                nbes.sPrintln("CHARGE UP");
+                nbes.sPrintln(emmi_type+" Loses 15 health");
+                nbes.sPrintln(emmi_type+" Will do "+damageBoost+" extra damage");
+        }),
+        new Attack("","RECHARGE",0,0,0, ()->{
+                int num = Nbes.random(0,10)+emmi_level+damageBoost;
+                emmi_HP+=num;
+                nbes.sPrintln(emmi_type+" gains "+num+" HP");
+        }),
+    }
     static Emmi[] METAS = {
             new Emmi("Sword bot", 25, new Attack[]{
                     new Attack("Sword bot", "TRIPLE SLASH", 5, 15, 17),
@@ -71,7 +87,7 @@ class Emmi extends FileRead {
                     new Attack("10 9v batteries powering an arduino nano", "ACID SHOT", 10, 20, 15),
                     new Attack("10 9v batteries powering an arduino nano", "SHOCK", 1, 5, 1),
             }),
-            new Emmi("Chromebook Cart", 70, new Attack[]{
+            new Emmi("Chromebook Cart", 70,new Attack[]{
                     new Attack("Chromebook Cart", "TRUCK SMASH", 35, 40, 50),
                     new Attack("Chromebook Cart", "ROLLING CART RUSH", 20, 30, 40),
             }),
@@ -113,9 +129,7 @@ class Emmi extends FileRead {
         nbes.sPrintln("2051: " + emmi_type + "!");
     }
 
-    /**
-     *
-     */
+
     public Emmi(int level) {
         emmi_level = level;
         int num = level;
@@ -133,11 +147,11 @@ class Emmi extends FileRead {
     private Emmi(String name, int base_HP, Attack[] attacks) {
         emmi_type = name;
         emmi_HP = base_HP;
-        emmi_attacks = attacks;
+        emmi_attacks = Nbes.combineArray(attacks,Attack.copyToNewUser(BASE_ATTACKS));
     }
 
     public int attack() {
-        return emmi_attacks[Nbes.random(0, emmi_attacks.length - 1)].attack(new Object[]{emmi_level,});
+        return emmi_attacks[Nbes.random(0, emmi_attacks.length - 1)].attack(new Object[]{emmi_level+damageBoost,});
     }
 
 }

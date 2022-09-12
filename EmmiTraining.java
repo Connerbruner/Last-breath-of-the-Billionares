@@ -23,6 +23,7 @@ public class EmmiTraining extends Game {
                 int score = data.get(data.size() - 1);
                 if (score > highScore) {
                     data.remove(data.size() - 1);
+                    //turn attacks into weigths
                 } else {
                     highScore--;
                 }
@@ -40,8 +41,9 @@ public class EmmiTraining extends Game {
         while (emmi.emmi_HP > 0 && HP > 0) {
             emmi.emmi_HP -= attack();
             attacks.add(1);//Weighted attack
-            //CounterAttack if here
-            HP -= emmi.emmi_attacks[attacks.get(attacks.size() - 1)].attack(new Object[]{emmi.emmi_level,});
+            Attack attack = emmi.emmi_attacks[attacks.get(attacks.size() - 1)]
+            if(Nbes.random(-(attack.speed/2),attack.speed)==0)
+            HP -= attack.attack(new Object[]{emmi.emmi_level+emmi.damageBoost,});
         }
         if (emmi.emmi_HP < 0) {
             return new ArrayList<>();
@@ -87,6 +89,6 @@ public class EmmiTraining extends Game {
  * <p>
  * Create Ai file import most stuff from the old project
  * Create a training ver of battle that takes in a emmi or boss
- * Create a read write weights method FOR EACH EMMI AND BOSS WHOOOOOO
+ * Create a read write methods
  * Create battle score ratio
  **/
