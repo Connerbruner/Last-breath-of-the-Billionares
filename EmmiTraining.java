@@ -42,7 +42,7 @@ public class EmmiTraining extends Game {
             emmi.emmi_HP -= attack();
             attacks.add(1);//Weighted attack
             Attack attack = emmi.emmi_attacks[attacks.get(attacks.size() - 1)];
-            if(Nbes.random(-(attack.speed/2),attack.speed)<=0) {
+            if(Nbes.random(50-attack.speed,50)>40) {
                 HP -= attack.attack(new Object[]{emmi.emmi_level+emmi.damageBoost,});     
             }
            
@@ -91,6 +91,4 @@ public class EmmiTraining extends Game {
  * <p>
  * Create Ai file import most stuff from the old project
  * Create a training ver of battle that takes in a emmi or boss
- * Create a read write methods
- * Create battle score ratio
  **/
