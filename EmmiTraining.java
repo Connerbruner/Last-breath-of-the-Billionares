@@ -87,6 +87,19 @@ public class EmmiTraining extends Game {
         }
         return arr;
     }
+    @Override
+    public void grabSave( ) {
+        if(nbes.inputBool("Reset weights?")) {
+            Emmi[] fullArr = (Emmi[])(Nbes.combineArray(Nbes.combineArray(Emmi.METAS,Emmi.OTHERS),MINI_BOSSES))
+                try {
+                    for(int i=0; i<fullArr.length; i++) {
+                        writeWeights(i,savePath);
+                    }
+                } catch ( IOException e ) {
+                e.printStackTrace( );
+            }
+        }
+    }
 }
 /**
  * Get you back in the loop with lbob

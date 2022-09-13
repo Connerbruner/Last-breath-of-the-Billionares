@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 
 class FileRead {
+    static int fileSize=13;
     final static Nbes nbes = new Nbes( );
     Runtime run = Runtime.getRuntime( );
 
@@ -41,14 +42,14 @@ class FileRead {
             File           txt      = new File( file );
             FileReader     fileRead = new FileReader( txt );
             BufferedReader reader   = new BufferedReader( fileRead );
-            Object[]       arr      = new Object[ 13 ];
+            Arraylist<Object> arr = new Arraylist<Object>();
 
             for ( int r = 0 ; r < arr.length ; r++ ) {
                 Object var = reader.readLine( );
-                arr[ r ] = var;
+                arr.add(var);
             }
             reader.close( );
-            return arr;
+            return arr.toArray();
         } catch ( IOException e ) {
             e.printStackTrace( );
             return new Object[ 0 ];

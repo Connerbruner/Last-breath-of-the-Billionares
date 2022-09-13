@@ -77,7 +77,6 @@ abstract class Game extends FileRead {
         savePath = file;
         resetArr = arr;
         name     = gameName;
-
     }
 
     //placeHolder for other games
