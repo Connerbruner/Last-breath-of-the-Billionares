@@ -35,7 +35,7 @@ public class EmmiTraining extends Game {
 
     @Override
     public int attack() {
-        return allAttacks.get(Nbes.random(0,allAttacks.size()-1)).attack(null);
+        return allAttacks.get(Nbes.random(0, allAttacks.size() - 1)).attack(null);
     }
 
     public ArrayList<Integer> battle() {
@@ -47,10 +47,10 @@ public class EmmiTraining extends Game {
             emmi.emmi_HP -= attack();
             attacks.add(1);//Weighted attack
             Attack attack = emmi.emmi_attacks[attacks.get(attacks.size() - 1)];
-            if(Nbes.random(50-attack.speed,50)>40) {
-                HP -= attack.attack(new Object[]{emmi.emmi_level+emmi.damageBoost,});     
+            if (Nbes.random(50 - attack.speed, 50) > 40) {
+                HP -= attack.attack(new Object[]{emmi.emmi_level + emmi.damageBoost,});
             }
-           
+
         }
         if (emmi.emmi_HP < 0) {
             return new ArrayList<>();
@@ -62,51 +62,52 @@ public class EmmiTraining extends Game {
         return attacks;
     }
 
-    public static void writeWeights(int index,String file, double[] arr) {
+    public static void writeWeights(int index, String file, double[] arr) {
         Object[] saveData = FileRead.Read(file);
-        String data = "";
-        for (int i = 0; i < arr.length; i++) {
-            data += ";" + arr[i];
+        StringBuilder data = new StringBuilder();
+        for (double v : arr) {
+            data.append(";").append(v);
         }
-        saveData[index] = data;
+        saveData[index] = data.toString();
         FileRead.Edit(file, saveData);
     }
 
-    public static double[] readWeights(int index,String file) {
+    public static double[] readWeights(int index, String file) {
         String data = Read(file)[index].toString();
         double[] arr = new double[data.length()];
-        int j=0;
+        int j = 0;
         for (int i = 0; i < data.length(); i++) {
-            if (data.charAt(i)==59) {
-                int k=i;
-                for(; data.charAt(i)!=59; k++);
-                arr[j] = Double.parseDouble(data.substring(i,k));
-                i=k;
+            if (data.charAt(i) == 59) {
+                int k = i;
+                for (; data.charAt(k) != 59; k++) ;
+                arr[j] = Double.parseDouble(data.substring(i, k));
+                i = k;
                 j++;
             }
         }
         return arr;
     }
+
     @Override
-    public void grabSave( ) {
-        if(nbes.inputBool("Reset weights?")) {
-            Emmi[] fullArr = (Emmi[])(Nbes.combineArray(Nbes.combineArray(Emmi.METAS,Emmi.OTHERS),MINI_BOSSES))
-                try {
-                    for(int i=0; i<fullArr.length; i++) {
-                        writeWeights(i,savePath);
-                    }
-                } catch ( IOException e ) {
-                e.printStackTrace( );
+    public void grabSave() {
+        if (nbes.inputBool("Reset weights?")) {
+            Emmi[] fullArr = (Nbes.combineArray(Nbes.combineArray(Emmi.METAS, Emmi.OTHERS), Emmi.MINI_BOSSES));
+            for (int i = 0; i < fullArr.length; i++) {
+                double[] arr = new double[fullArr[i].emmi_attacks.length];
+                for (int j = fullArr[i].emmi_attacks.length; j > 0; j--) {
+                    arr[j] = 0.0;
+                }
+                writeWeights(i, savePath, arr);
             }
         }
     }
 }
-/**
- * Get you back in the loop with lbob
- * Give the emmis HEAL
- * <p>
- * Stuff we need to make:
- * <p>
- * Create Ai file import most stuff from the old project
- * Create a training ver of battle that takes in a emmi or boss
- **/
+/*
+  Get you back in the loop with lbob
+  Give the emmis HEAL
+  <p>
+  Stuff we need to make:
+  <p>
+  Create Ai file import most stuff from the old project
+  Create a training ver of battle that takes in an emmi or boss
+ */
