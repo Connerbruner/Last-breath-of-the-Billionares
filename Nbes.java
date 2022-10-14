@@ -127,8 +127,7 @@ public class Nbes {
     public void sPrintln(String str) {
         TEXT1.setText("");
         AtomicReference<String> text = new AtomicReference<>("");
-        str = textFormat(str);
-        String finalStr = str;
+        String finalStr = textFormat(str);;
         print = new Thread(() -> {
             for (int i = 0; i < finalStr.length(); i++) {
                 int finalI = i;
@@ -141,7 +140,7 @@ public class Nbes {
         SYSTEM.requestFocusInWindow();
         keyButton = false;
         print.start();
-        while (!keyButton && !EmmiTraining.isTraining) ;
+        while (!keyButton) ;
         print.stop();
 
         keyButton = false;
@@ -151,14 +150,13 @@ public class Nbes {
 
     public void sPrint(String str) {
         AtomicReference<String> text = new AtomicReference<>("");
-        str = textFormat(str);
-        String finalStr = str;
+        String finalStr = textFormat(str);
         for (int i = 0; i < finalStr.length(); i++) {
                 int finalI = i;
                 text.updateAndGet(v -> v + finalStr.charAt(finalI));
-                setText1(text.get());
+                setText1(lastsPrint+"\n"+text.get());
         }
-        lastsPrint += str + "\n";
+        lastsPrint += finalStr + "\n";
     }
 
 
@@ -263,14 +261,11 @@ public class Nbes {
         INPUT.requestFocus();
         keyButton = false;
         print = new Thread(() -> {
-            sPrint(str);
-            sPrint("(Type in the text box then click)");
+            sPrint(str+"\n(Type in the text box then click)");
         });
-
         print.start();
         while (INPUT.getText().equals("") || !keyButton) ;
         print.stop();
-
         SYSTEM.requestFocusInWindow();
         INPUT.setEditable(false);
         lastsPrint = "";
@@ -287,8 +282,7 @@ public class Nbes {
         INPUT.requestFocus();
         keyButton = false;
         print = new Thread(() -> {
-            sPrint(str);
-            sPrint("(Type in the text box then click)");
+            sPrint(str+"\n(Type in the text box then click)");
         });
 
         print.start();

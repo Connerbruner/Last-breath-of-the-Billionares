@@ -104,6 +104,13 @@ class Emmi extends FileRead {
         emmi_attacks = emmi.emmi_attacks;
         curAttack = null;
     }
+    public Emmi(Emmi emmi,int level) {
+        emmi_level = level;
+        emmi_type = emmi.emmi_type;
+        emmi_HP = emmi.emmi_HP + emmi_level*3;
+        emmi_num = emmi.emmi_num;
+        emmi_attacks = emmi.emmi_attacks;
+    }
 
     public Emmi(boolean isMeta, int level) {
         emmi_level = level;

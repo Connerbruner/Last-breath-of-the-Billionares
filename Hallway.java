@@ -102,18 +102,18 @@ class Area extends FileRead {
 }
 
 class AreaStorage {
-    static Hallway floor1    = new Hallway( "Floor 1" );
-    static Hallway floor2    = new Hallway( "Floor 2" );
-    static Hallway floor3    = new Hallway( "Floor 3" );
-    static Hallway floor4    = new Hallway( "Floor 4" );
-    static Hallway floor5    = new Hallway( "Floor 5" );
-    static Hallway floor6    = new Hallway( "Floor 6" );
-    static Hallway floor7    = new Hallway( "Floor 7" );
-    static Hallway floor8    = new Hallway( "Floor 8" );
-    static Hallway floor9    = new Hallway( "Floor 9" );
-    static Hallway floor10   = new Hallway( "Floor 10" );
-    static Hallway floorBase = new Hallway( "Base Floor" );
-    static Area skyscraper = new Area( "Skyscraper" , new Hallway[] {
+    static Hallway floor1     = new Hallway( "Floor 1" );
+    static Hallway floor2     = new Hallway( "Floor 2" );
+    static Hallway floor3     = new Hallway( "Floor 3" );
+    static Hallway floor4     = new Hallway( "Floor 4" );
+    static Hallway floor5     = new Hallway( "Floor 5" );
+    static Hallway floor6     = new Hallway( "Floor 6" );
+    static Hallway floor7     = new Hallway( "Floor 7" );
+    static Hallway floor8     = new Hallway( "Floor 8" );
+    static Hallway floor9     = new Hallway( "Floor 9" );
+    static Hallway floor10    = new Hallway( "Floor 10" );
+    static Hallway floorBase  = new Hallway( "Base Floor" );
+    static Area    skyscraper = new Area( "Skyscraper" , new Hallway[] {
             floorBase , floor1 , floor2 , floor3 , floor4 , floor5 , floor6 , floor7 , floor8 , floor9 , floor10
     } );
 
@@ -202,12 +202,90 @@ class AreaStorage {
                         new Hallway[] {// store8
                                 store7 , foodCourtB
                         } ,
+                        new Hallway[] {//food B
+                                store2 , store1 , store6
+                        } ,
                 }
         );
     }
-    static Area[] allAreas = new Area[] {
-            skyscraper,mall
-    };
+
+    static Hallway door         = new Hallway( "Opening" );
+    static Hallway conveyor1     = new Hallway( "Conveyor Belt" );
+    static Hallway conveyor2     = new Hallway( "Conveyor Belt" );
+    static Hallway conveyor3     = new Hallway( "Conveyor Belt" );
+    static Hallway conveyor4     = new Hallway( "Conveyor Belt" );
+    static Hallway conveyor5     = new Hallway( "Conveyor Belt" );
+    static Hallway incinerator  = new Hallway( "Incinerator" );
+    static Hallway office       = new Hallway( "Bosses Office" );
+    static Hallway powerControl = new Hallway( "Power Control" );
+    static Hallway storage      = new Hallway( "Storage area" );
+    static Hallway exit         = new Hallway( "Exit" );
+    static Area    factory      = new Area( "Old Factory" , new Hallway[] {
+            door , conveyor1 , conveyor2 , conveyor3 , conveyor4 , conveyor5 , incinerator , office , powerControl , storage , exit
+    } );
+
+    static {
+        factory.setAreaNeighbors( new Hallway[][] {
+                new Hallway[] {
+                        conveyor1 , office
+                } ,
+                new Hallway[] {
+                         conveyor1 , door
+                } ,
+                new Hallway[] {
+                        conveyor1 , conveyor3
+                } ,
+                new Hallway[] {
+                        conveyor2 , conveyor4
+                } ,
+                new Hallway[] {
+                        conveyor3 , conveyor5
+                } ,
+                new Hallway[] {
+                         conveyor5 , incinerator
+                } ,
+                new Hallway[] {
+                        powerControl , storage , door
+                } ,
+                new Hallway[] {
+                        office , exit
+                } ,
+        } );
+    }
+    static Hallway rollercoaster= new Hallway("rollerCoaster");
+    static Hallway foodCourt = new Hallway("food Court");
+    static Hallway waterpark = new Hallway("Water Park");
+    static Hallway dropTwist = new Hallway("Drop and twist");
+    static Hallway giftShop = new Hallway("GiftShop");
+    static Hallway enter = new Hallway("Opening Gate");
+    static Area amusementPark = new Area( "Fun Land", new Hallway[] {
+        enter,rollercoaster,foodCourt,waterpark,storage,giftShop,dropTwist,exit
+    } );
+    static {
+        amusementPark.setAreaNeighbors( new Hallway[][]{
+                new Hallway[] {
+                        giftShop,dropTwist,rollercoaster
+                },
+                new Hallway[] {
+                        enter,foodCourt,dropTwist
+                },
+                new Hallway[] {
+                        rollercoaster,dropTwist,giftShop,waterpark
+                },
+                new Hallway[] {
+                        foodCourt,giftShop,exit,storage
+                },
+                new Hallway[] {
+                        waterpark,giftShop
+                },
+                new Hallway[] {
+                        enter,waterpark,storage,dropTwist,rollercoaster
+                },
+                new Hallway[] {
+                    giftShop,rollercoaster
+                },
+        } );
+    }
 
 
 }

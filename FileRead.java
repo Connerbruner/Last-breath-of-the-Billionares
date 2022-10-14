@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -42,9 +43,9 @@ class FileRead {
             File           txt      = new File( file );
             FileReader     fileRead = new FileReader( txt );
             BufferedReader reader   = new BufferedReader( fileRead );
-            Arraylist<Object> arr = new Arraylist<Object>();
+            ArrayList<Object> arr = new ArrayList <Object>();
 
-            for ( int r = 0 ; r < arr.length ; r++ ) {
+            for ( int r = 0 ; r < arr.size() ; r++ ) {
                 Object var = reader.readLine( );
                 arr.add(var);
             }

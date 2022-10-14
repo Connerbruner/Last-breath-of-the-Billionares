@@ -83,7 +83,7 @@ class Attack extends FileRead {
     }
 
     public int calcDamage( ) {
-        return (int) ( ( Nbes.random( low , high ) + comboBonus( ) ) * Game.musicMultiplier * attackTierBuff( ) );
+        return (int) ( ( Nbes.random( low , high ) + comboBonus( ) )  * attackTierBuff( ) );
     }
 
     public static Attack[] copyToNewUser( Attack[] attacks , String user ) {

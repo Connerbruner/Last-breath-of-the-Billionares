@@ -45,7 +45,7 @@ public class Hero extends FileRead {
                 nbes.sPrintln( "2007: that should help" );
                 return 0;
             } ) ,
-            new Hero( "2020",true,5,()->{
+            new Hero( "2020",true,2,()->{
                 if ( nbes.inputBool( "Need Healing?" ) ) {
                     if ( Nbes.random( 0 , 1 ) == 1 ) {
                         Hero.allHeros[ 2 ].isHealing = true;

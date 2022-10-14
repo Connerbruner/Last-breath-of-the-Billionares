@@ -39,9 +39,6 @@ class Main extends FileRead {
             while ( choice > games.length - 1 ) {
                 choice = nbes.inputInt( "???: Which game? (0-" + ( games.length - 1 ) );
             }
-            if ( games[ choice ].resetArr != null && games[ choice ].savePath != null ) {
-                games[ choice ].grabSave( );
-            }
             games[ choice ].game( );
         }
     }

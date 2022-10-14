@@ -9,8 +9,7 @@ abstract class Game extends FileRead {
     String   name;
     // Array vars (placed in Lbob.txt)
     int      HPmax        = 50;
-    int      missionNum   = 10;
-    int      metaleft     = 100;
+    int      missionNum   = 0;
     int      level2051    = 1;
     int      exp1         = 0;
     int      levelR1      = 20;
@@ -21,32 +20,8 @@ abstract class Game extends FileRead {
     int      attackNum    = 5;
     static final int BATTLE_TIME = 180;
     static ArrayList < Hero > unlocked        = new ArrayList <>( );
-    static double             musicMultiplier = 1;
 
 
-    Attack[] attackGates = { new Attack( "Bill Gates" , "TRIPLE SLASH" , 10 , 12 , 15 ) , new Attack( "Bill Gates" , "ULTRA SLASH" , 7 , 15 , 20 ) , new Attack( "Bill Gates" , "LASER BLAST" , 5 , 20 , 30 ) };
-    Attack[] attacksElon = { new Attack( "Elon musk" , "SPEAR RUSH" , 5 , 20 , 10 ) , new Attack( "Elon musk" , "REVENGE OF THE SPEAR" , 12 , 10 , 20 ) , new Attack( "Elon musk" , "ULTRA SPEAR" , 1 , 30 , 20 ) };
-    Attack[] attacksJeff = { new Attack( "Jeff bezos" , "ROOMBA INVASION" , 7 , 15 , 25 ) , new Attack( "Jeff bezos" , "MECH CANNON" , 5 , 20 , 30 ) , new Attack( "Jeff bezos" , "DUAL LASER" , 12 , 20 , 15 ) };
-    Attack[] attacksMark = { new Attack( "Mark Zuckerberg" , "FINAL SLASH" , 1 , 100 , 30 ) , new Attack( "Mark Zuckerberg" , "DUAL SLASH" , 25 , 50 , 15 ) , new Attack( "Mark Zuckerberg" , "ZERO SLASH" , 5 , 10 , 1 ) };
-    Phase    Elon        = new Phase( attacksElon , 250 , "Elon Musk" );
-    Phase    Gates       = new Phase( attackGates , 250 , "Bill Gates" );
-    Phase    Jeff        = new Phase( attacksJeff , 250 , "Jeff bezos" );
-    Phase[]  arrTri1     = { Elon , Gates , Jeff };
-    Phase    ElonP       = new Phase( attacksElon , 500 , "Elon Musk" );
-    Phase    GatesP      = new Phase( attackGates , 500 , "Bill Gates" );
-    Phase    JeffP       = new Phase( attacksJeff , 500 , "Bill Gates" );
-    Phase[]  arrTri2     = { ElonP , GatesP , JeffP };
-    Phase    mark        = new Phase( attacksMark , 1000 , "Mark Zuckerberg" );
-
-    Boss Tri        = new Boss( arrTri1 );
-    Boss Tri2       = new Boss( arrTri2 );
-    Boss jeff       = new Boss( Jeff );
-    Boss jeffP      = new Boss( JeffP );
-    Boss elon       = new Boss( Elon );
-    Boss elonP      = new Boss( ElonP );
-    Boss gates      = new Boss( Gates );
-    Boss gatesP     = new Boss( GatesP );
-    Boss Zuckerberg = new Boss( mark );
 
     //2051 attacks
     static Attack               stab       = new Attack( "Quick Stab" , 3 , 7 , 2 ) {
@@ -79,156 +54,13 @@ abstract class Game extends FileRead {
         name     = gameName;
     }
 
-    //placeHolder for other games
     abstract void game( );
-
-    //shows you what attacks you can use
-    public int attack( ) {
-            lastAttack = attackNum;
-            int speed = Nbes.tSpeed;
-            Nbes.tSpeed = 1;
-            Nbes.INPUT.setText( "" );
-            Nbes.INPUT.setEditable( true );
-            Nbes.INPUT.requestFocus( );
-
-            attackNum = allAttacks.size( );
-            nbes.sPrint( "Multiplier: " + musicMultiplier + "\n" );
-            for ( int i = 0 ; i < allAttacks.size( ) ; i++ ) {
-                nbes.sPrint( i + "( " + allAttacks.get( i ).toString( ) );
-            }
-            nbes.sPrint( "Which attack" );
-            Nbes.tSpeed = speed;
-
-            while ( attackNum >= allAttacks.size( ) ) {
-                if ( Nbes.strIsInt( Nbes.INPUT.getText( ) ) ) {
-                    attackNum = Integer.parseInt( Nbes.INPUT.getText( ) );
-                }
-            }
-            double power = 1;
-            if ( attackNum == lastAttack ) {
-                power = 0.5;
-            }
-            return allAttacks.get( attackNum ).attack( new Object[] { power , Math.abs( power - 1 ) } );
-
-
-    }
-
-
-    //return supports damage dealt
-    public int attackSupport( ) {
-        int total = 0;
-        for ( Hero hero : unlocked ) {
-            if ( hero != null && Nbes.random( 0 , 1 ) == 1 ) {
-                nbes.sPrintln( hero.heroName + "'s Turn" );
-                int attack = hero.attack.attack( ) * supportPower / 2;
-                if ( hero.isHealing ) {
-                    HP += attack;
-                } else {
-                    total += attack;
-                }
-            }
-
-        }
-        return total;
-    }
-
-
-    //fight enemies
-    public void battle( Emmi emmi ) {
-        long startTime = System.currentTimeMillis();
-        while ( startTime+BATTLE_TIME*1000>System.currentTimeMillis() && emmi.emmi_HP > 0 && HP > 0 ) {
-            nbes.sPrintln( emmi.emmi_type + " health " + emmi.emmi_HP );
-            nbes.sPrintln( "2051 health " + HP );
-            nbes.sPrintln("TIME LEFT "+(startTime+BATTLE_TIME*1000-System.currentTimeMillis())/1000);
-
-            emmi.emmi_HP -= ( attack( ) + attackSupport( ) );
-            nbes.sPrintln( emmi.emmi_type + " Is going for a attack" );
-            HP -= emmi.attack( );
-
-        }
-        if ( startTime+BATTLE_TIME*1000<System.currentTimeMillis() || HP < 0 ) {
-            restart( );
-        }
-        exp1 += ( ( emmi.emmi_level + 1 ) * emmi.emmi_num ) * 2;
-        nbes.sPrintln( "You gain " + ( emmi.emmi_level * emmi.emmi_num ) * 2 + " exp" );
-        metaleft--;
-        levelUp( );
-        save( );
-    }
-
-    public void battle( Boss boss ) {
-        boss.resetPhases( );
-        long startTime = System.currentTimeMillis();
-        while ( startTime+BATTLE_TIME*1000>System.currentTimeMillis() && ! boss.differentPhases.isEmpty( ) && HP > 0 ) {
-
-            nbes.sPrint( boss.name + " health " + boss.differentPhases.get( 0 ).HP );
-            nbes.sPrintln( "2051 health " + HP );
-            nbes.sPrintln("TIME LEFT "+(startTime+BATTLE_TIME*1000-System.currentTimeMillis())/1000);
-
-            boss.differentPhases.get( 0 ).HP -= attack( ) + attackSupport( );
-            boss.checkArray( );
-            nbes.sPrintln( boss.name + " Is going for a attack" );
-            if ( ! nbes.quickTime( "CounterAttack" , 2000 ) ) {
-                HP -= boss.differentPhases.get( 0 ).attack( );
-            }
-            boss.checkArray( );
-        }
-        if ( startTime+BATTLE_TIME*1000<System.currentTimeMillis() || HP < 0 ) {
-            restart( );
-        }
-        exp1 += 500;
-        nbes.sPrintln( "You gain 500 exp" );
-        levelUp( );
-        save( );
-    }
-
-    public void battle( Boss player , Boss boss ) {
-        boss.resetPhases( );
-        player.resetPhases( );
-        long startTime = System.currentTimeMillis();
-
-        while ( startTime+BATTLE_TIME*1000>System.currentTimeMillis() && ! boss.differentPhases.isEmpty( ) ) {
-
-            nbes.sPrint( boss.name + " health " + boss.differentPhases.get( 0 ).HP );
-            nbes.sPrint( player.name + " health " + player.differentPhases.get( 0 ).HP );
-            nbes.sPrintln("TIME LEFT "+(startTime+BATTLE_TIME*1000-System.currentTimeMillis())/1000);
-
-            boss.differentPhases.get( 0 ).HP -= player.differentPhases.get( 0 ).attack( );
-            boss.checkArray( );
-            nbes.sPrintln( boss.name + " Is going for a attack" );
-            if ( ! nbes.quickTime( "CounterAttack" , 2000 ) ) {
-                player.differentPhases.get( 0 ).HP -= boss.differentPhases.get( 0 ).attack( );
-            }
-        }
-        if ( startTime+BATTLE_TIME*1000<System.currentTimeMillis() || HP < 0 ) {
-            restart( );
-        }
-
-    }
-
-
-
-    //level up
-    public void levelUp( ) {
-        while ( exp1 >= levelR1 ) {
-            nbes.sPrintln( "LEVEL UP" );
-            nbes.sPrintln( level2051 + " --> " + ( level2051 + 1 ) );
-            nbes.sPrintln( "2051: max health +1" );
-            HPmax++;
-            level2051++;
-            levelR1 = 20 * ( level2051 * level2051 ) / 2;
-            nbes.sPrintln( "2051 has " + ( levelR1 - exp1 ) + " exp till leveling up" );
-            save( );
-        }
-    }
-
     //Game Over
     public void restart( ) {
     }
-
     //Saves
     public void save( ) {
-        Object[] arrList = new Object[] { missionNum , metaleft , HPmax , level2051 , levelR1 , exp1 , stab.attackTier , potion.attackTier , shot.attackTier , supportPower };
+        Object[] arrList = new Object[] { missionNum  , HPmax , level2051 , levelR1 , exp1 , stab.attackTier , potion.attackTier , shot.attackTier , supportPower };
         FileRead.Edit( savePath , arrList );
         System.gc( );
     }
@@ -252,41 +84,47 @@ abstract class Game extends FileRead {
                     missionNum = val;
                 }
                 if ( s == 1 ) {
-                    metaleft = val;
-                }
-                if ( s == 2 ) {
                     HPmax = val;
                 }
-                if ( s == 3 ) {
+                if ( s == 2 ) {
                     level2051 = val;
                 }
-                if ( s == 4 ) {
+                if ( s == 3 ) {
                     levelR1 = val;
                 }
-                if ( s == 5 ) {
+                if ( s == 4 ) {
                     exp1 = val;
                 }
-                if ( s == 6 ) {
+                if ( s == 5 ) {
                     stab.attackTier = val;
                 }
-                if ( s == 7 ) {
+                if ( s == 6 ) {
                     potion.attackTier = val;
                 }
-                if ( s == 8 ) {
+                if ( s == 7 ) {
                     shot.attackTier = val;
                 }
-                if ( s == 9 ) {
+                if ( s == 8 ) {
                     supportPower = val;
+                }
+                for ( int i = 0 ; i < missionNum && i < Lbob.allUnlock.length ; i++ ) {
+                    allAttacks.add( Lbob.allUnlock[ i ] );
                 }
             }
         }
-
     }
 }
 
-interface Mission {
+interface Mvoid {
     void go( );
 }
+class Mission {
+    String name;
+    Mvoid mission;
+    public Mission(String n,Mvoid m) {
+        name=n;
+        mission=m;
+    }}
 
 class Sucp extends Game {
     static final JFrame extra = new JFrame( "" );
@@ -427,7 +265,7 @@ class NG extends Game {
 }
 
 
-class Speedrun extends Game {
+class Speedrun extends Lbob{
     int    time;
     Race[] allRaces = {
             new Race( "VS random emmi" , new Emmi( Emmi.OTHERS[ 0 ] ) ) ,
@@ -435,9 +273,8 @@ class Speedrun extends Game {
             new Race( "VS Bill gates" , gates ) ,
     };
 
-
     public Speedrun( ) {
-        super( "Speedruning" , null , null );
+        super( null,"SpeedRunnning" );
         HPmax        = 60;
         supportPower = 7;
 
@@ -515,6 +352,7 @@ class Speedrun extends Game {
             return 0;
         }
     }
+
 }
 
 

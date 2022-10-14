@@ -17,6 +17,9 @@ class Boss {
         Collections.addAll( differentPhases , arr );
         name = differentPhases.get( 0 ).name;
     }
+    public int getHP() {
+        return differentPhases.get( 0 ).HP;
+    }
 
 
 
